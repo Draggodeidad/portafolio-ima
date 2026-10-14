@@ -1,0 +1,40 @@
+# Imanol Antonio De la Cruz — Portfolio
+
+Bilingual portfolio foundation built with Next.js App Router, React, TypeScript, Tailwind CSS, and CSS design tokens.
+
+## Requirements
+
+- Node.js 20.9 or newer
+- pnpm 11.4.0 (pinned in `package.json`)
+
+## Commands
+
+```bash
+pnpm install
+pnpm dev
+pnpm lint
+pnpm typecheck
+pnpm format:check
+pnpm build
+pnpm start
+```
+
+The root path redirects to `/es`; the English version is at `/en`.
+
+## Structure
+
+```text
+src/
+  app/
+    [locale]/        # Localized App Router layout and page
+    globals.css      # Base styles, responsive navbar, and design tokens
+  components/
+    layout/          # Container and navigation
+    sections/        # Reusable section heading
+  lib/i18n/          # Typed locales, navigation labels, and section IDs
+docs/
+  DESIGN.md          # Portfolio design brief
+  implementation-plan.md
+```
+
+The current page contains only minimum section destinations for reviewing navigation. The hero and portfolio content are intentionally left for later stages.
