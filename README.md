@@ -29,10 +29,14 @@ src/
   i18n/              # next-intl routing, navigation, and request config
   app/
     [locale]/        # Localized App Router layout and page
-    globals.css      # Base styles, responsive navbar, and design tokens
+    globals.css      # Base styles and accessibility defaults
   components/
     layout/         # Container and navigation
     sections/       # Reusable section heading
+  styles/
+    tokens.css       # CSS design tokens exposed to Tailwind's theme
+  lib/
+    cn.ts            # Conditional class composition and Tailwind conflict merging
   lib/i18n/          # Shared section IDs
 docs/
   DESIGN.md          # Portfolio design brief
@@ -40,3 +44,5 @@ docs/
 ```
 
 The current page contains only minimum section destinations for reviewing navigation. The hero and portfolio content are intentionally left for later stages.
+
+See [docs/styling.md](docs/styling.md) for the styling conventions used in components.

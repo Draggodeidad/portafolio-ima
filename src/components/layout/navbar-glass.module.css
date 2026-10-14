@@ -1,0 +1,13 @@
+.glass {
+  border-bottom: 1px solid var(--portfolio-border-subtle);
+  background: var(--glass-fallback);
+  box-shadow: var(--shadow-header);
+}
+
+@supports (backdrop-filter: blur(12px)) {
+  .glass {
+    background: var(--glass-surface);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+  }
+}
