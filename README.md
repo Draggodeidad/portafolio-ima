@@ -1,6 +1,6 @@
 # Imanol Antonio De la Cruz — Portfolio
 
-Bilingual portfolio foundation built with Next.js App Router, React, TypeScript, Tailwind CSS, and CSS design tokens.
+Bilingual portfolio foundation built with Next.js App Router, React, TypeScript, next-intl, Tailwind CSS, and CSS design tokens.
 
 ## Requirements
 
@@ -24,14 +24,16 @@ The root path redirects to `/es`; the English version is at `/en`.
 ## Structure
 
 ```text
+messages/            # Locale-specific JSON messages (es/en)
 src/
+  i18n/              # next-intl routing, navigation, and request config
   app/
     [locale]/        # Localized App Router layout and page
     globals.css      # Base styles, responsive navbar, and design tokens
   components/
-    layout/          # Container and navigation
-    sections/        # Reusable section heading
-  lib/i18n/          # Typed locales, navigation labels, and section IDs
+    layout/         # Container and navigation
+    sections/       # Reusable section heading
+  lib/i18n/          # Shared section IDs
 docs/
   DESIGN.md          # Portfolio design brief
   implementation-plan.md

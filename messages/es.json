@@ -1,0 +1,26 @@
+{
+  "Metadata": {
+    "title": "Imanol Antonio De la Cruz — Desarrollador full-stack",
+    "description": "Portafolio de Imanol Antonio De la Cruz, desarrollador full-stack con enfoque en backend."
+  },
+  "Navigation": {
+    "navigationLabel": "Navegación principal",
+    "languageSelectorLabel": "Selector de idioma",
+    "menuLabel": "Abrir menú",
+    "closeMenuLabel": "Cerrar menú",
+    "switchToSpanish": "Cambiar idioma a español",
+    "switchToEnglish": "Switch language to English",
+    "contactAction": "Contactar",
+    "profileLabel": "Perfil de GitHub de Imanol (abre en una pestaña nueva)",
+    "skipToContent": "Saltar al contenido",
+    "brandLabel": "Imanol Antonio De la Cruz — inicio",
+    "sections": {
+      "inicio": "Inicio",
+      "proyectos": "Proyectos",
+      "sobre-mi": "Sobre mí",
+      "stack": "Stack",
+      "trayectoria": "Trayectoria",
+      "contacto": "Contacto"
+    }
+  }
+}

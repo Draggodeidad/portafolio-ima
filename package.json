@@ -9,11 +9,12 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "format": "prettier --write 'src/**/*.{ts,tsx,css}' docs/implementation-plan.md README.md package.json tsconfig.json next.config.ts eslint.config.mjs postcss.config.mjs pnpm-workspace.yaml",
-    "format:check": "prettier --check 'src/**/*.{ts,tsx,css}' docs/implementation-plan.md README.md package.json tsconfig.json next.config.ts eslint.config.mjs postcss.config.mjs pnpm-workspace.yaml"
+    "format": "prettier --write 'src/**/*.{ts,tsx,css}' messages/*.json docs/implementation-plan.md README.md package.json tsconfig.json next.config.ts eslint.config.mjs postcss.config.mjs pnpm-workspace.yaml",
+    "format:check": "prettier --check 'src/**/*.{ts,tsx,css}' messages/*.json docs/implementation-plan.md README.md package.json tsconfig.json next.config.ts eslint.config.mjs postcss.config.mjs pnpm-workspace.yaml"
   },
   "dependencies": {
     "next": "16.4.0",
+    "next-intl": "^4.14.9",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },
