@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { hasLocale } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { Navbar } from "@/components/layout/navbar";
-import { isLocale, locales } from "@/lib/i18n/dictionaries";
+import { routing } from "@/i18n/routing";
 import "../globals.css";
 
 type LocaleLayoutProps = Readonly<{
@@ -11,21 +13,20 @@ type LocaleLayoutProps = Readonly<{
 }>;
 
 export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
+  return routing.locales.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata({
   params,
 }: LocaleLayoutProps): Promise<Metadata> {
   const { locale } = await params;
-  if (!isLocale(locale)) notFound();
+  if (!hasLocale(routing.locales, locale)) notFound();
+
+  const t = await getTranslations({ locale, namespace: "Metadata" });
 
   return {
-    title: "Imanol Antonio De la Cruz — Full-stack Developer",
-    description:
-      locale === "es"
-        ? "Portafolio de Imanol Antonio De la Cruz, desarrollador full-stack con enfoque en backend."
-        : "Portfolio of Imanol Antonio De la Cruz, a full-stack developer focused on backend engineering.",
+    title: t("title"),
+    description: t("description"),
   };
 }
 
@@ -34,7 +35,7 @@ export default async function LocaleLayout({
   params,
 }: LocaleLayoutProps) {
   const { locale } = await params;
-  if (!isLocale(locale)) notFound();
+  if (!hasLocale(routing.locales, locale)) notFound();
 
   return (
     <html lang={locale}>

@@ -1,7 +1,10 @@
 import { notFound } from "next/navigation";
+import { hasLocale } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/layout/container";
 import { SectionHeading } from "@/components/sections/section-heading";
-import { dictionaries, isLocale, sectionIds } from "@/lib/i18n/dictionaries";
+import { routing } from "@/i18n/routing";
+import { sectionIds } from "@/lib/i18n/sections";
 
 type PortfolioPageProps = {
   params: Promise<{ locale: string }>;
@@ -9,9 +12,9 @@ type PortfolioPageProps = {
 
 export default async function PortfolioPage({ params }: PortfolioPageProps) {
   const { locale } = await params;
-  if (!isLocale(locale)) notFound();
+  if (!hasLocale(routing.locales, locale)) notFound();
 
-  const copy = dictionaries[locale];
+  const t = await getTranslations({ locale, namespace: "Navigation.sections" });
 
   return (
     <main id="contenido" className="portfolio-main">
@@ -25,8 +28,8 @@ export default async function PortfolioPage({ params }: PortfolioPageProps) {
           <Container>
             <SectionHeading
               id={`heading-${id}`}
-              eyebrow={`// 0${index + 1} — ${copy.sections[id].toLocaleUpperCase(locale)}`}
-              title={copy.sections[id]}
+              eyebrow={`// 0${index + 1} — ${t(id).toLocaleUpperCase(locale)}`}
+              title={t(id)}
             />
           </Container>
         </section>

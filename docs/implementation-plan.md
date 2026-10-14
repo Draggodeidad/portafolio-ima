@@ -4,6 +4,8 @@
 
 Build the Next.js App Router foundation for `/es` and `/en`, typed navigation copy, shared CSS tokens and base typography, reusable `Container` and `SectionHeading` components, and the responsive fixed navbar. Add only minimal section destinations so links, locale switching, active-section tracking, and anchor offsets can be reviewed before the hero stage.
 
+The current implementation uses `next-intl` with Spanish and English JSON messages. Translation lookup stays in Server Components; the interactive navbar receives only the localized strings it renders. The locale switch preserves the selected section hash. `/` resolves to `/es` without browser-language negotiation.
+
 ### Design findings and implementation decisions
 
 - Figma node `12:3395` (`Header`) is outside `Main` (`12:2701`). The header is a 64 px fixed bar with an IA monogram, centered section navigation, ES/EN switch, contact action, and profile icon. Its screenshot is the visual reference for the navbar.
