@@ -3,8 +3,12 @@
 import Image from "next/image";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import type { MouseEvent } from "react";
 import type { Locale } from "@/i18n/routing";
 import { sectionIds, type SectionId } from "@/lib/i18n/sections";
+import { cn } from "@/lib/cn";
+import glassStyles from "./navbar-glass.module.css";
+import { styles } from "./navbar-client.styles";
 
 type NavbarCopy = {
   navigationLabel: string;
@@ -133,32 +137,35 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
 
   return (
     <>
-      <a className="skip-link" href="#contenido">
+      <a className={styles.skipLink} href="#contenido">
         {copy.skipToContent}
       </a>
-      <header className="site-header">
-        <div className="site-header__inner">
+      <header className={cn(styles.header, glassStyles.glass)}>
+        <div className={styles.headerInner}>
           <a
-            className="brand"
+            className={styles.brand}
             href="#inicio"
             aria-label={copy.brandLabel}
             onClick={() => selectSection("inicio")}
           >
-            <span className="brand__monogram" aria-hidden="true">
+            <span className={styles.brandMonogram} aria-hidden="true">
               IA
-              <span className="brand__signal" />
+              <span className={styles.brandSignal} />
             </span>
-            <span className="brand__text" aria-hidden="true">
-              <span>IMANOL</span>
-              <span>ANTONIO</span>
-              <span>DE LA CRUZ</span>
+            <span className={styles.brandText} aria-hidden="true">
+              <span className={styles.brandName}>IMANOL</span>
+              <span className={styles.brandDetail}>ANTONIO</span>
+              <span className={styles.brandDetail}>DE LA CRUZ</span>
             </span>
           </a>
 
-          <nav className="desktop-nav" aria-label={copy.navigationLabel}>
+          <nav className={styles.desktopNav} aria-label={copy.navigationLabel}>
             {sectionIds.map((id) => (
               <a
-                className={`nav-link${activeSection === id ? " is-active" : ""}`}
+                className={cn(
+                  styles.navLink,
+                  activeSection === id && styles.navLinkActive,
+                )}
                 suppressHydrationWarning
                 href={`#${id}`}
                 aria-current={activeSection === id ? "location" : undefined}
@@ -170,7 +177,7 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
             ))}
           </nav>
 
-          <div className="site-header__actions">
+          <div className={styles.headerActions}>
             <LanguageSwitch
               locale={locale}
               copy={copy}
@@ -178,14 +185,14 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
               hash={languageHref.hash}
             />
             <a
-              className="contact-link"
+              className={styles.contactLink}
               href="#contacto"
               onClick={() => selectSection("contacto")}
             >
               {copy.contactAction}
             </a>
             <a
-              className="profile-link"
+              className={styles.profileLink}
               href="https://github.com/Draggodeidad"
               target="_blank"
               rel="noreferrer"
@@ -195,7 +202,7 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
             </a>
           </div>
 
-          <div className="mobile-actions">
+          <div className={styles.mobileActions}>
             <LanguageSwitch
               locale={locale}
               copy={copy}
@@ -203,7 +210,7 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
               hash={languageHref.hash}
             />
             <button
-              className="menu-toggle"
+              className={cn(styles.menuToggle, "cursor-pointer")}
               type="button"
               aria-expanded={menuOpen}
               aria-controls="mobile-navigation"
@@ -211,14 +218,24 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
               onClick={() => setMenuOpen((open) => !open)}
               ref={menuButtonRef}
             >
-              <span />
-              <span />
+              <span
+                className={cn(
+                  styles.menuIconLine,
+                  menuOpen && styles.menuIconLineFirstOpen,
+                )}
+              />
+              <span
+                className={cn(
+                  styles.menuIconLine,
+                  menuOpen && styles.menuIconLineLastOpen,
+                )}
+              />
             </button>
           </div>
         </div>
 
         <nav
-          className={`mobile-nav${menuOpen ? " is-open" : ""}`}
+          className={cn(styles.mobileNav, menuOpen && styles.mobileNavOpen)}
           id="mobile-navigation"
           aria-label={copy.navigationLabel}
           aria-hidden={!menuOpen}
@@ -226,7 +243,11 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
         >
           {sectionIds.map((id) => (
             <a
-              className={`nav-link${activeSection === id ? " is-active" : ""}`}
+              className={cn(
+                styles.navLink,
+                styles.mobileNavLink,
+                activeSection === id && styles.navLinkActive,
+              )}
               suppressHydrationWarning
               href={`#${id}`}
               aria-current={activeSection === id ? "location" : undefined}
@@ -238,7 +259,7 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
             </a>
           ))}
           <a
-            className="contact-link"
+            className={cn(styles.contactLink, styles.mobileContactLink)}
             href="#contacto"
             onClick={() => selectSection("contacto")}
           >
@@ -262,7 +283,7 @@ function LanguageSwitch({ locale, copy, pathname, hash }: LanguageSwitchProps) {
   const href = { pathname, hash };
 
   function switchLocale(
-    event: React.MouseEvent<HTMLAnchorElement>,
+    event: MouseEvent<HTMLAnchorElement>,
     targetLocale: Locale,
   ) {
     event.preventDefault();
@@ -277,12 +298,15 @@ function LanguageSwitch({ locale, copy, pathname, hash }: LanguageSwitchProps) {
 
   return (
     <div
-      className="language-switch"
+      className={styles.languageSwitch}
       role="group"
       aria-label={copy.languageSelectorLabel}
     >
       <Link
-        className={locale === "es" ? "is-selected" : ""}
+        className={cn(
+          styles.languageLink,
+          locale === "es" && styles.languageSelected,
+        )}
         href={href}
         locale="es"
         lang="es"
@@ -290,17 +314,14 @@ function LanguageSwitch({ locale, copy, pathname, hash }: LanguageSwitchProps) {
         aria-current={locale === "es" ? "page" : undefined}
         onClick={(event) => switchLocale(event, "es")}
       >
-        <Image
-          src="/icons/language-es.svg"
-          alt=""
-          aria-hidden="true"
-          width={26.4791}
-          height={15.5056}
-        />
+        ES
       </Link>
       <span aria-hidden="true">|</span>
       <Link
-        className={locale === "en" ? "is-selected" : ""}
+        className={cn(
+          styles.languageLink,
+          locale === "en" && styles.languageSelected,
+        )}
         href={href}
         locale="en"
         lang="en"
@@ -308,13 +329,7 @@ function LanguageSwitch({ locale, copy, pathname, hash }: LanguageSwitchProps) {
         aria-current={locale === "en" ? "page" : undefined}
         onClick={(event) => switchLocale(event, "en")}
       >
-        <Image
-          src="/icons/language-en.svg"
-          alt=""
-          aria-hidden="true"
-          width={26.25}
-          height={15.3}
-        />
+        EN
       </Link>
     </div>
   );

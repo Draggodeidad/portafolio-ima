@@ -1,0 +1,75 @@
+:root {
+  color-scheme: dark;
+
+  --portfolio-background: #101214;
+  --portfolio-surface: #1b2024;
+  --portfolio-surface-raised: #252c31;
+  --portfolio-foreground: #f2f3ed;
+  --portfolio-muted-foreground: #abb3b8;
+  --portfolio-accent: #c2f362;
+  --portfolio-accent-foreground: #101214;
+  --portfolio-accent-contrast: #4e6e00;
+  --portfolio-border: rgb(242 243 237 / 14%);
+  --portfolio-border-subtle: rgb(242 243 237 / 7%);
+  --portfolio-control-border: #434937;
+  --portfolio-control-surface: #1e2022;
+  --portfolio-control-selected: #333537;
+  --portfolio-navigation-surface: #1a1c1e;
+  --portfolio-navigation-foreground: #c4c9b2;
+  --portfolio-success: #a4e39a;
+  --portfolio-error: #ff8f8f;
+  --portfolio-header-fallback: #121416;
+  --portfolio-header-glass: rgb(18 20 22 / 75%);
+  --portfolio-header-glow: rgb(0 0 0 / 4%);
+  --portfolio-background-glow: rgb(194 243 98 / 5%);
+  --portfolio-accent-glow: rgb(196 245 100 / 25%);
+
+  --portfolio-font-display: "Space Grotesk", "Arial", sans-serif;
+  --portfolio-font-body: "Space Grotesk", "Arial", sans-serif;
+  --portfolio-font-mono: "JetBrains Mono", "Courier New", monospace;
+
+  --portfolio-radius-control: 4px;
+  --portfolio-radius-panel: 8px;
+  --shadow-header: 0 1px 8px var(--portfolio-header-glow);
+  --shadow-accent: 0 0 6px var(--portfolio-accent-glow);
+  --shadow-accent-hover: 0 0 12px var(--portfolio-accent-glow);
+  --glass-fallback: var(--portfolio-header-fallback);
+  --glass-surface: var(--portfolio-header-glass);
+  --glass-blur: 12px;
+  --motion-fast: 180ms;
+  --motion-signal: 550ms;
+  --nav-height: 64px;
+  --content-width: 1280px;
+  --page-gutter: clamp(20px, 4vw, 48px);
+}
+
+@media (max-width: 900px) {
+  :root {
+    --page-gutter: 20px;
+  }
+}
+
+@theme inline {
+  --color-background: var(--portfolio-background);
+  --color-surface: var(--portfolio-surface);
+  --color-surface-raised: var(--portfolio-surface-raised);
+  --color-foreground: var(--portfolio-foreground);
+  --color-muted-foreground: var(--portfolio-muted-foreground);
+  --color-accent: var(--portfolio-accent);
+  --color-accent-foreground: var(--portfolio-accent-foreground);
+  --color-accent-contrast: var(--portfolio-accent-contrast);
+  --color-border: var(--portfolio-border);
+  --color-border-subtle: var(--portfolio-border-subtle);
+  --color-control-border: var(--portfolio-control-border);
+  --color-control-surface: var(--portfolio-control-surface);
+  --color-control-selected: var(--portfolio-control-selected);
+  --color-navigation-surface: var(--portfolio-navigation-surface);
+  --color-navigation: var(--portfolio-navigation-foreground);
+  --color-success: var(--portfolio-success);
+  --color-error: var(--portfolio-error);
+  --font-display: var(--portfolio-font-display);
+  --font-sans: var(--portfolio-font-body);
+  --font-mono: var(--portfolio-font-mono);
+  --radius-control: var(--portfolio-radius-control);
+  --radius-panel: var(--portfolio-radius-panel);
+}
