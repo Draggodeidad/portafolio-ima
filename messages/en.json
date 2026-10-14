@@ -22,5 +22,31 @@
       "trayectoria": "Experience",
       "contacto": "Contact"
     }
+  },
+  "Hero": {
+    "eyebrow": "Developer profile",
+    "role": "Full-stack developer with a backend focus.",
+    "description": "I build applications, APIs, and automations with JavaScript and TypeScript.",
+    "projects": "View projects",
+    "contact": "Get in touch",
+    "nodeGroupLabel": "Explore my approach",
+    "nodeDescriptionLabel": "Selected area",
+    "frameHeader": "Technical profile",
+    "frameFooter": "Areas of work",
+    "languages": "ES / EN",
+    "nodes": {
+      "api": {
+        "label": "API / Gateway",
+        "description": "API design and server-side logic."
+      },
+      "data": {
+        "label": "Data / Cache",
+        "description": "Local persistence, databases, and synchronization."
+      },
+      "cloud": {
+        "label": "Cloud / Workers",
+        "description": "Application integration and deployment on cloud services."
+      }
+    }
   }
 }
