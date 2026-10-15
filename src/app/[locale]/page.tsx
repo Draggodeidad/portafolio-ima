@@ -6,6 +6,7 @@ import { SectionHeading } from "@/components/sections/section-heading";
 import { routing } from "@/i18n/routing";
 import { sectionIds } from "@/lib/i18n/sections";
 import { Hero } from "@/components/hero/hero";
+import { ProjectsSection } from "@/components/projects/projects-section";
 
 const styles = {
   section: "min-h-[220px] border-b border-border-subtle py-12 pt-[76px]",
@@ -24,7 +25,8 @@ export default async function PortfolioPage({ params }: PortfolioPageProps) {
   return (
     <main id="contenido">
       <Hero locale={locale} />
-      {sectionIds.slice(1).map((id, index) => (
+      <ProjectsSection locale={locale} />
+      {sectionIds.slice(2).map((id, index) => (
         <section
           className={styles.section}
           id={id}

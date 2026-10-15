@@ -44,6 +44,7 @@ function getServerHashSnapshot() {
 
 export function NavbarClient({ locale, copy }: NavbarClientProps) {
   const pathname = usePathname();
+  const isHome = pathname === "/";
   const hash = useSyncExternalStore(
     subscribeToHashChange,
     getHashSnapshot,
@@ -58,16 +59,19 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
   );
   const manualSectionRef = useRef<SectionId | null>(null);
   const [hasScrolled, setHasScrolled] = useState(false);
-  const activeSection =
-    (hashSection && !hasScrolled ? hashSection : null) ??
-    observedSection ??
-    hashSection ??
-    "inicio";
+  const activeSection = isHome
+    ? ((hashSection && !hasScrolled ? hashSection : null) ??
+      observedSection ??
+      hashSection ??
+      "inicio")
+    : null;
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     manualSectionRef.current = hashSection;
+
+    if (!isHome) return;
 
     const sections = sectionIds
       .map((id) => document.getElementById(id))
@@ -107,7 +111,7 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
       window.removeEventListener("wheel", releaseManualSection);
       window.removeEventListener("touchstart", releaseManualSection);
     };
-  }, [hashSection, pathname]);
+  }, [hashSection, isHome, pathname]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -123,7 +127,7 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [menuOpen]);
 
-  const languageHref = { pathname, hash: `#${activeSection}` };
+  const languageHash = isHome && activeSection ? `#${activeSection}` : "";
 
   function closeMenu() {
     setMenuOpen(false);
@@ -142,9 +146,9 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
       </a>
       <header className={cn(styles.header, glassStyles.glass)}>
         <div className={styles.headerInner}>
-          <a
+          <Link
             className={styles.brand}
-            href="#inicio"
+            href={{ pathname: "/", hash: "#inicio" }}
             aria-label={copy.brandLabel}
             onClick={() => selectSection("inicio")}
           >
@@ -157,23 +161,23 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
               <span className={styles.brandDetail}>ANTONIO</span>
               <span className={styles.brandDetail}>DE LA CRUZ</span>
             </span>
-          </a>
+          </Link>
 
           <nav className={styles.desktopNav} aria-label={copy.navigationLabel}>
             {sectionIds.map((id) => (
-              <a
+              <Link
                 className={cn(
                   styles.navLink,
                   activeSection === id && styles.navLinkActive,
                 )}
                 suppressHydrationWarning
-                href={`#${id}`}
+                href={{ pathname: "/", hash: `#${id}` }}
                 aria-current={activeSection === id ? "location" : undefined}
                 key={id}
                 onClick={() => selectSection(id)}
               >
                 {copy.sections[id]}
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -182,15 +186,15 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
               locale={locale}
               copy={copy}
               pathname={pathname}
-              hash={languageHref.hash}
+              hash={languageHash}
             />
-            <a
+            <Link
               className={styles.contactLink}
-              href="#contacto"
+              href={{ pathname: "/", hash: "#contacto" }}
               onClick={() => selectSection("contacto")}
             >
               {copy.contactAction}
-            </a>
+            </Link>
             <a
               className={styles.profileLink}
               href="https://github.com/Draggodeidad"
@@ -207,7 +211,7 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
               locale={locale}
               copy={copy}
               pathname={pathname}
-              hash={languageHref.hash}
+              hash={languageHash}
             />
             <button
               className={cn(styles.menuToggle, "cursor-pointer")}
@@ -242,29 +246,29 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
           inert={!menuOpen}
         >
           {sectionIds.map((id) => (
-            <a
+            <Link
               className={cn(
                 styles.navLink,
                 styles.mobileNavLink,
                 activeSection === id && styles.navLinkActive,
               )}
               suppressHydrationWarning
-              href={`#${id}`}
+              href={{ pathname: "/", hash: `#${id}` }}
               aria-current={activeSection === id ? "location" : undefined}
               key={id}
               onClick={() => selectSection(id)}
               tabIndex={menuOpen ? 0 : -1}
             >
               {copy.sections[id]}
-            </a>
+            </Link>
           ))}
-          <a
+          <Link
             className={cn(styles.contactLink, styles.mobileContactLink)}
-            href="#contacto"
+            href={{ pathname: "/", hash: "#contacto" }}
             onClick={() => selectSection("contacto")}
           >
             {copy.contactAction}
-          </a>
+          </Link>
         </nav>
       </header>
     </>
@@ -280,7 +284,7 @@ type LanguageSwitchProps = {
 
 function LanguageSwitch({ locale, copy, pathname, hash }: LanguageSwitchProps) {
   const router = useRouter();
-  const href = { pathname, hash };
+  const href = hash ? { pathname, hash } : pathname;
 
   function switchLocale(
     event: MouseEvent<HTMLAnchorElement>,

@@ -2,6 +2,7 @@
   color-scheme: dark;
 
   --portfolio-background: #101214;
+  --portfolio-project-canvas: #0c0e10;
   --portfolio-surface: #1b2024;
   --portfolio-surface-raised: #252c31;
   --portfolio-foreground: #f2f3ed;
@@ -51,6 +52,7 @@
 
 @theme inline {
   --color-background: var(--portfolio-background);
+  --color-project-canvas: var(--portfolio-project-canvas);
   --color-surface: var(--portfolio-surface);
   --color-surface-raised: var(--portfolio-surface-raised);
   --color-foreground: var(--portfolio-foreground);
