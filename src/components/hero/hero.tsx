@@ -6,6 +6,7 @@ import type { Locale } from "@/i18n/routing";
 import { cn } from "@/lib/cn";
 import { cvHref, profilePhotoSrc } from "@/content/profile";
 import { NodeSelector } from "./node-selector";
+import { HudVisual } from "./hud-visual";
 import styles from "./hero.module.css";
 
 const classes = {
@@ -166,15 +167,17 @@ export async function Hero({ locale }: HeroProps) {
                     sizes="(min-width: 1024px) 34vw, 90vw"
                   />
                 ) : (
-                  <span
-                    className={classes.monogramWrap}
-                    role="img"
-                    aria-label="Imanol Antonio De la Cruz"
-                  >
-                    <span className={classes.monogram} aria-hidden="true">
-                      IA
+                  <HudVisual>
+                    <span
+                      className={classes.monogramWrap}
+                      role="img"
+                      aria-label="Imanol Antonio De la Cruz"
+                    >
+                      <span className={classes.monogram} aria-hidden="true">
+                        IA
+                      </span>
                     </span>
-                  </span>
+                  </HudVisual>
                 )}
                 <span className={classes.photoCaption} aria-hidden="true">
                   Imanol Antonio
