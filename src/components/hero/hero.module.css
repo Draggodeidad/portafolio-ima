@@ -23,6 +23,73 @@
   background-position: center;
 }
 
+.hudVisual {
+  position: relative;
+  z-index: 0;
+  display: grid;
+  width: min(13rem, 72%);
+  aspect-ratio: 1;
+  place-items: center;
+  isolation: isolate;
+}
+
+.glassFallback,
+.glassLayer,
+.glassCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glassFallback {
+  z-index: 0;
+  overflow: visible;
+  stroke: var(--portfolio-accent);
+  stroke-width: 2;
+  opacity: 0.46;
+  transition: opacity 180ms ease;
+}
+
+.glassFallback path {
+  fill: none;
+  stroke-width: 5;
+}
+
+.glassFallback circle {
+  stroke-width: 2;
+}
+
+.monogramGlass {
+  border-color: var(--portfolio-accent);
+  box-shadow:
+    0 0 0 4px var(--portfolio-background),
+    0 0 0 5px var(--portfolio-accent);
+}
+
+.glassLayer {
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hudVisual[data-effect="fallback"] .glassLayer {
+  opacity: 0;
+}
+
+.glassCanvas {
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.glassCanvas canvas {
+  pointer-events: none;
+  touch-action: pan-x pan-y !important;
+}
+
+.hudVisual[data-effect="ready"] .glassFallback {
+  opacity: 0.16;
+}
+
 .cvLink {
   display: inline-flex;
   min-height: 44px;
@@ -186,6 +253,10 @@
   }
 
   .cvLink {
+    transition: none;
+  }
+
+  .glassFallback {
     transition: none;
   }
 }
