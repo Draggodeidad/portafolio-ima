@@ -48,5 +48,29 @@
         "description": "Integración y despliegue de aplicaciones en servicios cloud."
       }
     }
+  },
+  "Projects": {
+    "eyebrow": "// 01. PROYECTOS_SELECCIONADOS",
+    "heading": "Ingeniería de software y arquitectura aplicada",
+    "index": "ÍNDICE: 03 PROYECTOS",
+    "featuredLabel": "Proyecto principal",
+    "contribution": "APORTACIÓN CONFIRMADA",
+    "technologyList": "Tecnologías del proyecto",
+    "exploreCase": "Explorar caso",
+    "openApp": "Abrir aplicación",
+    "viewCode": "Ver código",
+    "record": "REGISTRO {number}"
+  },
+  "Studies": {
+    "back": "Volver a proyectos",
+    "caseLabel": "Caso de estudio",
+    "technologies": "Tecnologías",
+    "contribution": "Aportación confirmada",
+    "repository": "Ver código",
+    "demo": "Abrir aplicación",
+    "previous": "Proyecto anterior",
+    "next": "Siguiente proyecto",
+    "moreProjects": "Recorrer proyectos",
+    "notSpecified": "No especificado"
   }
 }

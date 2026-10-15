@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
+import { NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
@@ -40,8 +41,10 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} data-scroll-behavior="smooth">
       <body>
-        <Navbar key={locale} locale={locale} />
-        {children}
+        <NextIntlClientProvider locale={locale} messages={{}}>
+          <Navbar key={locale} locale={locale} />
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );

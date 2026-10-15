@@ -1,5 +1,4 @@
 import { getTranslations } from "next-intl/server";
-import { NextIntlClientProvider } from "next-intl";
 import type { Locale } from "@/i18n/routing";
 import { sectionIds, type SectionId } from "@/lib/i18n/sections";
 import { NavbarClient } from "./navbar-client";
@@ -26,9 +25,5 @@ export async function Navbar({ locale }: NavbarProps) {
     ) as Record<SectionId, string>,
   };
 
-  return (
-    <NextIntlClientProvider locale={locale} messages={{}}>
-      <NavbarClient locale={locale} copy={copy} />
-    </NextIntlClientProvider>
-  );
+  return <NavbarClient locale={locale} copy={copy} />;
 }

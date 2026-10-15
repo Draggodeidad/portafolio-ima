@@ -48,5 +48,29 @@
         "description": "Application integration and deployment on cloud services."
       }
     }
+  },
+  "Projects": {
+    "eyebrow": "// 01. SELECTED_PROJECTS",
+    "heading": "Software engineering and applied architecture",
+    "index": "INDEX: 03 PROJECTS",
+    "featuredLabel": "Featured project",
+    "contribution": "CONFIRMED CONTRIBUTION",
+    "technologyList": "Project technologies",
+    "exploreCase": "Explore case",
+    "openApp": "Open application",
+    "viewCode": "View code",
+    "record": "RECORD {number}"
+  },
+  "Studies": {
+    "back": "Back to projects",
+    "caseLabel": "Case study",
+    "technologies": "Technologies",
+    "contribution": "Confirmed contribution",
+    "repository": "View code",
+    "demo": "Open application",
+    "previous": "Previous project",
+    "next": "Next project",
+    "moreProjects": "Browse projects",
+    "notSpecified": "Not specified"
   }
 }

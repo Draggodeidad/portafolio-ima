@@ -53,3 +53,24 @@ The source's current license is MIT + Commons Clause, retained with its attribut
 - LCP varied across cold/warm runs (Stage 2: 268–640 ms desktop, 252–300 ms mobile; Stage 3: 292–316 ms desktop, 272–336 ms mobile). CLS was unchanged per viewport in this sample (0.00449 desktop, 0.01984 mobile). Lighthouse was unavailable in the environment, and these local Chrome results do not substitute for profiling real mobile devices or production traffic.
 - Lint, TypeScript, format check, production build, and Playwright passed. Browser checks covered desktop/mobile, reduced motion changes, WebGL2 unavailable, asset failure, context loss, node selection, locale navigation, and returning from outside the viewport. Console showed no application/hydration errors after replacing the deprecated `SVGLoader.createShapes()` call with `ShapePath.toShapes()`.
 - No deployment or work on project/case-study content is included in this stage.
+
+### Stage 3 follow-up
+
+The optional WebGL ring remains disabled by default because its observed cold-start cost outweighed its decorative value. This is an independent Stage 3 follow-up and does not block Stage 4; no Stage 3 component was changed here.
+
+## Stage 4 — Featured projects and bilingual case studies
+
+Implemented on `feat/stage-4-projects`. Replaced the `#proyectos` placeholder with a data-driven bilingual project index and added the three statically generated case routes under `src/app/[locale]/proyectos/[slug]/page.tsx`. `src/content/projects.ts` holds the typed project facts, links, diagrams, and ES/EN study copy. The PWA remains the expanded featured piece; Secure Transfer and Classroom → GitHub are supporting cards.
+
+### Design findings and deliberate differences
+
+- Figma node `12:2817` remains the Projects section. Its 1280 px screenshot shows a large PWA card followed by two equal secondary cards, a graphite canvas, lime telemetry details, and concise actions. The implementation keeps that hierarchy while using a fluid 12/5-column featured layout and stacked cards at narrower widths.
+- The mockup's PWA browser panel is illustrative rather than an actual screen capture, so it was replaced with an explicitly labelled local/offline/sync diagram grounded in the repository. The other two project visuals are explanatory diagrams: Secure Transfer separates client and server operations; Classroom shows input, validation, registry, and planned issues.
+- The Main subtree contains the portfolio landing page, with no case-study composition. Figma's MCP Starter-plan limit blocked the metadata request needed to enumerate other pages, so the case pages use the approved type scale, tokens, bordered panels, and compact HUD labels as a responsive editorial adaptation. No unseen case screen is presented as a Figma match.
+- Existing project screenshots were inspected and show the sign-in view with a placeholder email, so they were not copied. The public demo responds but redirects to `/login`; the implementation does not imply authenticated flows were tested.
+- Secure Transfer's code supports the upload-side crypto/package path, but `extractSecurePackage` is explicitly unfinished. That limit is stated in the case; security audit, E2E encryption, production readiness, coverage numbers, and individual authorship are not claimed. Classroom's workflow remains inactive and dry-run oriented, and the case is presented as an automation rather than an app.
+- Case metadata includes localized titles, descriptions, and language alternates. No canonical domain was added because the final domain is not configured. Navbar section links from a case route return to the corresponding locale's home anchors; no absent section is highlighted on the case route.
+
+### Stage 4 verification
+
+See `docs/project-content-sources.md` for claim-level files, commits, limitations, URL availability, and visual sourcing. Added Playwright coverage for all six locale/project combinations, project-card navigation, locale switching, return navigation, missing demos, unknown slugs, navbar home anchors, and overflow at 360/390/768/1280 px. Final results: lint, typecheck, format check, production build, and Playwright passed; 23 Playwright tests passed and 4 existing experimental-GL tests were skipped because the effect is disabled by default. Overflow checks passed at all eight locale/viewport combinations. Production screenshots are in `artifacts/stage-4/` for the section at all four widths in both locales, plus the hero and PWA case at 390 and 1280 px. Visual review confirmed the desktop section hierarchy, tablet/mobile stacking, and the existing hero/navbar. Lighthouse and live authenticated product flows were not tested.
