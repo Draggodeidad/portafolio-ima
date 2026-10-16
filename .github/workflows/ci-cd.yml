@@ -113,7 +113,7 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
-          vercel deploy --prebuilt --prod --yes --json --meta "portfolioCommitSha=$GITHUB_SHA" --token="$VERCEL_TOKEN" > "$RUNNER_TEMP/portfolio-deployment.json"
+          vercel deploy --prebuilt --prod --yes --json --non-interactive --meta "portfolioCommitSha=$GITHUB_SHA" --token="$VERCEL_TOKEN" > "$RUNNER_TEMP/portfolio-deployment.json"
           deployment_url=$(node -e 'const fs = require("node:fs"); const result = JSON.parse(fs.readFileSync(process.argv[1], "utf8")); const url = result.deployment?.url; if (result.status !== "ok" || !url) process.exit(1); console.log(new URL(url).href);' "$RUNNER_TEMP/portfolio-deployment.json")
           echo "url=$deployment_url" >> "$GITHUB_OUTPUT"
           {

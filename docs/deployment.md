@@ -5,7 +5,7 @@
 - Repository: `Draggodeidad/portafolio-ima`; production branch: `main`.
 - Vercel project: `itsdraggodeidad`, under `imanol-antonio-de-la-cruzs-projects`.
 - Public origin: <https://itsdraggodeidad-portfolio.vercel.app>.
-- The originally requested `itsdraggodeidad.vercel.app` was unavailable. The user selected the current alternative.
+- The original assignment request for `itsdraggodeidad.vercel.app` returned a conflict. The user selected the current alternative.
 - Runtime: Node.js 24; package manager: pnpm 11.4.0. Keep the single `pnpm-lock.yaml` and use frozen installs.
 
 `vercel.json` sets the Next.js preset and disables Git-triggered Vercel deployments. GitHub Actions owns production publication. No custom DNS or GitHub Pages configuration is required.
@@ -14,7 +14,7 @@
 
 `.github/workflows/ci-cd.yml` runs for PRs targeting `main` and pushes to `main`. It installs the locked dependencies, runs ESLint and Prettier, builds, generates Next.js types, checks TypeScript, and runs Playwright against `next start` on port 3001. CI uses Playwright's Chromium with two workers; local runs keep Chrome and the development server unless `PLAYWRIGHT_PRODUCTION=1` is set.
 
-PR builds run `pnpm build` without deployment credentials. Pushes use a pinned Vercel CLI, `vercel pull --environment=production`, and `vercel build --prod`. After all checks pass, `vercel deploy --prebuilt --prod` uploads that artifact without rebuilding it remotely. A failing check prevents the deployment step; a failed post-deployment smoke check marks the run failed and requires investigation or rollback.
+PR builds run `pnpm build` without deployment credentials. Pushes use a pinned Vercel CLI, `vercel pull --environment=production`, and `vercel build --prod`. After all checks pass, `vercel deploy --prebuilt --prod` uploads that artifact without rebuilding it remotely. Explicit non-interactive JSON output keeps the deployment result format consistent between CI and agent sessions. A failing check prevents the deployment step; a failed post-deployment smoke check marks the run failed and requires investigation or rollback.
 
 Production runs are serialized. Immediately before publication, the workflow compares its SHA with the current `main` SHA and skips superseded commits. This comparison prevents publishing commits already known to be outdated; a push arriving during an upload will be handled by the next serialized run.
 
