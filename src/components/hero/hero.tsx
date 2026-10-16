@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/b-button";
 import { Container } from "@/components/layout/container";
 import type { Locale } from "@/i18n/routing";
 import { cn } from "@/lib/cn";
-import { cvHref, profilePhotoSrc } from "@/content/profile";
+import { profile, profilePhotoSrc } from "@/content/profile";
 import { NodeSelector } from "./node-selector";
 import { HudVisual } from "./hud-visual";
 import styles from "./hero.module.css";
@@ -122,15 +122,18 @@ export async function Hero({ locale }: HeroProps) {
               </span>
               {t("contact")}
             </Button>
-            {cvHref ? (
-              <a className={styles.cvLink} href={cvHref} download>
+            {profile.cv ? (
+              <a className={styles.cvLink} href={profile.cv.href} download>
                 <Image
                   src="/icons/download-cv.svg"
                   alt=""
                   width={12}
                   height={12}
                 />
-                {locale === "es" ? "Descargar CV" : "Download CV"}
+                {t("cv", {
+                  language: t(`cvLanguages.${profile.cv.locale}`),
+                  format: profile.cv.format,
+                })}
               </a>
             ) : null}
           </div>

@@ -74,3 +74,29 @@ Implemented on `feat/stage-4-projects`. Replaced the `#proyectos` placeholder wi
 ### Stage 4 verification
 
 See `docs/project-content-sources.md` for claim-level files, commits, limitations, URL availability, and visual sourcing. Added Playwright coverage for all six locale/project combinations, project-card navigation, locale switching, return navigation, missing demos, unknown slugs, navbar home anchors, and overflow at 360/390/768/1280 px. Final results: lint, typecheck, format check, production build, and Playwright passed; 23 Playwright tests passed and 4 existing experimental-GL tests were skipped because the effect is disabled by default. Overflow checks passed at all eight locale/viewport combinations. Production screenshots are in `artifacts/stage-4/` for the section at all four widths in both locales, plus the hero and PWA case at 390 and 1280 px. Visual review confirmed the desktop section hierarchy, tablet/mobile stacking, and the existing hero/navbar. Lighthouse and live authenticated product flows were not tested.
+
+## Stage 5 — About, stack, experience, contact, and CV
+
+Implemented on `feat/stage-5-profile-contact`. Added bilingual About, grouped technology stack, a data-driven accessible timeline, contact form shell, direct profile links, and a compact footer. Profile facts and social URLs live in `src/content/profile.ts`; copy stays in the existing Spanish/English dictionaries. About and stack are Server Components. The contact form is static HTML with persistent labels, native constraints, a disabled Iconiq submit button, and a localized explanation because no email provider or anti-spam protection is configured. No contact endpoint or false success response was added.
+
+### Confirmed content and omitted data
+
+- The short first-person About copy describes a backend interest within full-stack work, APIs, data, applications, automation, and project practices visible in the three documented studies. A brief gaming interest is included as the only personal detail.
+- Stack cards separate the user's declared NestJS, Hono, React, SvelteKit, and cloud-native tools from technologies evidenced by the projects. Project contexts refer to PWA UTT, Secure Transfer, and Classroom → GitHub. No skill ratings are used.
+- No education or employment records were present in the repository. The typed `ExperienceEntry` shape distinguishes education, employment, and personal projects; the empty list means no timeline section or navigation item is rendered. Personal project records will not be inferred from case studies.
+- No confirmed email address, local CV file, or mail provider configuration exists. Email and CV actions are omitted. The same nullable profile CV configuration is read by the hero and contact section for future use.
+- The contact form remains non-operational. Fields retain browser validation semantics, but the disabled submit control cannot send data. GitHub and LinkedIn are the available contact routes. Provider credentials, authorized sender identity, recipient, and deployment-grade spam protection remain pending.
+
+### Figma limitation and design decisions
+
+- The Stage 5 Figma context request was blocked by the account's Starter-plan MCP call limit before any Stage 5 section nodes or screenshots could be retrieved. This implementation therefore uses established project tokens, section headings, surface hierarchy, responsive container, and the confirmed content brief; it is not claimed as screenshot-matched to the unseen sections.
+- The About/stack areas use readable opaque panels and the existing graphite/lime tokens. No decorative photo, timeline entry, CV artifact, email, or form state was fabricated to fill the composition.
+- Independent Stage 3 follow-up remains unchanged: optional WebGL Glass Object is disabled by default after its documented cold-start cost. Stage 4 remains unchanged.
+
+### Stage 5 verification
+
+Lint, TypeScript, format check, and a clean production build passed. The production build used the Webpack builder in an isolated temporary copy because a pre-existing Next dev server owns the workspace's `.next` directory; the default Turbopack builder in that copy could not resolve its external `node_modules` symlink. After the mobile preview follow-up, Playwright passed 33 tests, including the ES/EN sections, accessible validation, disabled provider state, prevention of implicit form submission, touch/keyboard mobile navigation, local-network hydration, reduced motion, and overflow at 360/390/768/1280 px. Four existing experimental-GL tests were skipped because WebGL remains opt-in. Captures are in `artifacts/stage-5/` for Spanish and English at 1280 px and 390 px. No email delivery, CV artifact, or academic/employment records were verified. Figma visual comparison remains unavailable due to the Starter-plan limit.
+
+### Stage 5 follow-up — mobile preview menu
+
+The mobile menu opened in Chrome at `localhost` but did not hydrate when the same page was loaded through the LAN address: Next's development-origin allowlist contained only `127.0.0.1`. `next.config.ts` now derives non-internal IPv4 interface addresses and adds them to `allowedDevOrigins` for local development. A touch test against `192.168.1.95:3000` now confirms `aria-expanded=true` and a visible menu; keyboard open/close and focus restoration are also covered. This changes development preview access only; production behavior is unchanged.

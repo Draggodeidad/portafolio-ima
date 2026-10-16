@@ -27,6 +27,7 @@ type NavbarCopy = {
 type NavbarClientProps = {
   locale: Locale;
   copy: NavbarCopy;
+  visibleSectionIds: SectionId[];
 };
 
 function subscribeToHashChange(onChange: () => void) {
@@ -42,7 +43,11 @@ function getServerHashSnapshot() {
   return "";
 }
 
-export function NavbarClient({ locale, copy }: NavbarClientProps) {
+export function NavbarClient({
+  locale,
+  copy,
+  visibleSectionIds,
+}: NavbarClientProps) {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const hash = useSyncExternalStore(
@@ -51,7 +56,7 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
     getServerHashSnapshot,
   );
   const hashValue = hash.slice(1);
-  const hashSection = sectionIds.includes(hashValue as SectionId)
+  const hashSection = visibleSectionIds.includes(hashValue as SectionId)
     ? (hashValue as SectionId)
     : null;
   const [observedSection, setObservedSection] = useState<SectionId | null>(
@@ -73,7 +78,7 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
 
     if (!isHome) return;
 
-    const sections = sectionIds
+    const sections = visibleSectionIds
       .map((id) => document.getElementById(id))
       .filter((section): section is HTMLElement => section !== null);
 
@@ -111,7 +116,7 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
       window.removeEventListener("wheel", releaseManualSection);
       window.removeEventListener("touchstart", releaseManualSection);
     };
-  }, [hashSection, isHome, pathname]);
+  }, [hashSection, isHome, pathname, visibleSectionIds]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -164,7 +169,7 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
           </Link>
 
           <nav className={styles.desktopNav} aria-label={copy.navigationLabel}>
-            {sectionIds.map((id) => (
+            {visibleSectionIds.map((id) => (
               <Link
                 className={cn(
                   styles.navLink,
@@ -187,6 +192,7 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
               copy={copy}
               pathname={pathname}
               hash={languageHash}
+              visibleSectionIds={visibleSectionIds}
             />
             <Link
               className={styles.contactLink}
@@ -212,6 +218,7 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
               copy={copy}
               pathname={pathname}
               hash={languageHash}
+              visibleSectionIds={visibleSectionIds}
             />
             <button
               className={cn(styles.menuToggle, "cursor-pointer")}
@@ -245,7 +252,7 @@ export function NavbarClient({ locale, copy }: NavbarClientProps) {
           aria-hidden={!menuOpen}
           inert={!menuOpen}
         >
-          {sectionIds.map((id) => (
+          {visibleSectionIds.map((id) => (
             <Link
               className={cn(
                 styles.navLink,
@@ -280,9 +287,16 @@ type LanguageSwitchProps = {
   copy: NavbarCopy;
   pathname: string;
   hash: string;
+  visibleSectionIds: SectionId[];
 };
 
-function LanguageSwitch({ locale, copy, pathname, hash }: LanguageSwitchProps) {
+function LanguageSwitch({
+  locale,
+  copy,
+  pathname,
+  hash,
+  visibleSectionIds,
+}: LanguageSwitchProps) {
   const router = useRouter();
   const href = hash ? { pathname, hash } : pathname;
 
@@ -293,7 +307,7 @@ function LanguageSwitch({ locale, copy, pathname, hash }: LanguageSwitchProps) {
     event.preventDefault();
     const currentHash = window.location.hash;
     const currentSection = currentHash.slice(1);
-    const targetHash = sectionIds.includes(currentSection as SectionId)
+    const targetHash = visibleSectionIds.includes(currentSection as SectionId)
       ? currentHash
       : hash;
 

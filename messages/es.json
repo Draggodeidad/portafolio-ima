@@ -29,6 +29,8 @@
     "description": "Construyo aplicaciones, APIs y automatizaciones con JavaScript y TypeScript.",
     "projects": "Ver proyectos",
     "contact": "Contactar",
+    "cv": "Descargar CV ({language} · {format})",
+    "cvLanguages": { "es": "español", "en": "inglés" },
     "nodeGroupLabel": "Explora mi enfoque",
     "nodeDescriptionLabel": "Área seleccionada",
     "frameHeader": "Perfil técnico",
@@ -72,5 +74,60 @@
     "next": "Siguiente proyecto",
     "moreProjects": "Recorrer proyectos",
     "notSpecified": "No especificado"
+  },
+  "About": {
+    "eyebrow": "// 02 — SOBRE MÍ",
+    "heading": "Cómo trabajo",
+    "lead": "Me interesa construir productos completos, con especial atención a lo que ocurre detrás de la interfaz.",
+    "paragraph": "Trabajo entre aplicaciones, APIs, datos y automatizaciones. En mis proyectos procuro explicar las decisiones, cuidar los casos de error y dejar claros los límites de lo que está validado.",
+    "personalNote": "Fuera del código, disfruto los videojuegos."
+  },
+  "Stack": {
+    "eyebrow": "// 03 — HERRAMIENTAS DE TRABAJO",
+    "heading": "Tecnologías por función",
+    "groups": {
+      "backend": "Backend",
+      "frontend": "Frontend",
+      "data": "Datos",
+      "tools": "Herramientas y despliegue"
+    },
+    "evidence": {
+      "declared": "Declarado",
+      "project": "En proyecto"
+    }
+  },
+  "Experience": {
+    "eyebrow": "// 04 — TRAYECTORIA",
+    "heading": "Trayectoria",
+    "kinds": {
+      "education": "Educación",
+      "employment": "Empleo",
+      "personal-project": "Proyecto personal"
+    }
+  },
+  "Contact": {
+    "eyebrow": "// CONTACTO",
+    "heading": "Hablemos de una oportunidad",
+    "intro": "Estoy buscando oportunidades de empleo donde pueda aportar en desarrollo full-stack, con interés especial en backend.",
+    "socialLabel": "Perfiles y contacto",
+    "formTitle": "Enviar un mensaje",
+    "formIntro": "El formulario está preparado, pero el envío todavía no está disponible.",
+    "nameLabel": "Nombre",
+    "emailLabel": "Correo electrónico",
+    "messageLabel": "Mensaje",
+    "submit": "Enviar mensaje",
+    "providerPending": "El envío está deshabilitado hasta configurar un proveedor de correo y una protección antispam. Puedes contactarme por GitHub o LinkedIn.",
+    "validation": {
+      "required": "Completa este campo.",
+      "email": "Escribe una dirección de correo válida.",
+      "tooShort": "El mensaje debe tener al menos 10 caracteres.",
+      "tooLong": "El contenido supera el límite permitido."
+    },
+    "cvLink": "CV en {language} · {format}",
+    "cvLanguages": { "es": "español", "en": "inglés" }
+  },
+  "Footer": {
+    "linksLabel": "Enlaces útiles",
+    "copyright": "© {year} Imanol Antonio De la Cruz"
   }
 }
