@@ -86,9 +86,11 @@ export async function generateMetadata({
     title,
     description,
     alternates: {
+      canonical: `/${locale}/proyectos/${project.slug}`,
       languages: {
         es: `/es/proyectos/${project.slug}`,
         en: `/en/proyectos/${project.slug}`,
+        "x-default": `/es/proyectos/${project.slug}`,
       },
     },
     openGraph: {

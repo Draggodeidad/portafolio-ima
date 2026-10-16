@@ -5,3 +5,8 @@ build/
 coverage/
 .DS_Store
 *.tsbuildinfo
+.vercel/
+.env*
+!.env.example
+playwright-report/
+test-results/

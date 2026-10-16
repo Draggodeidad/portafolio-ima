@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale } from "next-intl";
 import { routing } from "@/i18n/routing";
@@ -15,6 +16,20 @@ import { publishedExperienceEntries } from "@/content/profile";
 type PortfolioPageProps = {
   params: Promise<{ locale: string }>;
 };
+
+export async function generateMetadata({
+  params,
+}: PortfolioPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
+
+  return {
+    alternates: {
+      canonical: `/${locale}`,
+      languages: { es: "/es", en: "/en", "x-default": "/es" },
+    },
+  };
+}
 
 export default async function PortfolioPage({ params }: PortfolioPageProps) {
   const { locale } = await params;

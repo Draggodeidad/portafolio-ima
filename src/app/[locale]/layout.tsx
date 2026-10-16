@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { routing } from "@/i18n/routing";
+import { siteConfig } from "@/lib/site-config";
 import "../globals.css";
 
 type LocaleLayoutProps = Readonly<{
@@ -26,6 +27,7 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "Metadata" });
 
   return {
+    metadataBase: siteConfig.url,
     title: t("title"),
     description: t("description"),
   };
