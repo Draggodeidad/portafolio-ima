@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import { sectionIds, type SectionId } from "@/lib/i18n/sections";
+import { publishedExperienceEntries } from "@/content/profile";
 import { NavbarClient } from "./navbar-client";
 
 type NavbarProps = {
@@ -25,5 +26,15 @@ export async function Navbar({ locale }: NavbarProps) {
     ) as Record<SectionId, string>,
   };
 
-  return <NavbarClient locale={locale} copy={copy} />;
+  const visibleSectionIds = sectionIds.filter(
+    (id) => id !== "trayectoria" || publishedExperienceEntries.length > 0,
+  );
+
+  return (
+    <NavbarClient
+      locale={locale}
+      copy={copy}
+      visibleSectionIds={visibleSectionIds}
+    />
+  );
 }
