@@ -66,6 +66,54 @@ test("locale switching preserves the home section anchor", async ({ page }) => {
   await expect(page).toHaveURL(/\/es#contacto$/);
 });
 
+for (const width of [390, 1280]) {
+  test(`locale switching waits for the initial anchor at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 844 });
+    let releaseScripts!: () => void;
+    const scriptsReady = new Promise<void>((resolve) => {
+      releaseScripts = resolve;
+    });
+    await page.route("**/*", async (route) => {
+      if (route.request().resourceType() === "script") await scriptsReady;
+      await route.continue();
+    });
+
+    try {
+      await page.goto("/es#contacto", { waitUntil: "commit" });
+      const english = page.locator('a[lang="en"]').filter({ visible: true });
+      // Next streams HTML before CSS; wait for the responsive layout, not JS.
+      await expect(english).toHaveCount(1);
+      await expect(english).toBeVisible();
+      const bounds = await english.boundingBox();
+      if (!bounds) throw new Error("Language switch has no visible bounds");
+      // A real early click must not follow the server's placeholder href.
+      await page.mouse.click(
+        bounds.x + bounds.width / 2,
+        bounds.y + bounds.height / 2,
+      );
+      await expect(page).toHaveURL(/\/es#contacto$/);
+      await expect(english).toBeDisabled();
+
+      releaseScripts();
+      await expect(english).toBeEnabled();
+      await expect(english).toHaveAttribute("href", "/en#contacto");
+      await english.click();
+      await expect(page).toHaveURL(/\/en#contacto$/);
+      await expect(page.locator("#contacto h2")).toHaveText(
+        "Let's talk about an opportunity",
+      );
+      await page
+        .getByRole("link", { name: "Switch language to Spanish" })
+        .click();
+      await expect(page).toHaveURL(/\/es#contacto$/);
+    } finally {
+      releaseScripts();
+    }
+  });
+}
+
 test("unknown locale and missing paths return 404", async ({ request }) => {
   for (const path of ["/fr", "/en/missing-page", "/es/proyectos/missing"]) {
     const response = await request.get(path);

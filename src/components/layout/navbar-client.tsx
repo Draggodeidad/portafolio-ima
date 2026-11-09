@@ -40,7 +40,9 @@ function getHashSnapshot() {
 }
 
 function getServerHashSnapshot() {
-  return "";
+  // Fragments are never sent to the server. Keep locale navigation inert until
+  // the client snapshot can replace the prerendered placeholder href.
+  return null;
 }
 
 export function NavbarClient({
@@ -50,12 +52,12 @@ export function NavbarClient({
 }: NavbarClientProps) {
   const pathname = usePathname();
   const isHome = pathname === "/";
-  const hash = useSyncExternalStore(
+  const hash = useSyncExternalStore<string | null>(
     subscribeToHashChange,
     getHashSnapshot,
     getServerHashSnapshot,
   );
-  const hashValue = hash.slice(1);
+  const hashValue = hash?.slice(1);
   const hashSection = visibleSectionIds.includes(hashValue as SectionId)
     ? (hashValue as SectionId)
     : null;
@@ -192,6 +194,7 @@ export function NavbarClient({
               copy={copy}
               pathname={pathname}
               hash={languageHash}
+              ready={!isHome || hash !== null}
               visibleSectionIds={visibleSectionIds}
             />
             <Link
@@ -218,6 +221,7 @@ export function NavbarClient({
               copy={copy}
               pathname={pathname}
               hash={languageHash}
+              ready={!isHome || hash !== null}
               visibleSectionIds={visibleSectionIds}
             />
             <button
@@ -287,6 +291,7 @@ type LanguageSwitchProps = {
   copy: NavbarCopy;
   pathname: string;
   hash: string;
+  ready: boolean;
   visibleSectionIds: SectionId[];
 };
 
@@ -295,6 +300,7 @@ function LanguageSwitch({
   copy,
   pathname,
   hash,
+  ready,
   visibleSectionIds,
 }: LanguageSwitchProps) {
   const router = useRouter();
@@ -319,6 +325,7 @@ function LanguageSwitch({
       className={styles.languageSwitch}
       role="group"
       aria-label={copy.languageSelectorLabel}
+      inert={!ready}
     >
       <Link
         className={cn(
@@ -330,6 +337,7 @@ function LanguageSwitch({
         lang="es"
         aria-label={copy.switchToSpanish}
         aria-current={locale === "es" ? "page" : undefined}
+        aria-disabled={!ready || undefined}
         onClick={(event) => switchLocale(event, "es")}
       >
         ES
@@ -345,6 +353,7 @@ function LanguageSwitch({
         lang="en"
         aria-label={copy.switchToEnglish}
         aria-current={locale === "en" ? "page" : undefined}
+        aria-disabled={!ready || undefined}
         onClick={(event) => switchLocale(event, "en")}
       >
         EN
