@@ -85,20 +85,20 @@ Cero cambios en formulario, ruta API ni validación.
 
 ### Archivos a crear o modificar
 
-| Archivo | Acción | Descripción |
-|---------|--------|-------------|
-| `src/lib/contact/types.ts` | **Crear** | Tipos e interfaz `EmailAdapter` |
-| `src/lib/contact/validation.ts` | **Crear** | Schema Zod, validación servidor |
-| `src/lib/contact/adapters/cloudflare.ts` | **Crear** | Adapter que llama al Worker HTTP |
-| `src/lib/contact/adapters/console.ts` | **Crear** | Adapter de desarrollo |
-| `src/lib/contact/provider.ts` | **Crear** | Factory según `EMAIL_PROVIDER` |
-| `src/lib/contact/rate-limit.ts` | **Crear** | Rate limiting por IP |
-| `src/app/api/contact/route.ts` | **Crear** | Route handler POST |
-| `src/components/sections/contact-form.tsx` | **Modificar** | Habilitar envío, estados |
-| `messages/es.json` | **Modificar** | Agregar copy de estados del formulario |
-| `messages/en.json` | **Modificar** | Agregar copy de estados del formulario |
-| `.env.example` | **Modificar** | Agregar variables del proveedor |
-| `workers/portfolio-contact-email/` | **Crear** | Worker de Cloudflare |
+| Archivo                                    | Acción        | Descripción                            |
+| ------------------------------------------ | ------------- | -------------------------------------- |
+| `src/lib/contact/types.ts`                 | **Crear**     | Tipos e interfaz `EmailAdapter`        |
+| `src/lib/contact/validation.ts`            | **Crear**     | Schema Zod, validación servidor        |
+| `src/lib/contact/adapters/cloudflare.ts`   | **Crear**     | Adapter que llama al Worker HTTP       |
+| `src/lib/contact/adapters/console.ts`      | **Crear**     | Adapter de desarrollo                  |
+| `src/lib/contact/provider.ts`              | **Crear**     | Factory según `EMAIL_PROVIDER`         |
+| `src/lib/contact/rate-limit.ts`            | **Crear**     | Rate limiting por IP                   |
+| `src/app/api/contact/route.ts`             | **Crear**     | Route handler POST                     |
+| `src/components/sections/contact-form.tsx` | **Modificar** | Habilitar envío, estados               |
+| `messages/es.json`                         | **Modificar** | Agregar copy de estados del formulario |
+| `messages/en.json`                         | **Modificar** | Agregar copy de estados del formulario |
+| `.env.example`                             | **Modificar** | Agregar variables del proveedor        |
+| `workers/portfolio-contact-email/`         | **Crear**     | Worker de Cloudflare                   |
 
 ---
 
@@ -182,12 +182,12 @@ Adapter que envía un HTTP POST al Cloudflare Worker.
 
 **Variables de entorno que lee del constructor:**
 
-| Variable | Propósito |
-|----------|-----------|
-| `CF_WORKER_URL` | URL del Worker desplegado (ej. `https://portfolio-contact-email.<subdomain>.workers.dev`) |
-| `CF_WORKER_AUTH_SECRET` | Token compartido entre la ruta API y el Worker para autenticación |
-| `CONTACT_RECIPIENT_EMAIL` | Email destino (tu Gmail) |
-| `CONTACT_SENDER_DOMAIN` | Dominio verificado en Cloudflare (ej. `tudominio.dev`) |
+| Variable                  | Propósito                                                                                 |
+| ------------------------- | ----------------------------------------------------------------------------------------- |
+| `CF_WORKER_URL`           | URL del Worker desplegado (ej. `https://portfolio-contact-email.<subdomain>.workers.dev`) |
+| `CF_WORKER_AUTH_SECRET`   | Token compartido entre la ruta API y el Worker para autenticación                         |
+| `CONTACT_RECIPIENT_EMAIL` | Email destino (tu Gmail)                                                                  |
+| `CONTACT_SENDER_DOMAIN`   | Dominio verificado en Cloudflare (ej. `tudominio.dev`)                                    |
 
 **Comportamiento del `send()`:**
 
@@ -202,10 +202,10 @@ Adapter que envía un HTTP POST al Cloudflare Worker.
 
 Factory que lee `EMAIL_PROVIDER` y retorna la instancia correspondiente:
 
-| Valor de `EMAIL_PROVIDER` | Adapter |
-|---------------------------|---------|
-| `"cloudflare"` | `CloudflareEmailAdapter` |
-| `"console"` (default) | `ConsoleEmailAdapter` |
+| Valor de `EMAIL_PROVIDER` | Adapter                  |
+| ------------------------- | ------------------------ |
+| `"cloudflare"`            | `CloudflareEmailAdapter` |
+| `"console"` (default)     | `ConsoleEmailAdapter`    |
 
 Cachear la instancia en una variable de módulo para no recrearla en cada petición (mientras la instancia serverless viva).
 
@@ -253,16 +253,16 @@ Route handler `POST` con este flujo:
 
 **Códigos de respuesta:**
 
-| Status | Significado |
-|--------|-------------|
-| `200` | Mensaje aceptado por el proveedor |
-| `400` | JSON inválido |
-| `413` | Payload demasiado grande |
-| `415` | Content-Type incorrecto |
-| `422` | Validación fallida (errores por campo) |
-| `429` | Rate limit excedido |
-| `500` | Error inesperado |
-| `502` | El proveedor rechazó o falló |
+| Status | Significado                            |
+| ------ | -------------------------------------- |
+| `200`  | Mensaje aceptado por el proveedor      |
+| `400`  | JSON inválido                          |
+| `413`  | Payload demasiado grande               |
+| `415`  | Content-Type incorrecto                |
+| `422`  | Validación fallida (errores por campo) |
+| `429`  | Rate limit excedido                    |
+| `500`  | Error inesperado                       |
+| `502`  | El proveedor rechazó o falló           |
 
 **Nunca exponer** el error interno del adapter al cliente. Solo loguearlo con `console.error`.
 
@@ -287,12 +287,12 @@ Route handler `POST` con este flujo:
 
 Nuevas keys en el tipo (y en los diccionarios `messages/es.json` y `messages/en.json`):
 
-| Key | ES | EN |
-|-----|----|----|
-| `submitting` | `"Enviando mensaje…"` | `"Sending message…"` |
-| `success` | `"Mensaje enviado. Gracias por contactarme."` | `"Message sent. Thanks for reaching out."` |
-| `errorGeneric` | `"No se pudo enviar el mensaje. Intenta de nuevo."` | `"Could not send message. Please try again."` |
-| `errorRateLimit` | `"Demasiados intentos. Espera un momento."` | `"Too many attempts. Please wait a moment."` |
+| Key              | ES                                                  | EN                                            |
+| ---------------- | --------------------------------------------------- | --------------------------------------------- |
+| `submitting`     | `"Enviando mensaje…"`                               | `"Sending message…"`                          |
+| `success`        | `"Mensaje enviado. Gracias por contactarme."`       | `"Message sent. Thanks for reaching out."`    |
+| `errorGeneric`   | `"No se pudo enviar el mensaje. Intenta de nuevo."` | `"Could not send message. Please try again."` |
+| `errorRateLimit` | `"Demasiados intentos. Espera un momento."`         | `"Too many attempts. Please wait a moment."`  |
 
 **Eliminar** la key `providerPending` y su mensaje de "proveedor pendiente".
 
@@ -404,9 +404,9 @@ npm install -D wrangler typescript @cloudflare/workers-types
   "send_email": [
     {
       "name": "EMAIL",
-      "destination_address": "tu-email@gmail.com"
-    }
-  ]
+      "destination_address": "tu-email@gmail.com",
+    },
+  ],
 }
 ```
 
@@ -460,14 +460,21 @@ export default {
 
       // Construir mensaje MIME
       const msg = createMimeMessage();
-      msg.setSender({ name: payload.senderName || "Portafolio", addr: payload.from });
+      msg.setSender({
+        name: payload.senderName || "Portafolio",
+        addr: payload.from,
+      });
       msg.setRecipient(payload.to);
       msg.setSubject(payload.subject);
       msg.setHeader("Reply-To", payload.replyTo);
       msg.addMessage({ contentType: "text/plain", data: payload.body });
 
       // Enviar vía binding
-      const emailMessage = new EmailMessage(payload.from, payload.to, msg.asRaw());
+      const emailMessage = new EmailMessage(
+        payload.from,
+        payload.to,
+        msg.asRaw(),
+      );
       await env.EMAIL.send(emailMessage);
 
       return jsonResponse({ ok: true }, 200);
@@ -564,13 +571,13 @@ CONTACT_SENDER_DOMAIN=
 
 Dashboard → Project (`itsdraggodeidad`) → Settings → Environment Variables:
 
-| Variable | Valor | Entorno |
-|----------|-------|---------|
-| `EMAIL_PROVIDER` | `cloudflare` | Production |
-| `CF_WORKER_URL` | `https://portfolio-contact-email.<subdomain>.workers.dev` | Production |
-| `CF_WORKER_AUTH_SECRET` | El token generado con `openssl rand -hex 32` | Production |
-| `CONTACT_RECIPIENT_EMAIL` | Tu Gmail | Production |
-| `CONTACT_SENDER_DOMAIN` | `tudominio.dev` | Production |
+| Variable                  | Valor                                                     | Entorno    |
+| ------------------------- | --------------------------------------------------------- | ---------- |
+| `EMAIL_PROVIDER`          | `cloudflare`                                              | Production |
+| `CF_WORKER_URL`           | `https://portfolio-contact-email.<subdomain>.workers.dev` | Production |
+| `CF_WORKER_AUTH_SECRET`   | El token generado con `openssl rand -hex 32`              | Production |
+| `CONTACT_RECIPIENT_EMAIL` | Tu Gmail                                                  | Production |
+| `CONTACT_SENDER_DOMAIN`   | `tudominio.dev`                                           | Production |
 
 > [!CAUTION]
 > **Nunca** agregar `CF_WORKER_AUTH_SECRET` a Git. Nunca configurar `EMAIL_PROVIDER=cloudflare` en preview/development (usa `console`).
@@ -610,13 +617,13 @@ vercel --prod
 
 Actualizar/crear tests del formulario con `page.route()` para interceptar `/api/contact`:
 
-| Test | Mock de `/api/contact` | Verifica |
-|------|------------------------|----------|
-| Envío exitoso | Responde `200 { ok: true }` | Transición idle → submitting → success. Formulario se limpia. Región `role="status"` muestra éxito. |
-| Error del servidor | Responde `502 { error: "send_failed" }` | Mensaje de error visible. Formulario conserva datos. |
-| Rate limit | Responde `429 { error: "rate_limit" }` | Mensaje de rate limit visible. |
-| Validación servidor | Responde `422 { error: "validation", fields: {...} }` | Errores por campo visibles. |
-| Doble click | Interceptar y demorar respuesta | Botón disabled durante submitting. No se envía dos veces. |
+| Test                | Mock de `/api/contact`                                | Verifica                                                                                            |
+| ------------------- | ----------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Envío exitoso       | Responde `200 { ok: true }`                           | Transición idle → submitting → success. Formulario se limpia. Región `role="status"` muestra éxito. |
+| Error del servidor  | Responde `502 { error: "send_failed" }`               | Mensaje de error visible. Formulario conserva datos.                                                |
+| Rate limit          | Responde `429 { error: "rate_limit" }`                | Mensaje de rate limit visible.                                                                      |
+| Validación servidor | Responde `422 { error: "validation", fields: {...} }` | Errores por campo visibles.                                                                         |
+| Doble click         | Interceptar y demorar respuesta                       | Botón disabled durante submitting. No se envía dos veces.                                           |
 
 > [!NOTE]
 > Nunca enviar correos reales en tests. Usar `page.route()` para todas las intercepciones.
@@ -640,29 +647,29 @@ Actualizar/crear tests del formulario con `page.route()` para interceptar `/api/
 
 ## Resumen de variables de entorno
 
-| Variable | Dónde | Propósito |
-|----------|-------|-----------|
-| `EMAIL_PROVIDER` | `.env` / Vercel | `"console"` (dev) o `"cloudflare"` (prod) |
-| `CF_WORKER_URL` | Vercel (prod) | URL del Worker desplegado |
-| `CF_WORKER_AUTH_SECRET` | Vercel (prod) + Wrangler secret | Token compartido para autenticación |
-| `CONTACT_RECIPIENT_EMAIL` | Vercel (prod) | Gmail que recibe los mensajes |
-| `CONTACT_SENDER_DOMAIN` | Vercel (prod) | Dominio verificado en Cloudflare |
-| `AUTH_SECRET` | Wrangler secret (Worker) | Mismo valor que `CF_WORKER_AUTH_SECRET` |
+| Variable                  | Dónde                           | Propósito                                 |
+| ------------------------- | ------------------------------- | ----------------------------------------- |
+| `EMAIL_PROVIDER`          | `.env` / Vercel                 | `"console"` (dev) o `"cloudflare"` (prod) |
+| `CF_WORKER_URL`           | Vercel (prod)                   | URL del Worker desplegado                 |
+| `CF_WORKER_AUTH_SECRET`   | Vercel (prod) + Wrangler secret | Token compartido para autenticación       |
+| `CONTACT_RECIPIENT_EMAIL` | Vercel (prod)                   | Gmail que recibe los mensajes             |
+| `CONTACT_SENDER_DOMAIN`   | Vercel (prod)                   | Dominio verificado en Cloudflare          |
+| `AUTH_SECRET`             | Wrangler secret (Worker)        | Mismo valor que `CF_WORKER_AUTH_SECRET`   |
 
 ## Decisiones de diseño
 
-| Decisión | Justificación |
-|----------|---------------|
+| Decisión                                   | Justificación                                                                                                              |
+| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
 | Cloudflare Worker con `send_email` binding | Infraestructura nativa de Cloudflare, sin servicios terceros. El dominio ya está en CF. SPF/DKIM/DMARC gestionados por CF. |
-| Patrón adapter/factory | AGENTS.md pide no acoplar a un proveedor. Un archivo + env var para cambiar. |
-| `mimetext` en el Worker | Librería ligera para construir MIME. Evita armar headers a mano. |
-| HTTP entre Vercel y Worker | Vercel no puede usar bindings de CF. El Worker expone un endpoint autenticado. |
-| Bearer token como auth | Simple, sin estado, suficiente para un endpoint privado entre servicios propios. |
-| `destination_address` en el binding | Restringe el Worker a enviar solo al Gmail configurado. Previene abuso si el secret se filtra. |
-| Zod en servidor | Validación duplicada (cliente HTML + servidor Zod) es estándar de seguridad. |
-| Rate limit en memoria | Suficiente para portafolio personal. Documentar limitación serverless. |
-| `fetch` nativo, sin SDK | La API del Worker es un POST HTTP simple. Sin dependencias extras en Next.js. |
-| Console adapter como default | Sin configuración = no envía correos reales. Seguro para desarrollo. |
+| Patrón adapter/factory                     | AGENTS.md pide no acoplar a un proveedor. Un archivo + env var para cambiar.                                               |
+| `mimetext` en el Worker                    | Librería ligera para construir MIME. Evita armar headers a mano.                                                           |
+| HTTP entre Vercel y Worker                 | Vercel no puede usar bindings de CF. El Worker expone un endpoint autenticado.                                             |
+| Bearer token como auth                     | Simple, sin estado, suficiente para un endpoint privado entre servicios propios.                                           |
+| `destination_address` en el binding        | Restringe el Worker a enviar solo al Gmail configurado. Previene abuso si el secret se filtra.                             |
+| Zod en servidor                            | Validación duplicada (cliente HTML + servidor Zod) es estándar de seguridad.                                               |
+| Rate limit en memoria                      | Suficiente para portafolio personal. Documentar limitación serverless.                                                     |
+| `fetch` nativo, sin SDK                    | La API del Worker es un POST HTTP simple. Sin dependencias extras en Next.js.                                              |
+| Console adapter como default               | Sin configuración = no envía correos reales. Seguro para desarrollo.                                                       |
 
 ## Limitaciones conocidas
 
