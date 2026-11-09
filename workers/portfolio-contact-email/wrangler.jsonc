@@ -1,0 +1,14 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "portfolio-contact-email",
+  "main": "src/index.mjs",
+  "compatibility_date": "2026-11-08",
+  "workers_dev": true,
+  "preview_urls": false,
+  "durable_objects": {
+    "bindings": [{ "name": "RATE_LIMIT", "class_name": "ContactRateLimit" }],
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["ContactRateLimit"] }],
+  "send_email": [{ "name": "EMAIL" }],
+  "observability": { "enabled": true },
+}

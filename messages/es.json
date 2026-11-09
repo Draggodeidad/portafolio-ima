@@ -30,7 +30,10 @@
     "projects": "Ver proyectos",
     "contact": "Contactar",
     "cv": "Descargar CV ({language} · {format})",
-    "cvLanguages": { "es": "español", "en": "inglés" },
+    "cvLanguages": {
+      "es": "español",
+      "en": "inglés"
+    },
     "nodeGroupLabel": "Explora mi enfoque",
     "nodeDescriptionLabel": "Área seleccionada",
     "frameHeader": "Perfil técnico",
@@ -124,7 +127,15 @@
       "tooLong": "El contenido supera el límite permitido."
     },
     "cvLink": "CV en {language} · {format}",
-    "cvLanguages": { "es": "español", "en": "inglés" }
+    "cvLanguages": {
+      "es": "español",
+      "en": "inglés"
+    },
+    "submitting": "Enviando mensaje…",
+    "success": "Mensaje aceptado para envío. Gracias por contactarme.",
+    "errorGeneric": "No se pudo enviar el mensaje. Intenta de nuevo.",
+    "errorRateLimit": "Demasiados intentos. Intenta de nuevo más tarde.",
+    "verification": "No se pudo verificar la solicitud. Intenta de nuevo."
   },
   "Footer": {
     "linksLabel": "Enlaces útiles",

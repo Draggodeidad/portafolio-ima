@@ -30,7 +30,10 @@
     "projects": "View projects",
     "contact": "Get in touch",
     "cv": "Download CV ({language} · {format})",
-    "cvLanguages": { "es": "Spanish", "en": "English" },
+    "cvLanguages": {
+      "es": "Spanish",
+      "en": "English"
+    },
     "nodeGroupLabel": "Explore my approach",
     "nodeDescriptionLabel": "Selected area",
     "frameHeader": "Technical profile",
@@ -124,7 +127,15 @@
       "tooLong": "This value exceeds the allowed limit."
     },
     "cvLink": "CV in {language} · {format}",
-    "cvLanguages": { "es": "Spanish", "en": "English" }
+    "cvLanguages": {
+      "es": "Spanish",
+      "en": "English"
+    },
+    "submitting": "Sending message…",
+    "success": "Message accepted for sending. Thanks for reaching out.",
+    "errorGeneric": "Could not send message. Please try again.",
+    "errorRateLimit": "Too many attempts. Please try again later.",
+    "verification": "Could not verify your request. Please try again."
   },
   "Footer": {
     "linksLabel": "Useful links",

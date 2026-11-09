@@ -44,6 +44,9 @@ jobs:
       - name: Check formatting
         run: pnpm format:check
 
+      - name: Test contact Worker
+        run: pnpm test:contact
+
       - name: Build
         run: pnpm build
 
@@ -55,6 +58,9 @@ jobs:
 
       - name: Test production build
         run: pnpm test:e2e
+
+      - name: Test mocked contact flow
+        run: CONTACT_E2E_MOCK=1 pnpm exec playwright test tests/e2e/contact-provider.spec.ts
 
       - name: Save failure reports
         if: failure()
@@ -163,7 +169,7 @@ jobs:
         run: |
           test -n "$CLOUDFLARE_API_TOKEN" || { echo '::error::Configure the CLOUDFLARE_API_TOKEN repository secret.'; exit 1; }
           test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo '::error::Configure the CLOUDFLARE_ACCOUNT_ID repository secret.'; exit 1; }
-          pnpm exec wrangler deploy --config dist/server/wrangler.json
+          pnpm exec wrangler deploy --config dist/server/wrangler.json --keep-vars
           {
             echo '### Portfolio deployed to Cloudflare Workers'
             echo "Commit: $GITHUB_SHA"
