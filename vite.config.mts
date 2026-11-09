@@ -1,15 +1,19 @@
 import { cloudflare } from "@cloudflare/vite-plugin";
+import { staticAssetsAdapter } from "@vinext/cloudflare/cache/static-assets-adapter";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import { defineConfig } from "vite";
 import { patchCssModules } from "vite-css-modules";
 import vinext from "vinext";
 
-// Local evaluation only: no remote bindings, caches, or image service.
+// Build-time snapshots: no runtime cache service or remote bindings required.
 export default defineConfig({
   plugins: [
     patchCssModules({ exportMode: "default" }),
-    vinext(),
+    vinext({
+      prerender: { routes: "*" },
+      cache: { cdn: staticAssetsAdapter() },
+    }),
     cloudflare({
       viteEnvironment: { name: "rsc", childEnvironments: ["ssr"] },
       remoteBindings: false,
