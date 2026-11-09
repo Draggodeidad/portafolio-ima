@@ -10,3 +10,8 @@ coverage/
 !.env.example
 playwright-report/
 test-results/
+dist/
+.wrangler/
+.cloudflare/
+.vinext/
+.dev.vars*
