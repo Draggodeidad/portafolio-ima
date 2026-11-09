@@ -1,5 +1,15 @@
 # Implementation plan
 
+## CI locale-anchor regression — 2026-11-09
+
+Scope: fix the Workers production e2e failure without changing deployment gates, dependencies, composition or content. Reproduce the initial-load race, guard locale navigation until the browser hash is known, then verify the production Workers and Next.js suites.
+
+The prerendered home language links defaulted to `#inicio` because fragments are unavailable on the server. A click before hydration followed that native href and bypassed the existing click handler, losing `#contacto`. Twelve normal repetitions passed, but withholding script responses reproduced `/en#inicio` at both 390 and 1280 px. The server hash snapshot now distinguishes unknown (`null`) from an empty client hash; home locale controls remain inert and expose their disabled state until the client snapshot updates their href. Case-study links keep their equivalent route behavior.
+
+Regression coverage holds scripts, clicks the visible control before hydration, verifies that the original URL is preserved, then releases scripts and verifies ES → EN → ES with the contact anchor at both widths. It waits for responsive CSS before selecting the visible control, since Next can stream both copies before CSS arrives. This does not add timeouts or retries to the original test. Home locale controls require client initialization and remain inert if JavaScript never loads.
+
+Validation on Node 24.16.0 with the frozen lockfile: production Workers build and full CI-mode suite passed (50 passed, 4 existing opt-in WebGL skips, 51.5 s). After the CSS readiness adjustment, both focused Workers regressions passed again (6.9 s). Next production build and full CI-mode suite passed (47 passed, 7 existing WebGL/Workers-only skips, 51.6 s). ESLint, Prettier, strict typecheck and diff whitespace checks passed. GitHub run 42595206058 confirms the original Workers e2e failure prevented deployment. These are local validation results; remote CI status is tracked on the corrective PR. No deployment of the correction is claimed.
+
 ## Automated Workers deployment — 2026-11-09
 
 Authorized: add a main-only deployment after lint, formatting, build, types and e2e. Replace the Vercel publication path with credential-free Next validation; retain Workers production build and workerd e2e. Transfer the tested dist tree as a tar artifact to a dependent deployment job and use its flattened production configuration without rebuilding. Keep serialized production runs and the latest-main guard. Cloudflare credentials are provided only to the deployment step through repository secrets. Update release documentation and validate the workflow before opening the PR; no local deployment or DNS command is part of this implementation.
