@@ -1,5 +1,17 @@
 # Implementation plan
 
+## Production configuration and immutable snapshots — 2026-11-09
+
+Authorized continuation of PR #8: prepare imanolantonio.dev, resolve prerender/cache, add validation and release instructions; do not merge, deploy or modify DNS. Plan: inspect verified PR head and official APIs; use the Static Assets response adapter for eight immutable pages; separate production domain/origin settings from local; test snapshots and runtime behavior; update PR and docs.
+
+Implemented @vinext/cloudflare 1.3.3 staticAssetsAdapter with all-route prerender discovery, production Wrangler environment (imanolantonio-portfolio / imanolantonio.dev / SITE_URL / observability), production build/test scripts and a CI validation-only Workers job. No KV/R2 or remote cache is needed. Next/Vercel scripts and origin remain available. The original dynamic/no-cache findings below describe the earlier evaluation and are superseded by this serving strategy.
+
+The build emits eight rendered routes and sixteen private HTML/RSC snapshots. The catch-all remains a runtime 404. The first prerender exposed temporary localhost hreflang Link headers from next-intl; alternateLinks:false removes those redundant headers while page metadata retains canonical/language alternates. Workerd tests check all sixteen cache HIT responses, opposite-locale cookies, query strings, snapshot inventory and denied direct snapshot downloads. Existing navigation/locale/404/contact/responsive tests are retained.
+
+Validation: production workerd suite 48 passed / 4 WebGL skips (50.9 s); focused cache suite 3 passed (5.1 s); Next production suite 45 passed / 7 skips (49.8 s, including three Workers-only tests). Lint, formatting, strict types, both builds, compatibility check and production Wrangler type generation passed. The new CI Workers job validates only; its remote result is recorded on PR #8. No publication or DNS action was run.
+
+The adapter is read-only for the lifetime of the build; content and footer year update with a new build/deployment. No ISR or runtime invalidation is claimed. Worker middleware, routing and snapshot lookup still incur work; actual hosted costs/CPU/cache distribution remain unmeasured. The router-pattern table may still say dynamic; manifest/artifacts/runtime HIT evidence define the effective serving path. See docs/deployment.md for the reproducible checks, environment selection, manual release, DNS boundary and rollback.
+
 ## Local Cloudflare Workers evaluation — 2026-11-09
 
 Authorized scope: evaluate vinext, ES/EN, and production browser behavior locally on `chore/cloudflare-migration`. No commits, push, PR, deployment command (including dry runs), account login, remote resources, secrets, DNS, email, or infrastructure changes. Existing Vercel CI and deployment settings are outside this evaluation.
