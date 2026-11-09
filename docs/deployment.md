@@ -1,5 +1,17 @@
 # Deployment and CI/CD
 
+## Automated Workers release — 2026-11-09
+
+This section supersedes the historical Vercel pipeline and manual-release instructions below. GitHub Actions now owns publication to `https://imanolantonio.dev`; Vercel publication steps and their credential requirements have been removed. Next.js validation remains as a compatibility gate.
+
+Every PR targeting main and push to main runs lint, formatting, Next build, typecheck and Next production e2e, plus a separate Workers compatibility check, production build and workerd e2e suite. After successful Workers tests, main pushes archive the complete `dist` tree (including snapshots and generated configuration). The `deploy-workers` job requires both validation jobs to succeed, downloads that same run's commit-named artifact and runs `pnpm exec wrangler deploy --config dist/server/wrangler.json`. It never rebuilds or adds `--env` to the flattened production configuration. PRs cannot enter this job and validation does not need deployment credentials.
+
+Configure repository Actions secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. Use a token limited to the intended account with Workers deployment and the permissions required for the configured Custom Domain; see [Cloudflare's GitHub Actions setup](https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/) and [Custom Domains](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/). Secrets are exposed only to the deploy step; missing values fail explicitly without printing them. No Vercel secrets are needed by this workflow.
+
+Production workflows remain serialized, and the deploy job skips a commit if main has already advanced. The workflow uses read-only repository permissions and pinned actions. Artifacts expire after seven days. Each successful deploy writes the commit and public origin to the run summary. Restoring an artifact into a fresh runner preserves its relative `dist/server` → `dist/client` asset paths.
+
+The first successful main run publishes the configured Worker and requests attachment of `imanolantonio.dev` as a Custom Domain. Before merging, the owner must configure the secrets and ensure the domain is in the intended Cloudflare account with no conflicting records. This implementation does not provision secrets, execute deployment locally, or change DNS. After release, verify domain/certificate readiness, public routes, canonical URLs, HIT headers and inaccessible private snapshots using the checks below. Hosted behavior remains unverified until that run. Rollback remains available through the Worker's Deployments view.
+
 ## Production preparation for imanolantonio.dev — 2026-11-09
 
 This section supersedes the earlier dynamic/no-cache evaluation for the current PR head. The user authorized production configuration, prerender/cache implementation, tests, commits and PR #8 updates. No merge, deployment, authentication, DNS change, secret provisioning, email, or infrastructure mutation was performed. The existing Vercel deployment workflow remains unchanged; review/disable its publication path in a separately authorized cutover before merging to main if Vercel publication is no longer wanted.

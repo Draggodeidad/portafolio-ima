@@ -1,5 +1,11 @@
 # Implementation plan
 
+## Automated Workers deployment — 2026-11-09
+
+Authorized: add a main-only deployment after lint, formatting, build, types and e2e. Replace the Vercel publication path with credential-free Next validation; retain Workers production build and workerd e2e. Transfer the tested dist tree as a tar artifact to a dependent deployment job and use its flattened production configuration without rebuilding. Keep serialized production runs and the latest-main guard. Cloudflare credentials are provided only to the deployment step through repository secrets. Update release documentation and validate the workflow before opening the PR; no local deployment or DNS command is part of this implementation.
+
+Validation: actionlint, ESLint, Prettier, strict typecheck and the production Workers build passed. The tar round-trip preserved hashes for all 324 files; the restored artifact passed workerd Playwright (48 passed, 4 opt-in WebGL skips, 56.9 s). No deploy/dry-run or remote account mutation was executed.
+
 ## Production configuration and immutable snapshots — 2026-11-09
 
 Authorized continuation of PR #8: prepare imanolantonio.dev, resolve prerender/cache, add validation and release instructions; do not merge, deploy or modify DNS. Plan: inspect verified PR head and official APIs; use the Static Assets response adapter for eight immutable pages; separate production domain/origin settings from local; test snapshots and runtime behavior; update PR and docs.
