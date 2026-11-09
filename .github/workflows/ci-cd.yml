@@ -129,3 +129,30 @@ jobs:
           for path in / /es /en /es/proyectos/pwa-utt /en/proyectos/pwa-utt /es/proyectos/secure-transfer /en/proyectos/secure-transfer /es/proyectos/classroom-github /en/proyectos/classroom-github /icon.svg; do
             curl --fail --silent --show-error --location --retry 3 --retry-all-errors --max-time 30 --output /dev/null "https://itsdraggodeidad-portfolio.vercel.app$path"
           done
+
+  validate-workers:
+    name: Validate Workers production artifact
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      WRANGLER_SEND_METRICS: "false"
+      CLOUDFLARE_LOAD_DEV_VARS_FROM_DOT_ENV: "false"
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          package-manager-cache: false
+      - name: Set up pnpm
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+        with:
+          cache: true
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check:workers
+      - run: pnpm build:workers:production
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:e2e:workers:production
