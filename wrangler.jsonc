@@ -1,0 +1,27 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  // Evaluation configuration; no account, remote resources, or routes.
+  "name": "portafolio-local-evaluation",
+  "main": "vinext/server/fetch-handler",
+  "compatibility_date": "2026-11-08",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "preview_urls": false,
+  "env": {
+    "production": {
+      "name": "imanolantonio-portfolio",
+      "workers_dev": false,
+      "preview_urls": false,
+      "routes": [{ "pattern": "imanolantonio.dev", "custom_domain": true }],
+      "vars": { "SITE_URL": "https://imanolantonio.dev" },
+      "observability": { "enabled": true },
+    },
+  },
+  "assets": {
+    "directory": "dist/client",
+    "binding": "ASSETS",
+    "html_handling": "none",
+    "not_found_handling": "none",
+    "run_worker_first": ["/*", "!/_next/static/*", "!/*/_next/static/*"],
+  },
+}

@@ -1,5 +1,66 @@
 # Deployment and CI/CD
 
+## Production preparation for imanolantonio.dev — 2026-11-09
+
+This section supersedes the earlier dynamic/no-cache evaluation for the current PR head. The user authorized production configuration, prerender/cache implementation, tests, commits and PR #8 updates. No merge, deployment, authentication, DNS change, secret provisioning, email, or infrastructure mutation was performed. The existing Vercel deployment workflow remains unchanged; review/disable its publication path in a separately authorized cutover before merging to main if Vercel publication is no longer wanted.
+
+### Rendering and cache decision
+
+Use `@vinext/cloudflare` 1.3.3's official `staticAssetsAdapter()` with `prerender: { routes: "*" }`. All content is local and public, with no working contact endpoint or personalized data. Build-time discovery produces the two home pages and six studies; the catch-all is skipped and continues to return runtime 404. The adapter packages eight HTML and eight RSC snapshots under `dist/client/_vinext/static-cache/`, accessed internally via ASSETS. No KV, R2, Response Store, Images service, paid cache or runtime cache writes are required.
+
+Successful static response reads emit `X-Vinext-Cache: HIT`. Content is immutable for a deployment: changes require a fresh build and deployment; revalidatePath/revalidateTag, ISR intervals and cache warming do not refresh these snapshots. Request-specific features must opt out or adopt an explicitly reviewed writable cache later. The footer year is also captured at build time. Query parameters do not personalize these pages, and language identity is in the pathname. Do not add a blanket Cache Everything rule over HTML/RSC or private snapshot files.
+
+The router summary still prints dynamic route patterns. The prerender manifest (eight rendered paths), sixteen packaged snapshots and workerd HTML/RSC HIT tests establish the implemented serving strategy. Middleware, redirects, fallback routes and ASSETS lookup still execute in the Worker; this is not a zero-CPU static export or evidence of hosted quota/cost parity with Next SSG.
+
+`run_worker_first` covers every path except hashed `_next/static` assets. This prevents direct access to `/_vinext/static-cache/*`. Keep these protections intact. Hashed client assets retain the plugin's normal immutable asset handling. The next-intl `alternateLinks` response header is disabled because it otherwise persisted the temporary prerender origin in snapshots. Canonical and hreflang HTML metadata remains defined by each page and is tested for all eight paths.
+
+### Environment and domain
+
+The root Wrangler configuration remains local without public routes. Its `production` environment names the Worker `imanolantonio-portfolio`, declares the Custom Domain `imanolantonio.dev`, disables workers.dev and preview URLs, sets `SITE_URL=https://imanolantonio.dev`, and enables Worker observability. These are source declarations only: the domain is not attached until a future authorized deployment. No account ID or credentials are committed.
+
+`build:workers:production` explicitly sets both CLOUDFLARE_ENV and SITE_URL. The origin must be correct during prerender, not only set after deployment. `test:e2e:workers:production` sets the same expected canonical origin. Existing Next/Vercel builds retain their original fallback origin. Public configuration is described in .env.example without creating an environment file or changing secrets.
+
+### Reproduce locally (no deployment)
+
+```bash
+nvm use
+pnpm install --frozen-lockfile
+pnpm lint
+pnpm format:check
+pnpm check:workers
+WRANGLER_SEND_METRICS=false CLOUDFLARE_LOAD_DEV_VARS_FROM_DOT_ENV=false pnpm build:workers:production
+WRANGLER_SEND_METRICS=false CLOUDFLARE_LOAD_DEV_VARS_FROM_DOT_ENV=false pnpm test:e2e:workers:production --workers=2 --output=/tmp/portafolio-production-playwright
+pnpm exec wrangler types /tmp/portafolio-production-env.d.ts --env production
+pnpm build
+pnpm typecheck
+PLAYWRIGHT_PRODUCTION=1 PLAYWRIGHT_PORT=3101 pnpm test:e2e --workers=2 --output=/tmp/portafolio-production-next-playwright
+```
+
+CI now has an independent Workers validation job that performs a frozen install, compatibility scan, production prerender build and production-artifact Playwright run. It has no deployment command or credentials. The existing Next job also remains. Local preview: `pnpm preview:workers --host 0.0.0.0 --port 3105 --strictPort`, then `ao preview http://127.0.0.1:3105/es`. A later build replaces dist, so rerun the production build before using its preview or uploading its artifact.
+
+### Validation of this preparation
+
+Production build: eight prerendered paths, sixteen HTML/RSC snapshots. Full production-artifact Playwright in local workerd: 48 passed, 4 existing WebGL skips (50.9 s). Focused cache suite: 3 passed (5.1 s), including unknown routes returning 404 without a HIT. Next production Playwright: 45 passed, 7 skipped (49.8 s: four WebGL tests and three Workers-only tests). Canonical/hreflang checks use https://imanolantonio.dev for both homes and all six cases. The preview uses the same pinned Miniflare/workerd runtime recorded in the evaluation; no dependency upgrades beyond @vinext/cloudflare 1.3.3 were required, and no release-age exclusion was added.
+
+Wrangler production types, lint, format check, compatibility scan and strict TypeScript passed. Next production build remains SSG for the eight content pages. Logs/screenshots/traces are in /tmp/portafolio-production-*; the primary AO preview is the local workerd build on port 3105. Upstream CSS/sourcemap/optional chunk warnings remain as documented below; no hosted CPU/quotas/performance results are asserted.
+
+### Future manual release — instructions only, not executed
+
+1. Review PR #8 and its two CI jobs. Approve the cutover and reconcile the old Vercel publication workflow before merging; this change does not merge or disable it remotely.
+2. Confirm imanolantonio.dev is an active zone in the intended Cloudflare account. Choose whether www is needed; this PR declares the apex only. Check for conflicting DNS/CNAME records before any authorized domain attachment. No DNS record has been inspected or changed here.
+3. Authenticate interactively with `pnpm exec wrangler login` in that account, or configure a suitably scoped deployment API token through the approved secret store. Do not put credentials in source. Authentication is not required for local tests.
+4. Run the local checks above, ending with a fresh `pnpm build:workers:production` and `pnpm test:e2e:workers:production`. Inspect `dist/server/wrangler.json`: name must be imanolantonio-portfolio, SITE_URL must use the apex HTTPS origin, the route must have custom_domain=true, ASSETS must point to the generated client directory, and the private-cache routing exclusions must be intact. Keep the commit SHA and a copy of the tested artifact outside Git.
+5. Only after explicit publication authorization, run `pnpm exec wrangler deploy --config dist/server/wrangler.json`. Use the flattened generated configuration, not the source root config; do not add --env again. This upload also requests the configured Custom Domain and therefore changes hosting/DNS/certificates. Do not execute it merely to validate configuration. No deploy or dry-run command was run for this PR.
+6. Confirm Worker readiness and the Custom Domain certificate, then verify HTTPS, root redirect, ES/EN, all six cases, 404, canonical/hreflang domain, HTML and RSC navigation, HIT headers, SVG/images, mobile menu and disabled contact. Confirm private snapshot URLs return 404. Monitor Worker errors/CPU/request usage; local results cannot certify edge behavior or account limits.
+7. If www is desired, separately authorize and configure its redirect to https://imanolantonio.dev using Cloudflare's documented redirect/DNS procedure; no www record or redirect is part of this preparation.
+8. For rollback, use the Worker's Deployments view to restore the previous known-good version. For the first cutover keep Vercel available and retain the prior DNS/hosting state so the owner can reverse the domain attachment if necessary. Never rebuild an old commit with current content and call it the original artifact.
+
+Primary references: [Static Assets response cache](https://vinext.dev/docs/guides/caching#static-assets-response-cache), [Custom Domains](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/), [next-intl alternate links](https://next-intl.dev/docs/routing/configuration#alternatelinks-hreflang), installed adapter/runtime source and Wrangler schema.
+
+## Historical local evaluation scope
+
+The 2026-11-09 Cloudflare/vinext work is **local evaluation only**. The existing Vercel information below describes the previously configured deployment; it does not authorize publication of this branch. No push, PR, deployment, infrastructure, DNS, secret, or email operation is part of the evaluation. See the local Workers section at the end for its reproduction steps and measured limits.
+
 ## Project and address
 
 - Repository: `Draggodeidad/portafolio-ima`; production branch: `main`.
@@ -59,3 +120,64 @@ To recover from a regression after publication, open the Vercel project's Deploy
 After publication, verify HTTPS, `/` → `/es`, both home locales, all six case-study routes, the icon, and interactive mobile navigation. The Actions smoke step checks HTTP availability; browser tests verify behavior before publication.
 
 This pipeline does not configure contact email delivery, add CV content, enable the optional WebGL effect, or claim Lighthouse results.
+
+## Local Workers evaluation
+
+Use Node 24 (`nvm use`) and pnpm 11.4.0. `pnpm install --frozen-lockfile` uses the single existing lockfile. The Next commands (`dev`, `build`, `start`, `typecheck`) remain available; no deployment script was added. Worker configuration contains no account ID, route, secret, or remote service. `ASSETS` serves only build/public files. The Vite plugin disables remote bindings and persistent state; there is no cache or Images service adapter. `workers_dev` and `preview_urls` are false.
+
+```bash
+pnpm check:workers
+WRANGLER_SEND_METRICS=false CLOUDFLARE_LOAD_DEV_VARS_FROM_DOT_ENV=false pnpm build:workers
+WRANGLER_SEND_METRICS=false CLOUDFLARE_LOAD_DEV_VARS_FROM_DOT_ENV=false pnpm test:e2e:workers --workers=2 --output=/tmp/portafolio-workers-playwright
+# Persistent local preview of the same build:
+WRANGLER_SEND_METRICS=false CLOUDFLARE_LOAD_DEV_VARS_FROM_DOT_ENV=false pnpm preview:workers --host 0.0.0.0 --port 3103 --strictPort
+ao preview http://127.0.0.1:3103/es
+```
+
+`vite preview` uses the Cloudflare plugin's Miniflare/workerd runtime with `dist/server/wrangler.json`. It serves the built artifact, not a Next or vinext Node server. `dev:workers` is available separately and is not a substitute for this check. Port 3102 belongs to the Playwright-managed Worker and 3103 to the persistent AO preview. `PLAYWRIGHT_PORT` can override test ports; Workers never reuse an existing server. Logs, traces, and screenshots for this evaluation belong in `/tmp`; set `WRANGLER_LOG_PATH=/tmp/portafolio-wrangler.log` to redirect Wrangler's own log.
+
+To repeat Next validation after Workers:
+
+```bash
+pnpm lint
+pnpm format:check
+pnpm build
+pnpm typecheck
+PLAYWRIGHT_PRODUCTION=1 PLAYWRIGHT_PORT=3101 pnpm test:e2e --workers=2 --output=/tmp/portafolio-next-playwright
+```
+
+Both toolchains generate `.next/types` and rewrite `next-env.d.ts`; run them sequentially and use `pnpm typecheck` to regenerate Next's route/root-params declarations before checking the combined source tree. Do not hand-edit the generated declarations or interpret a generator-only diff as an application change. Generated Workers output/state is gitignored and excluded from lint/typecheck.
+
+The active next/image instances use local SVG icons; there is no configured portrait or raster content. Next automatically bypasses optimization for `.svg`. The evaluation checks rendered image decoding and direct delivery of every SVG. No Cloudflare Images binding is configured, so resizing/transcoding parity with Next's optimizer is not claimed. A future raster portrait needs an explicit optimization decision and its own tests.
+
+Revalidated primary sources: [vinext migration](https://vinext.dev/docs/getting-started/migrating), [Workers integration](https://vinext.dev/docs/deploying/cloudflare), [Next differences](https://vinext.dev/docs/reference/differences), [Cloudflare Vite API](https://developers.cloudflare.com/workers/vite-plugin/reference/api/), [next-intl routing](https://next-intl.dev/docs/routing/setup), and the installed Next 16.4 guides under `node_modules/next/dist/docs/`. The pinned vinext initializer's Wrangler and CSS Modules recipes were also inspected; the current web docs describe a newer Cloudflare plugin v2/beta path. npm's published peer metadata was checked before installation.
+
+### Recorded local result — 2026-11-09
+
+The original Next baseline passed lint, formatting, build, typecheck, and 38 Playwright tests (4 opt-in WebGL skips). After adding the seven migration checks, the final Next run with the catch-all included passed 45 tests (4 skips, 50.9 s). Workers' final production-artifact run passed the same 45 tests (4 skips, 52.2 s). `vinext check` reports 12 supported, zero partial, zero issues; that static scan does not replace the workerd run.
+
+Pinned runtime/tooling: Node 24.16.0, pnpm 11.4.0, Next 16.4.0, next-intl 4.14.9, React/DOM/RSC 19.3.1, vinext 1.4.4, Vite 8.3.6, plugin-react 6.1.0, plugin-rsc 0.5.39, Cloudflare Vite plugin 1.67.0, Wrangler 4.158.0, vite-css-modules 1.16.1. The preview's runtime is Miniflare 5.20261101.0-beta/workerd 1.20261101.1 (reports `workerd 2026-11-01`), not Wrangler's separate bundled workerd version. Its supported compatibility date is pinned to 2026-11-08. Frozen installation verifies 708 entries without release-age exclusions.
+
+Adaptations are ESM package mode (fixes the missing `ssr/index.js` entry), the initializer's deterministic CSS Modules recipe, the supported compatibility date, and a catch-all App Router page that calls `notFound()` (fixes vinext's HTTP 200 unmatched-route fallback). Existing `next/root-params`, `src/proxy.ts`, next-intl configuration, and `node:os` remain unchanged. No monkeypatch or fork was used. `wrangler types /tmp/portafolio-worker-env.d.ts` also passed and generated the ASSETS binding declarations outside the repository.
+
+The artifact inventory is reproducible without a deploy command:
+
+```bash
+python3 - <<'PY'
+from pathlib import Path
+import gzip
+files = [p for p in Path('dist/server').rglob('*') if p.suffix in ('.js', '.mjs', '.wasm')]
+print(len(files), sum(p.stat().st_size for p in files),
+      sum(len(gzip.compress(p.read_bytes(), mtime=0)) for p in files))
+PY
+```
+
+Measured: 124 modules, 2,255,770 raw bytes, 689,514 bytes summed gzip. This excludes static assets/sourcemaps and is not the upload size or evidence of meeting hosted Worker limits. The optional Three.js chunk is still emitted, but the effect remains off by default. Browser tests verify zero hero canvases.
+
+Local Chrome captures in `/tmp/portafolio-{next,workers}-{es,en}-{360,390,768,1280}.png` were pixel-identical across the eight paired home views with reduced motion. This is a local rendering comparison, not a fresh Figma or production performance audit. The primary application remains available in AO at `http://127.0.0.1:3103/es` while its preview process runs.
+
+Remaining warnings include duplicate CSS asset emission, RSC sourcemaps, ineffective dynamic imports in vinext shims, the optional >500 KB chunk, and partial webpack customization support. They were not suppressed; observed CSS and browser behavior match Next. Existing ESLint peer-range warnings remain. Next also emitted its security-upgrade recommendation before the first build after dependency changes; repeating the build proceeded. No security-upgrade workflow or unrelated updates were run.
+
+**Verdict: locally viable with the recorded adaptations and tested versions.** Not evaluated: real Cloudflare deployment, edge startup/CPU/quotas, cache behavior across instances, raster resizing, real-device performance, production Lighthouse, or contact delivery. No service was purchased or provisioned. Hosted adoption requires a separate authorized phase; this branch does not change CI, the canonical origin, or the current Vercel deployment.
+
+Rendering differs: Next's build reports the home pages and six studies as SSG, while this vinext build reports dynamic routes, with no prerender or cache adapter configured. Local visual and functional parity does not demonstrate parity in per-request rendering cost, CPU usage, or caching. Choosing and measuring a hosted rendering/cache strategy remains a separate decision; no additional implementation was added to address it here.
