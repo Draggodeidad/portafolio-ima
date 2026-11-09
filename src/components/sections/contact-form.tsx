@@ -99,6 +99,7 @@ export function ContactForm({ copy }: { copy: FormCopy }) {
     const turnstile = window.turnstile;
     const id = turnstile.render(container.current, {
       sitekey: siteKey,
+      size: "compact",
       action: "contact",
       callback: (value: string) => setToken(value),
       "expired-callback": () => setToken(""),

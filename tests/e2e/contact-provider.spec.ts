@@ -14,7 +14,7 @@ test.beforeEach(async ({ page }) => {
     (route) =>
       route.fulfill({
         contentType: "application/javascript",
-        body: `window.turnstile = { render: (_el, options) => { setTimeout(() => options.callback('local-token'), 0); return 'widget'; }, reset: () => {}, remove: () => {} };`,
+        body: `window.turnstile = { render: (el, options) => { const frame = document.createElement('iframe'); frame.title = 'Turnstile mock'; frame.style.width = options.size === 'compact' ? '150px' : '300px'; frame.style.height = options.size === 'compact' ? '140px' : '65px'; frame.style.border = '0'; el.appendChild(frame); setTimeout(() => options.callback('local-token'), 0); return 'widget'; }, reset: () => {}, remove: () => {} };`,
       }),
   );
 });
@@ -110,3 +110,49 @@ test("pending request disables the form and prevents duplicate submission", asyn
     "Message accepted",
   );
 });
+
+for (const locale of ["es", "en"] as const) {
+  test(`${locale}: configured contact fits the 360px viewport and shows the right intro`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 360, height: 800 });
+    await page.goto(`/${locale}#contacto`);
+    const form = page.locator("#contacto form");
+    const widget = form.getByTitle("Turnstile mock");
+    await expect(widget).toBeVisible();
+    await expect(form).toContainText(
+      locale === "es"
+        ? "Cuéntame cómo puedo ayudarte."
+        : "Tell me how I can help.",
+    );
+    await expect(form).not.toContainText(
+      locale === "es"
+        ? "el envío todavía no está disponible"
+        : "sending is not available yet",
+    );
+    await expect(
+      form.getByRole("button", {
+        name: locale === "es" ? "Enviar mensaje" : "Send message",
+      }),
+    ).toBeEnabled();
+    const geometry = await widget.evaluate((frame) => {
+      const form = frame.closest("form")!.getBoundingClientRect();
+      const box = frame.getBoundingClientRect();
+      return {
+        viewport: document.documentElement.clientWidth,
+        page: document.documentElement.scrollWidth,
+        left: box.left,
+        right: box.right,
+        formLeft: form.left,
+        formRight: form.right,
+        width: box.width,
+        height: box.height,
+      };
+    });
+    expect(geometry.page).toBeLessThanOrEqual(geometry.viewport);
+    expect(geometry.left).toBeGreaterThanOrEqual(geometry.formLeft);
+    expect(geometry.right).toBeLessThanOrEqual(geometry.formRight);
+    expect(geometry.width).toBe(150);
+    expect(geometry.height).toBe(140);
+  });
+}
