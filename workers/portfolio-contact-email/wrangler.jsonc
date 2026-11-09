@@ -9,6 +9,5 @@
     "bindings": [{ "name": "RATE_LIMIT", "class_name": "ContactRateLimit" }],
   },
   "migrations": [{ "tag": "v1", "new_sqlite_classes": ["ContactRateLimit"] }],
-  "send_email": [{ "name": "EMAIL" }],
   "observability": { "enabled": true },
 }

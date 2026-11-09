@@ -18,27 +18,30 @@ function storage() {
     put: async (key, value) => values.set(key, value),
     setAlarm: async () => {},
     delete: async (key) => values.delete(key),
-    deleteAll: async () => values.clear(),
   };
   return { ...api, transaction: async (fn) => fn(api) };
 }
-function fixture() {
-  let sent = 0;
-  const limiter = new ContactRateLimit({ storage: storage() });
+function fixture({
+  verification = { success: true, hostname: "localhost", action: "contact" },
+  resendStatus = 200,
+  resendError = false,
+} = {}) {
+  const requests = [];
+  const limiters = new Map();
   const env = {
     AUTH_SECRET: "local-secret",
     TURNSTILE_SECRET: "test",
     TURNSTILE_HOSTNAME: "localhost",
     CONTACT_FROM: "contact@example.org",
     CONTACT_TO: "owner@example.org",
-    EMAIL: {
-      send: async () => {
-        sent++;
-      },
-    },
+    RESEND_API_KEY: "test-key",
     RATE_LIMIT: {
       idFromName: (key) => key,
-      get: () => ({ fetch: () => limiter.fetch() }),
+      get: (key) => {
+        if (!limiters.has(key))
+          limiters.set(key, new ContactRateLimit({ storage: storage() }));
+        return { fetch: () => limiters.get(key).fetch() };
+      },
     },
   };
   const input = {
@@ -54,12 +57,24 @@ function fixture() {
       headers: { authorization: auth, "content-type": "application/json" },
       body: JSON.stringify(body),
     });
-  return { env, input, request, sent: () => sent };
+  globalThis.fetch = async (url, options) => {
+    if (url === "https://challenges.cloudflare.com/turnstile/v0/siteverify")
+      return Response.json(verification);
+    if (url === "https://api.resend.com/emails") {
+      requests.push(options);
+      if (resendError) throw new Error("network error");
+      return Response.json(
+        resendStatus === 200 ? { id: "test-id" } : { error: "rejected" },
+        { status: resendStatus },
+      );
+    }
+    throw new Error(`Unexpected external request: ${url}`);
+  };
+  return { env, input, request, requests };
 }
-test("auth, verification and the distributed limit gate email", async () => {
+
+test("authenticated verified requests send via Resend and rate limit after five", async () => {
   const f = fixture();
-  globalThis.fetch = async () =>
-    Response.json({ success: true, hostname: "localhost", action: "contact" });
   assert.equal(
     (await worker.fetch(f.request(f.input, "wrong"), f.env)).status,
     401,
@@ -67,26 +82,53 @@ test("auth, verification and the distributed limit gate email", async () => {
   for (let i = 0; i < 5; i++)
     assert.equal((await worker.fetch(f.request(), f.env)).status, 200);
   assert.equal((await worker.fetch(f.request(), f.env)).status, 429);
-  assert.equal(f.sent(), 5);
+  assert.equal(f.requests.length, 5);
+  const sent = f.requests[0];
+  assert.equal(sent.method, "POST");
+  assert.equal(sent.headers.Authorization, "Bearer test-key");
+  assert.deepEqual(JSON.parse(sent.body), {
+    from: "Portafolio <contact@example.org>",
+    to: ["owner@example.org"],
+    reply_to: "visitor@example.org",
+    subject: "Portafolio: mensaje de Visitor",
+    text: "Nombre: Visitor\nCorreo: visitor@example.org\n\nA valid test message",
+  });
 });
-test("failed verification never sends", async () => {
-  const f = fixture();
-  globalThis.fetch = async () =>
-    Response.json({ success: true, hostname: "wrong", action: "contact" });
+test("failed Turnstile validation never calls Resend", async () => {
+  const f = fixture({
+    verification: { success: true, hostname: "wrong", action: "contact" },
+  });
   assert.equal((await worker.fetch(f.request(), f.env)).status, 403);
-  assert.equal(f.sent(), 0);
+  assert.equal(f.requests.length, 0);
 });
-test("missing configuration and provider failure fail closed", async () => {
+test("invalid Turnstile attempts are limited per IP without calling Resend", async () => {
+  const f = fixture({ verification: { success: false } });
+  for (let i = 0; i < 5; i++)
+    assert.equal((await worker.fetch(f.request(), f.env)).status, 403);
+  assert.equal((await worker.fetch(f.request(), f.env)).status, 429);
+  assert.equal(
+    (await worker.fetch(f.request({ ...f.input, ip: "127.0.0.2" }), f.env))
+      .status,
+    403,
+  );
+  assert.equal(f.requests.length, 0);
+});
+test("missing API key fails closed", async () => {
   const f = fixture();
   assert.equal(
-    (await worker.fetch(f.request(), { ...f.env, TURNSTILE_SECRET: "" }))
-      .status,
+    (await worker.fetch(f.request(), { ...f.env, RESEND_API_KEY: "" })).status,
     503,
   );
-  globalThis.fetch = async () =>
-    Response.json({ success: true, hostname: "localhost", action: "contact" });
-  f.env.EMAIL.send = async () => {
-    throw new Error("unavailable");
-  };
-  assert.equal((await worker.fetch(f.request(), f.env)).status, 503);
+  assert.equal(f.requests.length, 0);
 });
+for (const config of [
+  { resendStatus: 429 },
+  { resendStatus: 500 },
+  { resendError: true },
+]) {
+  test(`Resend failure ${JSON.stringify(config)} never reports success`, async () => {
+    const f = fixture(config);
+    assert.equal((await worker.fetch(f.request(), f.env)).status, 503);
+    assert.equal(f.requests.length, 1);
+  });
+}

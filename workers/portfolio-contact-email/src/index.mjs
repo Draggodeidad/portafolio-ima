@@ -1,3 +1,5 @@
+import { ResendEmailAdapter } from "./adapters/resend.mjs";
+
 const WINDOW = 60 * 60 * 1000;
 const LIMIT = 5;
 
@@ -59,7 +61,7 @@ const worker = {
       !env.TURNSTILE_HOSTNAME ||
       !env.CONTACT_FROM ||
       !env.CONTACT_TO ||
-      !env.EMAIL ||
+      !env.RESEND_API_KEY ||
       !env.RATE_LIMIT
     )
       return new Response(null, { status: 503 });
@@ -136,13 +138,12 @@ const worker = {
         result.action !== "contact"
       )
         return new Response(null, { status: 403 });
-      await env.EMAIL.send({
+      const accepted = await new ResendEmailAdapter({
+        apiKey: env.RESEND_API_KEY,
+        from: env.CONTACT_FROM,
         to: env.CONTACT_TO,
-        from: { email: env.CONTACT_FROM, name: "Portafolio" },
-        replyTo: data.email,
-        subject: `Portafolio: mensaje de ${data.name}`,
-        text: `Nombre: ${data.name}\nCorreo: ${data.email}\n\n${data.message}`,
-      });
+      }).send(data);
+      if (!accepted) return new Response(null, { status: 503 });
       return Response.json({ ok: true });
     } catch {
       return new Response(null, { status: 503 });

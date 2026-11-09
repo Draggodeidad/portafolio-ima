@@ -1,3 +1,5 @@
+> **Estado:** Plan histórico sustituido. El PR actual usa Resend para el envío y conserva Turnstile y Durable Objects en Cloudflare. La configuración vigente está en [deployment.md](deployment.md).
+
 # Plan de implementación — Cloudflare Email Routing + Worker
 
 ## Resumen ejecutivo
