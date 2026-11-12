@@ -11,10 +11,14 @@ export const profile = {
     es: "Desarrollador full-stack con enfoque en backend",
     en: "Full-stack developer focused on backend engineering",
   } satisfies LocalizedCopy,
-  email: null as string | null,
+  email: "antonioimanol7@gmail.com" as string | null,
   github: "https://github.com/Draggodeidad",
   linkedIn: "https://www.linkedin.com/in/imanol-antonio-de-la-cruz-1a1281370/",
-  cv: null as { href: string; locale: Locale; format: "PDF" } | null,
+  cv: {
+    href: "/cv/CV_Imanol_Antonio.pdf",
+    locale: "es",
+    format: "PDF",
+  } as { href: string; locale: Locale; format: "PDF" } | null,
 };
 
 export type ExperienceKind = "education" | "employment" | "personal-project";
@@ -23,18 +27,68 @@ export type ExperienceEntry = {
   id: string;
   kind: ExperienceKind;
   organization: string;
-  period: string;
+  title: LocalizedCopy;
+  period: LocalizedCopy;
   description: LocalizedCopy;
 };
 
-/** Add only complete entries backed by information confirmed for publication. */
-export const experienceEntries: ExperienceEntry[] = [];
+/**
+ * Add only complete entries backed by information confirmed for publication.
+ * Source: public/cv/CV_Imanol_Antonio.pdf (user-provided, 2026-11-11).
+ */
+export const experienceEntries: ExperienceEntry[] = [
+  {
+    id: "1degree-internship",
+    kind: "employment",
+    organization: "1Degree Holdings Limited",
+    title: {
+      es: "Estadía: desarrollo backend y transformación digital · Remoto",
+      en: "Internship: backend development and digital transformation · Remote",
+    },
+    period: { es: "Mayo – agosto de 2025", en: "May – August 2025" },
+    description: {
+      es: "Colaboré en la integración de servicios de IA con Node.js, Express y TypeScript para flujos de entrevistas en tiempo real, participé en la validación y estructuración de datos con PostgreSQL/Supabase y documenté la arquitectura y los endpoints del backend.",
+      en: "Collaborated on integrating AI services with Node.js, Express, and TypeScript for real-time interview flows, took part in validating and structuring data with PostgreSQL/Supabase, and documented the backend architecture and endpoints.",
+    },
+  },
+  {
+    id: "utt-engineering",
+    kind: "education",
+    organization: "Universidad Tecnológica de Tehuacán",
+    title: {
+      es: "Ingeniería en TI: Desarrollo y Gestión de Software",
+      en: "B.Eng. in IT: Software Development and Management",
+    },
+    period: { es: "2025 – 2027 (previsto)", en: "2025 – 2027 (expected)" },
+    description: {
+      es: "Programa de ingeniería en curso.",
+      en: "Engineering program in progress.",
+    },
+  },
+  {
+    id: "utt-tsu",
+    kind: "education",
+    organization: "Universidad Tecnológica de Tehuacán",
+    title: {
+      es: "TSU en TI: Desarrollo de Software Multiplataforma",
+      en: "Associate degree (TSU) in IT: Multiplatform Software Development",
+    },
+    period: { es: "2023 – 2025", en: "2023 – 2025" },
+    description: {
+      es: "Técnico Superior Universitario completado.",
+      en: "Completed associate degree (Técnico Superior Universitario).",
+    },
+  },
+];
 
 export const publishedExperienceEntries = experienceEntries.filter(
   (entry) =>
     entry.id.trim() &&
     entry.organization.trim() &&
-    entry.period.trim() &&
+    entry.title.es.trim() &&
+    entry.title.en.trim() &&
+    entry.period.es.trim() &&
+    entry.period.en.trim() &&
     entry.description.es.trim() &&
     entry.description.en.trim(),
 );

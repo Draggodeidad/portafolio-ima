@@ -28,7 +28,13 @@ for (const locale of ["es", "en"] as const) {
     await expect(page.locator("#sobre-mi h2")).toBeVisible();
     await expect(page.locator("#stack h2")).toBeVisible();
     await expect(page.locator("#contacto h2")).toBeVisible();
-    await expect(page.locator("#trayectoria")).toHaveCount(0);
+    await expect(page.locator("#trayectoria h2")).toBeVisible();
+    await expect(page.locator("#trayectoria")).toContainText(
+      "1Degree Holdings Limited",
+    );
+    await expect(page.locator("#trayectoria")).toContainText(
+      "Universidad Tecnológica de Tehuacán",
+    );
     const nav = page.locator("header nav").first();
     await expect(nav.getByRole("link", { name: copy.about })).toHaveAttribute(
       "href",
@@ -42,9 +48,9 @@ for (const locale of ["es", "en"] as const) {
       "href",
       `/${locale}#contacto`,
     );
-    await expect(nav.getByRole("link", { name: copy.experience })).toHaveCount(
-      0,
-    );
+    await expect(
+      nav.getByRole("link", { name: copy.experience }),
+    ).toHaveAttribute("href", `/${locale}#trayectoria`);
 
     await expect(page.locator("#stack")).toContainText(copy.backend);
     await expect(page.locator("#stack")).toContainText(
@@ -61,10 +67,13 @@ for (const locale of ["es", "en"] as const) {
         name: locale === "es" ? "Enviar mensaje" : "Send message",
       }),
     ).toBeDisabled();
-    await expect(page.locator("a[href^='mailto:']")).toHaveCount(0);
     await expect(
-      page.getByRole("link", { name: /CV|Download CV/ }),
-    ).toHaveCount(0);
+      page.locator("#contacto a[href='mailto:antonioimanol7@gmail.com']"),
+    ).toBeVisible();
+    const cvLinks = page.locator("a[href='/cv/CV_Imanol_Antonio.pdf']");
+    await expect(cvLinks).toHaveCount(2);
+    for (const link of await cvLinks.all())
+      await expect(link).toHaveAttribute("download", "");
     await expect(page.locator("footer")).toContainText(
       "Imanol Antonio De la Cruz",
     );
@@ -125,6 +134,12 @@ test("contact navigation from a study returns to the matching home section", asy
     .click();
   await expect(page).toHaveURL(/\/en#contacto$/);
   await expect(page.locator("#contacto h2")).toBeVisible();
+});
+
+test("published CV is served as a PDF", async ({ request }) => {
+  const response = await request.get("/cv/CV_Imanol_Antonio.pdf");
+  expect(response.ok()).toBe(true);
+  expect(response.headers()["content-type"]).toContain("application/pdf");
 });
 
 test("contact form does not submit until a service is configured", async ({

@@ -42,6 +42,7 @@ const styles = {
     "absolute -left-[2.05rem] top-1.5 size-3 border border-accent bg-background",
   timelineKind: "font-mono text-xs uppercase tracking-[0.08em] text-accent",
   timelineTitle: "m-0 text-lg font-semibold text-foreground",
+  timelineRole: "m-0 mt-1 text-sm leading-6 text-foreground",
   timelinePeriod: "font-mono text-xs text-navigation",
   timelineDescription: "m-0 text-sm leading-6 text-muted-foreground",
   contactGrid:
@@ -177,7 +178,8 @@ export async function ExperienceSection({ locale }: ProfileSectionsProps) {
                   {t(`kinds.${entry.kind}`)}
                 </p>
                 <h3 className={styles.timelineTitle}>{entry.organization}</h3>
-                <p className={styles.timelinePeriod}>{entry.period}</p>
+                <p className={styles.timelineRole}>{entry.title[locale]}</p>
+                <p className={styles.timelinePeriod}>{entry.period[locale]}</p>
               </div>
               <p className={styles.timelineDescription}>
                 {entry.description[locale]}

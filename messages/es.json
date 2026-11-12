@@ -116,7 +116,7 @@
     "emailLabel": "Correo electrónico",
     "messageLabel": "Mensaje",
     "submit": "Enviar mensaje",
-    "providerPending": "El envío está deshabilitado hasta configurar un proveedor de correo y una protección antispam. Puedes contactarme por GitHub o LinkedIn.",
+    "providerPending": "El envío está deshabilitado hasta configurar un proveedor de correo y una protección antispam. Mientras tanto, puedes escribirme por correo o contactarme por GitHub o LinkedIn.",
     "validation": {
       "required": "Completa este campo.",
       "email": "Escribe una dirección de correo válida.",

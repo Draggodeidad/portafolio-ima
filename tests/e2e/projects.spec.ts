@@ -18,6 +18,15 @@ for (const locale of ["es", "en"] as const) {
         locale === "es" ? "Tecnologías" : "Technologies",
       );
 
+      await expect(
+        page.getByRole("complementary", {
+          name:
+            locale === "es"
+              ? "Aportación confirmada"
+              : "Confirmed contribution",
+        }),
+      ).toBeVisible();
+
       const repositoryLink = page.getByRole("link", {
         name: locale === "es" ? "Ver código" : "View code",
       });
