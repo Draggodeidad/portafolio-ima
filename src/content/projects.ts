@@ -164,6 +164,10 @@ export const projects = [
     },
     technologies: ["Node.js", "TypeScript", "Express", "Supabase"],
     repository: "https://github.com/Draggodeidad/secureTransferBack",
+    contribution: {
+      es: "Proyecto individual: diseño e implementación del backend.",
+      en: "Individual project: backend design and implementation.",
+    },
     visual: {
       kind: "secure-transfer",
       label: { es: "Recorrido del archivo", en: "File path" },
@@ -221,8 +225,8 @@ export const projects = [
         title: { es: "Límites conocidos", en: "Known limits" },
         paragraphs: [
           {
-            es: "La función de extracción completa del ZIP declara que aún no está implementada y lanza un error. La base de datos fue eliminada, no hay demo disponible y no se confirma una revisión de seguridad. La autoría individual tampoco está confirmada.",
-            en: "The complete ZIP extraction function is explicitly unimplemented and throws an error. The database was deleted, no demo is available, and no security review is confirmed. Individual authorship is also unconfirmed.",
+            es: "La función de extracción completa del ZIP declara que aún no está implementada y lanza un error. La base de datos fue eliminada, no hay demo disponible y no se confirma una revisión de seguridad.",
+            en: "The complete ZIP extraction function is explicitly unimplemented and throws an error. The database was deleted, no demo is available, and no security review is confirmed.",
           },
         ],
       },
@@ -245,6 +249,10 @@ export const projects = [
     },
     technologies: ["n8n", "Google Classroom API", "Google Drive", "GitHub API"],
     repository: "https://github.com/Draggodeidad/automation-classrom",
+    contribution: {
+      es: "Proyecto individual: diseño e implementación del workflow.",
+      en: "Individual project: workflow design and implementation.",
+    },
     visual: {
       kind: "classroom-flow",
       label: {
@@ -312,8 +320,8 @@ export const projects = [
         title: { es: "Límites conocidos", en: "Known limits" },
         paragraphs: [
           {
-            es: "No se confirma ejecución actual en producción ni credenciales reales. Pasar a operaciones que escriben en GitHub requiere configuración y revisión en la instancia n8n. La aportación individual no está confirmada.",
-            en: "No current production run or real credentials are confirmed. Enabling GitHub write operations requires configuration and review in the n8n instance. Individual contribution is unconfirmed.",
+            es: "No se confirma ejecución actual en producción ni credenciales reales. Pasar a operaciones que escriben en GitHub requiere configuración y revisión en la instancia n8n.",
+            en: "No current production run or real credentials are confirmed. Enabling GitHub write operations requires configuration and review in the n8n instance.",
           },
         ],
       },

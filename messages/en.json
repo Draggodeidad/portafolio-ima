@@ -116,7 +116,7 @@
     "emailLabel": "Email address",
     "messageLabel": "Message",
     "submit": "Send message",
-    "providerPending": "Sending is disabled until an email provider and spam protection are configured. You can contact me through GitHub or LinkedIn.",
+    "providerPending": "Sending is disabled until an email provider and spam protection are configured. In the meantime, you can email me or reach me through GitHub or LinkedIn.",
     "validation": {
       "required": "Complete this field.",
       "email": "Enter a valid email address.",
