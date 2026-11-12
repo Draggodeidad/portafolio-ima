@@ -20,8 +20,18 @@
     "next-env.d.ts",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
+    "vite.config.mts",
     "**/*.ts",
     "**/*.tsx"
   ],
-  "exclude": ["node_modules", ".vercel", "playwright-report", "test-results"]
+  "exclude": [
+    "node_modules",
+    ".vercel",
+    "dist",
+    ".wrangler",
+    ".cloudflare",
+    ".vinext",
+    "playwright-report",
+    "test-results"
+  ]
 }

@@ -1,5 +1,68 @@
 # Implementation plan
 
+## CI locale-anchor regression — 2026-11-09
+
+Scope: fix the Workers production e2e failure without changing deployment gates, dependencies, composition or content. Reproduce the initial-load race, guard locale navigation until the browser hash is known, then verify the production Workers and Next.js suites.
+
+The prerendered home language links defaulted to `#inicio` because fragments are unavailable on the server. A click before hydration followed that native href and bypassed the existing click handler, losing `#contacto`. Twelve normal repetitions passed, but withholding script responses reproduced `/en#inicio` at both 390 and 1280 px. The server hash snapshot now distinguishes unknown (`null`) from an empty client hash; home locale controls remain inert and expose their disabled state until the client snapshot updates their href. Case-study links keep their equivalent route behavior.
+
+Regression coverage holds scripts, clicks the visible control before hydration, verifies that the original URL is preserved, then releases scripts and verifies ES → EN → ES with the contact anchor at both widths. It waits for responsive CSS before selecting the visible control, since Next can stream both copies before CSS arrives. This does not add timeouts or retries to the original test. Home locale controls require client initialization and remain inert if JavaScript never loads.
+
+Validation on Node 24.16.0 with the frozen lockfile: production Workers build and full CI-mode suite passed (50 passed, 4 existing opt-in WebGL skips, 51.5 s). After the CSS readiness adjustment, both focused Workers regressions passed again (6.9 s). Next production build and full CI-mode suite passed (47 passed, 7 existing WebGL/Workers-only skips, 51.6 s). ESLint, Prettier, strict typecheck and diff whitespace checks passed. GitHub run 42595206058 confirms the original Workers e2e failure prevented deployment. These are local validation results; remote CI status is tracked on the corrective PR. No deployment of the correction is claimed.
+
+## Automated Workers deployment — 2026-11-09
+
+Authorized: add a main-only deployment after lint, formatting, build, types and e2e. Replace the Vercel publication path with credential-free Next validation; retain Workers production build and workerd e2e. Transfer the tested dist tree as a tar artifact to a dependent deployment job and use its flattened production configuration without rebuilding. Keep serialized production runs and the latest-main guard. Cloudflare credentials are provided only to the deployment step through repository secrets. Update release documentation and validate the workflow before opening the PR; no local deployment or DNS command is part of this implementation.
+
+Validation: actionlint, ESLint, Prettier, strict typecheck and the production Workers build passed. The tar round-trip preserved hashes for all 324 files; the restored artifact passed workerd Playwright (48 passed, 4 opt-in WebGL skips, 56.9 s). No deploy/dry-run or remote account mutation was executed.
+
+## Production configuration and immutable snapshots — 2026-11-09
+
+Authorized continuation of PR #8: prepare imanolantonio.dev, resolve prerender/cache, add validation and release instructions; do not merge, deploy or modify DNS. Plan: inspect verified PR head and official APIs; use the Static Assets response adapter for eight immutable pages; separate production domain/origin settings from local; test snapshots and runtime behavior; update PR and docs.
+
+Implemented @vinext/cloudflare 1.3.3 staticAssetsAdapter with all-route prerender discovery, production Wrangler environment (imanolantonio-portfolio / imanolantonio.dev / SITE_URL / observability), production build/test scripts and a CI validation-only Workers job. No KV/R2 or remote cache is needed. Next/Vercel scripts and origin remain available. The original dynamic/no-cache findings below describe the earlier evaluation and are superseded by this serving strategy.
+
+The build emits eight rendered routes and sixteen private HTML/RSC snapshots. The catch-all remains a runtime 404. The first prerender exposed temporary localhost hreflang Link headers from next-intl; alternateLinks:false removes those redundant headers while page metadata retains canonical/language alternates. Workerd tests check all sixteen cache HIT responses, opposite-locale cookies, query strings, snapshot inventory and denied direct snapshot downloads. Existing navigation/locale/404/contact/responsive tests are retained.
+
+Validation: production workerd suite 48 passed / 4 WebGL skips (50.9 s); focused cache suite 3 passed (5.1 s); Next production suite 45 passed / 7 skips (49.8 s, including three Workers-only tests). Lint, formatting, strict types, both builds, compatibility check and production Wrangler type generation passed. The new CI Workers job validates only; its remote result is recorded on PR #8. No publication or DNS action was run.
+
+The adapter is read-only for the lifetime of the build; content and footer year update with a new build/deployment. No ISR or runtime invalidation is claimed. Worker middleware, routing and snapshot lookup still incur work; actual hosted costs/CPU/cache distribution remain unmeasured. The router-pattern table may still say dynamic; manifest/artifacts/runtime HIT evidence define the effective serving path. See docs/deployment.md for the reproducible checks, environment selection, manual release, DNS boundary and rollback.
+
+## Local Cloudflare Workers evaluation — 2026-11-09
+
+Authorized scope: evaluate vinext, ES/EN, and production browser behavior locally on `chore/cloudflare-migration`. No commits, push, PR, deployment command (including dry runs), account login, remote resources, secrets, DNS, email, or infrastructure changes. Existing Vercel CI and deployment settings are outside this evaluation.
+
+Plan: establish the unchanged Next baseline; check published compatibility; add an independent Vite/Workers toolchain; exercise the built artifact in workerd; repeat the browser suite and Next checks; record reproducible results and limits in `docs/deployment.md`.
+
+The unchanged baseline used Node 24.16.0, pnpm 11.4.0, Next 16.4.0, React/React DOM 19.3.0, and next-intl 4.14.9. Lint, format, build, and typecheck passed. Production Playwright passed 38 tests and skipped the four existing opt-in WebGL cases (46.6 s). Port 3001 belonged to another process, so a temporary config in `/tmp` started this worktree's `next start` on 3101. The sandbox initially blocked SWC's native cache; the same build succeeded outside that restriction after repeating Next's initial security-notice interruption. These are baseline environment/tooling findings, not migration regressions.
+
+Published vinext 1.4.4 requires React `^19.3.1` and Vite `^8.0.0`. React, React DOM, and react-server-dom-webpack are pinned together to 19.3.1. The local toolchain uses Vite 8.3.6, @vitejs/plugin-react 6.1.0, @vitejs/plugin-rsc 0.5.39, @cloudflare/vite-plugin 1.67.0, Wrangler 4.158.0, and vite-css-modules 1.16.1, in the existing single pnpm lockfile. Only the required esbuild/workerd native install scripts were enabled. The initially selected plugin-react 6.3.0 was replaced by compatible 6.1.0 (published 2026-08-20); no release-age exception remains. The final frozen install passed supply-chain policy verification for 708 lockfile entries. The stable Cloudflare plugin uses the Wrangler integration supported by vinext; the documentation's newer v2 integration is still published under a beta tag and was not selected.
+
+`vinext check` reports 12 supported, zero partial, zero issues (4 imports, 1 config option, 3 libraries, plus structure). This scan is evidence of recognized APIs, not proof of runtime compatibility. `next/root-params`, next-intl's request config/proxy, and `node:os` in `next.config.ts` remain intact. No design, content, styling convention, or WebGL-default changes are intended.
+
+Reproduced adaptations:
+
+- workerd rejected compatibility date 2026-11-09 because its newest supported date was 2026-11-08; the local config now pins the latter.
+- The first built Worker returned 500: `No such module "ssr/index.js"` while Vite emitted `ssr/index.mjs`. Declaring the package ESM (`"type": "module"`), as the migration guide recommends, addresses the output-format mismatch without replacing the framework.
+- The first build emitted conflicting CSS asset names. Added the official initializer's CSS Modules recipe: `patchCssModules({ exportMode: "default" })` and deterministic names based on the repository-relative file path.
+- A built Worker returned a plain `Not Found` body with HTTP 200 for unmatched routes (`/en/missing-page`, `/fr` → `/es/fr`), whereas Next returned 404. Added `src/app/[locale]/[...rest]/page.tsx`, a standard catch-all that immediately calls the public `notFound()` API. Explicit routes retain priority, and the same test now confirms 404 in workerd. No dependency source patch or framework rewrite was needed.
+
+Playwright selects Workers with `PLAYWRIGHT_RUNTIME=workers`, defaults to port 3102, and accepts `PLAYWRIGHT_PORT` for either runtime. It starts `vite preview` against the built Worker rather than testing a Node vinext server or treating Next development as Workers validation. The suite now also checks all six cases' metadata, home locale/anchor preservation, invalid locale/missing routes, loaded next/image SVGs, and all local SVG assets. Existing touch/keyboard, six-case locale navigation, contact-disabled, reduced-motion, and 360/390/768/1280 checks are retained.
+
+### Local Workers results and limits
+
+Final lint, formatting, strict TypeScript, Next build, Workers build, and compatibility check passed. The final Next production suite with the catch-all included passed 45 tests and skipped four opt-in WebGL cases (50.9 s). Wrangler generated local ASSETS declarations in `/tmp/portafolio-worker-env.d.ts` successfully. The full production-artifact suite passed 45 tests and skipped the same four experimental WebGL cases (52.2 s). Runtime: Cloudflare Vite plugin 1.67.0 → Miniflare 5.20261101.0-beta → workerd 1.20261101.1 (`workerd 2026-11-01`), with compatibility date 2026-11-08 and nodejs_compat. Root redirection, both languages, all six studies and language switches, home anchor preservation, 404, metadata, decoded images/SVG delivery, touch/keyboard/LAN navigation, disabled contact, and all four responsive widths passed. The first suite's incorrect Contact heading expectation was corrected to the existing dictionary text; the anchor URL itself already worked.
+
+Captured Next and Workers home pages in ES/EN at 360/390/768/1280 px, plus the mobile menu. All eight home screenshot pairs were pixel-identical in this local Chrome sample with reduced motion. Computed heading/body colors, menu background, closed-menu opacity, and responsive display also matched. AO shows the primary workerd preview at `http://127.0.0.1:3103/es`; captures and logs are under `/tmp/portafolio-*`. This compares the existing implementation between runtimes and does not assert a new Figma review or real-device coverage.
+
+The built Worker contains 124 JS modules totaling 2,255,770 raw bytes and 689,514 bytes when each module is gzip-compressed separately. This is a local module inventory, excluding sourcemaps/config/assets, not an uploaded bundle size or Workers plan-limit measurement. The disabled GlassObject still exists as an emitted deferred chunk; no change enabled its browser effect.
+
+Remaining upstream warnings: duplicate CSS output name, incomplete sourcemaps from RSC plugins, ineffective dynamic imports in vinext's shims, the optional Three.js chunk above 500 KB, and partial webpack configuration support (next-intl's alias is preserved). Existing ESLint plugin peer ranges do not list ESLint 10; actual lint passes. These warnings are documented, not suppressed. SVG next/image behavior is tested; raster optimization, distributed caching, paid services, edge quotas/CPU/startup, production Lighthouse, secrets, email, infrastructure, and deployment remain untested or unconfigured.
+
+Verdict: **viable for the tested local evaluation with the documented ESM/CSS/date/404 adaptations**. This is not a drop-in equivalence or production-readiness claim. Revalidate the suite and warnings after changing vinext, React, Vite, or workerd; authorize and design any hosting/optimization/caching work separately.
+
+Rendering limit: Next reports both homes and all six cases as SSG; the evaluated vinext build reports dynamic routes without prerender or a cache adapter. The measured local visual/functional parity does not establish equivalent rendering cost, CPU usage, or cache behavior. This evaluation does not add a rendering/cache implementation to close that difference.
+
 ## Stage 1 — foundations and navigation
 
 Build the Next.js App Router foundation for `/es` and `/en`, typed navigation copy, shared CSS tokens and base typography, reusable `Container` and `SectionHeading` components, and the responsive fixed navbar. Add only minimal section destinations so links, locale switching, active-section tracking, and anchor offsets can be reviewed before the hero stage.
