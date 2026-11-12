@@ -258,6 +258,11 @@ export async function ContactSection({ locale }: ProfileSectionsProps) {
               messageLabel: t("messageLabel"),
               submit: t("submit"),
               providerPending: t("providerPending"),
+              submitting: t("submitting"),
+              success: t("success"),
+              errorGeneric: t("errorGeneric"),
+              errorRateLimit: t("errorRateLimit"),
+              verification: t("verification"),
               validation: {
                 required: t("validation.required"),
                 email: t("validation.email"),
