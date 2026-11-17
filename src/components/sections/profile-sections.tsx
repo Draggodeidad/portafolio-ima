@@ -12,13 +12,11 @@ import {
   skills,
 } from "@/content/profile";
 import ink from "./profile-sections.module.css";
-import { cn } from "@/lib/cn";
 
 const styles = {
-  section: "py-[40px] md:py-[60px]",
-  page: "border border-page-edge bg-paper bg-[image:var(--paper-grid)] bg-size-[length:var(--grid-cell)_var(--grid-cell)] px-[20px] py-[40px] md:px-[60px] md:py-[60px]",
+  section: "py-[40px]",
+  page: "relative border border-page-edge bg-paper bg-[image:var(--paper-grid)] bg-size-[length:var(--grid-cell)_var(--grid-cell)] py-[40px] pl-12 pr-5 before:absolute before:inset-y-0 before:left-5 before:w-0.5 before:bg-margin-red sm:pl-16 sm:pr-10 sm:before:left-8",
   content: "max-w-[70ch] space-y-[20px]",
-  contactPage: "mx-auto max-w-[800px]",
   timeline: "mt-[40px] max-w-[70ch] space-y-[40px]",
   entry: "grid grid-cols-[30px_minmax(0,1fr)] gap-[10px]",
   mark: "mt-[5px] size-[20px] text-ink",
@@ -152,7 +150,7 @@ export async function ContactSection({ locale }: ProfileSectionsProps) {
       aria-labelledby="contact-heading"
     >
       <Container>
-        <div className={cn(styles.page, styles.contactPage)}>
+        <div className={styles.page}>
           <SectionHeading id="contact-heading" title={t("heading")} />
           <div className={styles.contact}>
             <p>{t("intro")}</p>

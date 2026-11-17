@@ -8,7 +8,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--nav-height);
-  background: var(--portfolio-background);
+  background: var(--desk);
 }
 
 body {
@@ -16,7 +16,7 @@ body {
   margin: 0;
   background: var(--desk);
   color: var(--graphite);
-  font-family: var(--portfolio-font-body);
+  font-family: var(--font-notebook);
   font-size: var(--type-body);
   line-height: var(--type-body-leading);
   -webkit-font-smoothing: antialiased;

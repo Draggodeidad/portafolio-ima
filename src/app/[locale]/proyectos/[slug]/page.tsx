@@ -17,8 +17,7 @@ const styles = {
   page: "relative border border-page-edge bg-paper py-8 pl-12 pr-5 [background-image:var(--paper-grid)] [background-size:var(--grid-cell)_var(--grid-cell)] before:absolute before:inset-y-0 before:left-5 before:w-0.5 before:bg-margin-red sm:py-10 sm:pl-16 sm:pr-10 sm:before:left-8",
   back: "inline-flex min-h-12 items-center text-label text-ink underline underline-offset-4",
   header: "mt-8 border-b border-ruled-line pb-10",
-  title:
-    "max-w-[22ch] text-display [overflow-wrap:anywhere] max-sm:text-[2rem]",
+  title: "max-w-[22ch] text-h2 [overflow-wrap:anywhere]",
   description: "mt-5 max-w-[65ch] text-body text-graphite-soft",
   contribution: "mt-8 max-w-[65ch]",
   label: "mb-2 text-label text-graphite",
@@ -28,7 +27,7 @@ const styles = {
   actions: "mt-7 flex flex-wrap gap-3",
   button: "min-h-12",
   evidence: "my-10 grid gap-10",
-  content: "mx-auto max-w-[70ch]",
+  content: "max-w-[70ch]",
   block: "border-t border-page-edge py-8",
   blockTitle: "mb-4 text-h2",
   paragraph:
