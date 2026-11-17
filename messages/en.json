@@ -67,39 +67,23 @@
     "contactMore": "More ways to reach me"
   },
   "About": {
-    "eyebrow": "About",
     "heading": "How I work",
-    "lead": "I enjoy building complete products, with particular attention to what happens behind the interface.",
-    "paragraph": "I work across applications, APIs, data, and automation. In my projects, I try to explain decisions, account for error cases, and make clear what has and has not been validated.",
+    "lead": "I enjoy building complete products and understanding what happens behind the interface.",
+    "paragraph": "In my projects, I explain decisions, account for error cases, and make clear what has and has not been validated.",
     "personalNote": "Outside of coding, I enjoy video games."
   },
   "Stack": {
-    "eyebrow": "Stack",
-    "heading": "Technologies by function",
-    "groups": {
-      "backend": "Backend",
-      "frontend": "Frontend",
-      "data": "Data",
-      "tools": "Tools and deployment"
-    },
-    "evidence": {
-      "declared": "No published case",
-      "project": "Used in a project"
-    }
+    "heading": "Supported by project work",
+    "declared": "Also familiar with: NestJS, Hono, React, SvelteKit, and cloud-native tools."
   },
   "Experience": {
-    "eyebrow": "Experience",
     "heading": "Education and experience",
-    "kinds": {
-      "education": "Education",
-      "employment": "Employment",
-      "personal-project": "Personal project"
-    }
+    "completed": "Completed",
+    "inProgress": "In progress"
   },
   "Contact": {
-    "eyebrow": "Contact",
     "heading": "Let's talk about an opportunity",
-    "intro": "I am looking for employment opportunities where I can contribute to full-stack development, with a particular interest in backend work.",
+    "intro": "I'm looking for a role where I can contribute to full-stack development, especially backend work. If you'd like to talk about my work, email me.",
     "socialLabel": "Profiles and contact",
     "copyEmail": "Copy email",
     "copyEmailDone": "Email copied",
@@ -116,7 +100,7 @@
       "tooShort": "The message must contain at least 10 characters.",
       "tooLong": "This value exceeds the allowed limit."
     },
-    "cvLink": "CV in {language} · {format}",
+    "cvLink": "Download CV ({language} · {format})",
     "cvLanguages": {
       "es": "Spanish",
       "en": "English"
@@ -125,7 +109,9 @@
     "success": "Message accepted for sending. Thanks for reaching out.",
     "errorGeneric": "Could not send message. Please try again.",
     "errorRateLimit": "Too many attempts. Please try again later.",
-    "verification": "Could not verify your request. Please try again."
+    "verification": "Could not verify your request. Please try again.",
+    "emailAction": "Email me",
+    "verificationRequired": "Complete the verification to send."
   },
   "Footer": {
     "linksLabel": "Useful links",

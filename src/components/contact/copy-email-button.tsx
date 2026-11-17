@@ -1,15 +1,14 @@
 "use client";
 
-import { Check, Copy } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/b-button";
 import { cn } from "@/lib/cn";
 
 const styles = {
-  root: "inline-flex flex-col gap-1.5",
-  button: "min-h-12 !rounded-none px-4 text-sm font-semibold text-navigation",
-  done: "!text-accent",
-  status: "m-0 max-w-xs select-text text-sm leading-5 text-muted-foreground",
+  root: "inline-flex max-w-full flex-col gap-[10px]",
+  button: "min-h-12 !rounded-none px-[10px] text-label text-ink",
+  done: "!text-ink",
+  status: "m-0 max-w-full break-all select-text text-small text-graphite-soft",
 } as const;
 
 type CopyState = "idle" | "done" | "failed";
@@ -54,10 +53,22 @@ export function CopyEmailButton({
         disableRipple
         icon={
           state === "done" ? (
-            <Check size={16} aria-hidden="true" />
-          ) : (
-            <Copy size={16} aria-hidden="true" />
-          )
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M2.8 10.4 7.5 15.2 17.2 4.5"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          ) : undefined
         }
         onClick={copyEmail}
         size="lg"

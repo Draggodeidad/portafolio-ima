@@ -9,7 +9,6 @@ import {
   ContactSection,
   ExperienceSection,
   SiteFooter,
-  StackSection,
 } from "@/components/sections/profile-sections";
 import { publishedExperienceEntries } from "@/content/profile";
 
@@ -40,11 +39,10 @@ export default async function PortfolioPage({ params }: PortfolioPageProps) {
       <main id="contenido">
         <Hero locale={locale} />
         <ProjectsSection locale={locale} />
-        <AboutSection locale={locale} />
-        <StackSection locale={locale} />
         {publishedExperienceEntries.length ? (
           <ExperienceSection locale={locale} />
         ) : null}
+        <AboutSection locale={locale} />
         <ContactSection locale={locale} />
       </main>
       <SiteFooter locale={locale} />
