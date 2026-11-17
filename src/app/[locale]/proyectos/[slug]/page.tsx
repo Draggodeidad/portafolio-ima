@@ -139,20 +139,17 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
             </div>
             <div className={styles.actions}>
               {project.demo && (
-                <div>
-                  <Button
-                    className={styles.button}
-                    href={project.demo}
-                    target="_blank"
-                    rel="noreferrer"
-                    variant="outline"
-                    disableRipple
-                  >
-                    {t("demo")}
-                    <ActionArrow />
-                  </Button>
-                  <p className={styles.text}>{project.status[language]}</p>
-                </div>
+                <Button
+                  className={styles.button}
+                  href={project.demo}
+                  target="_blank"
+                  rel="noreferrer"
+                  variant="outline"
+                  disableRipple
+                >
+                  {t("demo")}
+                  <ActionArrow />
+                </Button>
               )}
               <Button
                 className={styles.button}
@@ -166,6 +163,9 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
                 <ActionArrow />
               </Button>
             </div>
+            {project.demo && (
+              <p className={styles.text}>{project.status[language]}</p>
+            )}
           </header>
           <StudySection block={project.study.problem} locale={language} />
           <div className={styles.spread}>
@@ -182,19 +182,7 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
                 <ProjectVisual project={project} locale={language} />
               )}
             </div>
-            <div className="relative">
-              <StudySection block={project.study.decisions} locale={language} />
-              <svg
-                aria-hidden="true"
-                className="absolute -right-14 top-12 hidden h-8 w-12 fill-none stroke-ink xl:block"
-                viewBox="0 0 48 32"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M2 25 Q22 23 42 8 M33 7 L43 8 L39 17" />
-              </svg>
-            </div>
+            <StudySection block={project.study.decisions} locale={language} />
             <div className={styles.evidence}>
               {project.id === "pwa-utt" ? (
                 <ProjectScreenshots locale={language} />
@@ -202,10 +190,9 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
                 <ProjectVisual project={project} locale={language} />
               )}
             </div>
-            <StudySection block={project.study.validation} locale={language} />
-            <div aria-hidden="true" className="hidden xl:block" />
-            <StudySection block={project.study.limitations} locale={language} />
           </div>
+          <StudySection block={project.study.validation} locale={language} />
+          <StudySection block={project.study.limitations} locale={language} />
           <nav className={styles.related} aria-label={t("moreProjects")}>
             {[
               { project: previous, label: t("previous") },
