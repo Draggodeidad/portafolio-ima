@@ -6,6 +6,7 @@ import { ActionArrow } from "@/components/ui/action-arrow";
 import { Button } from "@/components/ui/b-button";
 import { InlineCode } from "@/components/ui/inline-code";
 import { Container } from "@/components/layout/container";
+import notebook from "@/components/hero/hero.module.css";
 import { ProjectVisual } from "@/components/projects/project-visual";
 import { ProjectScreenshots } from "@/components/projects/project-screenshots";
 import { profile } from "@/content/profile";
@@ -164,6 +165,10 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
           </header>
           <StudySection block={project.study.problem} locale={language} />
           <div className={styles.spread}>
+            <span
+              className={`hidden xl:block ${notebook.spine}`}
+              aria-hidden="true"
+            />
             <StudySection
               block={project.study.architecture}
               locale={language}
@@ -171,7 +176,19 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
             <div className={styles.evidence}>
               <ProjectVisual project={project} locale={language} />
             </div>
-            <StudySection block={project.study.decisions} locale={language} />
+            <div className="relative">
+              <StudySection block={project.study.decisions} locale={language} />
+              <svg
+                aria-hidden="true"
+                className="absolute -right-14 top-12 hidden h-8 w-12 fill-none stroke-ink xl:block"
+                viewBox="0 0 48 32"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M2 25 Q22 23 42 8 M33 7 L43 8 L39 17" />
+              </svg>
+            </div>
             <div className={styles.evidence}>
               {project.id === "pwa-utt" && (
                 <ProjectScreenshots locale={language} />

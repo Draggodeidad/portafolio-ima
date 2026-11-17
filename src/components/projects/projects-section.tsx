@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import notebook from "@/components/hero/hero.module.css";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/b-button";
 import { projects } from "@/content/projects";
@@ -39,6 +40,10 @@ export async function ProjectsSection({ locale }: { locale: Locale }) {
           className={styles.feature}
           aria-labelledby={`project-${featured.id}`}
         >
+          <span
+            className={`hidden lg:block ${notebook.spine}`}
+            aria-hidden="true"
+          />
           <div className="min-w-0 [overflow-wrap:anywhere]">
             <h3 className={styles.heading} id={`project-${featured.id}`}>
               {featured.name[locale]}
