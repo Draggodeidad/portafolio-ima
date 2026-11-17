@@ -1,4 +1,4 @@
-.inkStroke {
+:global([data-ink-draw]) .flow > :nth-child(-n + 5) .inkStroke {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
   animation: draw var(--motion-ink-draw) var(--ease-ink) forwards;
