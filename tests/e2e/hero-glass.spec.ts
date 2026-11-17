@@ -15,9 +15,7 @@ test.describe("decorative HUD glass", () => {
     ).toHaveAttribute("href", "#proyectos");
     await expect(page.getByTestId("hud-glass-fallback")).toBeVisible();
     await expect(page.locator("#inicio canvas")).toHaveCount(0);
-    await expect(
-      page.getByRole("button", { name: "Datos / Caché" }),
-    ).toBeVisible();
+    await expect(page.getByRole("radio", { name: /Datos/ })).toBeVisible();
   });
 
   test("keeps the static hero when WebGL2 is unavailable", async ({ page }) => {
@@ -37,9 +35,7 @@ test.describe("decorative HUD glass", () => {
     await expect(
       page.getByRole("heading", { name: "Imanol Antonio De la Cruz" }),
     ).toBeVisible();
-    await expect(
-      page.getByRole("button", { name: "Data / Cache" }),
-    ).toBeVisible();
+    await expect(page.getByRole("radio", { name: /Data/ })).toBeVisible();
   });
 
   test("updates a live motion preference without reloading the asset", async ({

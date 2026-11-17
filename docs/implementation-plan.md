@@ -193,3 +193,61 @@ The review corrected the unreachable Worker endpoint and moved the Turnstile sit
 ## Resend contact provider
 
 Replaced the Cloudflare Email Sending binding with an isolated Resend REST adapter in the contact Worker. Turnstile validation and the SQLite Durable Object rate limit remain in place. A missing Resend key, quota rejection, provider error or network failure returns an error rather than simulated success. The website-to-Worker adapter remains a transport boundary; the Resend adapter owns provider-specific sending. No deployment, account setup or real delivery test was performed. See `docs/deployment.md` for the current configuration and free-plan limits.
+
+## Hero area selector — stage select (critique P1)
+
+Addresses the 2026-11-12 critique finding that the hero HUD was decoration posing as an interface. The three area chips in `src/components/hero/node-selector.tsx` are now a stage-select style radio group inside the HUD frame: a corner-bracket cursor (the frame's own corner motif) slides to the chosen tile, a solid accent signal draws from the portrait to it, and the caption below names the area, explains it, and links to the case study that proves it. Arrow keys, Home and End move the selection (WAI-ARIA radio pattern); Tab reaches the case link. Reduced motion disables the cursor slide and the signal draw. No logos, characters, or interface elements from real games are used.
+
+Mapping, confirmed by the user: API → Secure Transfer, Data → PWA UTT, and the former "Cloud / Workers" node becomes "Automatización / Integraciones" → Classroom → GitHub, because no case demonstrates cloud deployment work. Node descriptions now restate facts from each case (Express API with encryption/signing; IndexedDB with a sync queue; n8n workflow with validation and dry-run). Projects gained a typed `shortName` used by the tiles.
+
+Layout: the caption and selector moved inside the frame, which is now a flex column rather than a fixed 4:5 box with absolutely positioned chips, so nothing overflows the column. The selector is a size container: tiles sit three across from 24rem of available width and stack as compact rows below that (phones and the narrow 1024 px desktop column), where the connector is hidden. The decorative "Imanol Antonio" caption under the monogram (a repeat of the H1) and the "Áreas de trabajo · ES / EN" footer were removed. Verified with screenshots at 360, 390, 768, 1024, 1280, and 1440 px in both locales; the full Playwright suite passed (48 passed, 14 opt-in skipped).
+
+## Mobile adaptation — collapsed HUD, menu focus trap, opaque navbar
+
+- The hero HUD collapses to one toggle row ("Áreas de trabajo y casos" / "Areas of work and case studies") whenever the hero is single-column, i.e. below 1024 px, not only at 768 px and below, because between 769 and 1023 px it still stacks under the CTAs. From `lg` up it is always expanded and the toggle is hidden. At 390 × 844 the projects section now starts at 675 px, inside the first viewport, down from ~1,280 px. If a portrait photo is added later, revisit this, because DESIGN.md wants the photo visible in the hero.
+- The mobile menu traps Tab/Shift+Tab within the header's visible controls while open. Escape closes it and returns focus to the toggle, and focusing anything outside the header (e.g. clicking the page) closes it.
+- Navbar: the blur had never applied because the CSS compiler dropped the `-webkit-`/unprefixed `backdrop-filter` pair; it now compiles. The header glass token rose from 75% to 94% opacity. The HUD frame's translucent background moved inside its `@supports` block so the opaque fallback holds without blur.
+- The "[ 01 ]" code in the contact CTA has a right margin, so it no longer runs into "Contactar".
+- Verification: screenshots at 390, 768, 1023, and 1280 px, plus the expanded HUD and the navbar over scrolled text. Lint, format, typecheck, and the full Playwright suite passed (50 passed, 14 opt-in skipped), including new tests for the focus trap and the HUD collapse. All tests ran in Chromium; Safari and real touch devices were not tested.
+
+## Navbar consistency polish (critique P2)
+
+- The active section changes only background and text colour (`bg-accent` / `text-accent-foreground`). It no longer switches to the 15 px bold display font, and the zero-offset accent glow is gone, so the bar doesn't reflow as the active section changes. The now-unused `--shadow-accent` token was removed.
+- Targets: section links and Contactar are 36 px tall, the ES/EN links 32 × 32 px (36 px on phones), and the GitHub link 36 px. Links don't wrap (`whitespace-nowrap`), and padding tightens below 1000 px, so the bar fits down to the 901 px mobile breakpoint.
+- The ambiguous person icon (`public/icons/profile.svg`, now deleted) is replaced by the Octicons GitHub mark with a visible "GitHub" label. A visually hidden suffix completes the accessible name ("GitHub: perfil de Imanol, abre en una pestaña nueva"), so the name starts with the visible label. Message key `profileLabel` became `githubContext`.
+- Verified at 390, 901, 960, 1000, 1101, 1280, and 1440 px in Chromium; full Playwright suite passed (50, 14 opt-in skipped).
+
+## Copy clarity — jargon labels and untranslated English (critique P2)
+
+- Section labels are plain names that match the navigation: Proyectos/Projects, Sobre mí/About, Stack, Trayectoria/Experience, Contacto/Contact. The code-comment syntax (`//`), uninformative section numbers, and snake_case (`PROYECTOS_SELECCIONADOS`) are gone. The Experience heading became "Formación y experiencia" / "Education and experience" so it no longer repeats its label.
+- "ÍNDICE: 03 PROYECTOS" is now a pluralised count derived from the data ("3 proyectos"). The decorative "REGISTRO 02/03" on secondary cards was removed; their project type already sits in that row. The diagram footers say "Diagrama, no captura" / "Diagram, not a screenshot" instead of "Esquema explicativo", and the decorative "// FLUJO" and "// 01–03" markers were removed.
+- "Aportación confirmada" became "Mi aportación" / "My contribution". Case links on cards use "Ver caso" / "View case study", the same as the hero. The stack evidence tags say what they mean: "Usado en un proyecto" / "Used in a project" and "Sin caso publicado" / "No published case" (formerly "En proyecto" / "Declarado").
+- Statuses: "la demo abre en acceso" became "la demo requiere iniciar sesión" / "the demo requires sign-in". The Classroom → GitHub status and hero description explain dry-run as simulating without writing to GitHub, which matches the case's validation text.
+- Untranslated English: project `name` is now localized (`PWA UTT — Lab inspections` in English), covering cards, case headings, previous/next links, and page titles. Literal backticks around `/login` were removed from case copy.
+- Verified in ES and EN at 390 and 1280 px; full Playwright suite passed (51, 14 opt-in skipped), including a new check that English pages contain no Spanish project name or backticks.
+
+## Copy clarity, follow-up — inline code, case contact, last English gaps
+
+- Content copy marks inline code with backticks, and `InlineCode` (`src/components/ui/inline-code.tsx`) renders it as `<code>` in case-study paragraphs, leads, and points. `/login` in the PWA UTT case is restored this way (the previous pass had dropped the backticks).
+- Case pages no longer show the snake_case project ID ("PWA_UTT") above "Problema y alcance".
+- Every case page ends with a contact block before the previous/next links. It contains "¿Quieres hablar de este proyecto?", an "Escríbeme" / "Email me" `mailto:` button (only while `profile.email` is set), and "Más formas de contacto" / "More ways to reach me", which links to the home contact section.
+- Skill names may be localized. "Herramientas cloud-native" reads "Cloud-native tools" on /en; product names stay as written.
+- A sweep of all eight ES/EN pages finds no `PROYECTOS_SELECCIONADOS`, `REGISTRO nn`, `DRY-RUN`, `//` markers, snake_case labels, or literal backticks, and no Spanish text on /en apart from the university's proper name. Full Playwright suite: 53 passed, 14 opt-in skipped.
+
+## Type size, reading width, and font delivery (critique P2)
+
+- All functional text below 12px (about 40 uses of 9/10/11px across navbar, hero HUD, projects, diagrams, stack, and case pages, plus the CV link's 11px) now uses `text-xs` (12px).
+- Case pages cap the lead, paragraphs, points, and contact text at `max-w-prose`; measured lines run 62–69 characters at 1440px (previously 100–119). Global `text-wrap: pretty` for running text and `balance` for headings.
+- The previous/next case links wrap long project names instead of truncating them. At 360px the no-wrap name had also widened the grid column past the viewport (30px overflow).
+- The larger navigation text no longer fits a full desktop bar below 1024px, so the menu toggle now takes over below 1024px (was 900px). Between 1024 and 1160px the links tighten padding and tracking; measured fit leaves at least 31px between groups in both languages.
+- Google Fonts `@import` replaced by `next/font/google`. `next build` and `build:workers` both self-host the woff2 files, and the served Workers HTML has no Google Fonts reference.
+- Verified: lint, typecheck, format, Next build, Workers build, and the full Playwright suite (53 passed, 14 opt-in skipped; one contact test failed once with a browser protocol error and passed three reruns). Screens checked at 360–1440px.
+
+## Final polish pass
+
+- Hero clears the fixed navbar: on phones it had started 8px under the 64px bar, and at 768px it sat flush. The top padding now includes `--nav-height` (+32px on phones, +40px from `md`). On a 390 × 844 phone the projects section still starts within the first screen (715px).
+- Internal "Ver caso" links on project cards use the same → arrow as the hero and case pages. The featured card had used ↘ and the secondary cards ↗, which usually means external.
+- The featured card's status line sits with the metadata, before the tags, as on the secondary cards, instead of trailing the buttons.
+- Diagrams: the PWA UTT sync model keeps its two columns on phones (roughly half the previous height). The Secure Transfer client lane points → toward the server lane when side by side (↓ when stacked). The Classroom flow hides the arrow that ended a row in the two-column layout.
+- The contribution callouts and the About note use a 1px accent rule instead of 2px.
+- Checked: no console errors on home or case pages; keyboard order runs skip link → navigation → hero → area selector → projects with a visible focus ring at every stop; accessible names verified in Chromium's accessibility tree. Full Playwright suite: 53 passed, 14 opt-in skipped.

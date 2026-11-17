@@ -18,7 +18,7 @@ export async function Navbar({ locale }: NavbarProps) {
     switchToSpanish: t("switchToSpanish"),
     switchToEnglish: t("switchToEnglish"),
     contactAction: t("contactAction"),
-    profileLabel: t("profileLabel"),
+    githubContext: t("githubContext"),
     skipToContent: t("skipToContent"),
     brandLabel: t("brandLabel"),
     sections: Object.fromEntries(

@@ -11,7 +11,7 @@
     "switchToSpanish": "Switch language to Spanish",
     "switchToEnglish": "Switch language to English",
     "contactAction": "Contact",
-    "profileLabel": "Imanol's GitHub profile (opens in a new tab)",
+    "githubContext": ": Imanol's profile, opens in a new tab",
     "skipToContent": "Skip to content",
     "brandLabel": "Imanol Antonio De la Cruz — home",
     "sections": {
@@ -34,59 +34,64 @@
       "es": "Spanish",
       "en": "English"
     },
-    "nodeGroupLabel": "Explore my approach",
-    "nodeDescriptionLabel": "Selected area",
+    "nodeGroupLabel": "Choose an area of work",
+    "nodeCaseLink": "View case study",
     "frameHeader": "Technical profile",
-    "frameFooter": "Areas of work",
-    "languages": "ES / EN",
+    "hudToggle": "Areas of work and case studies",
     "nodes": {
       "api": {
+        "short": "API",
         "label": "API / Gateway",
-        "description": "API design and server-side logic."
+        "description": "API design and server-side logic: an Express API that encrypts, signs, and stores file packages."
       },
       "data": {
+        "short": "Data",
         "label": "Data / Cache",
-        "description": "Local persistence, databases, and synchronization."
+        "description": "Local persistence with IndexedDB and a queue that syncs with the server when the connection returns."
       },
-      "cloud": {
-        "label": "Cloud / Workers",
-        "description": "Application integration and deployment on cloud services."
+      "automation": {
+        "short": "Automation",
+        "label": "Automation / Integrations",
+        "description": "Integrating Classroom, Drive, and the GitHub API in an n8n workflow with validation and a dry-run mode that doesn't write to GitHub."
       }
     }
   },
   "Projects": {
-    "eyebrow": "// 01. SELECTED_PROJECTS",
+    "eyebrow": "Projects",
     "heading": "Software engineering and applied architecture",
-    "index": "INDEX: 03 PROJECTS",
+    "index": "{count, plural, one {# project} other {# projects}}",
     "featuredLabel": "Featured project",
-    "contribution": "CONFIRMED CONTRIBUTION",
+    "contribution": "My contribution",
     "technologyList": "Project technologies",
-    "exploreCase": "Explore case",
+    "exploreCase": "View case study",
     "openApp": "Open application",
-    "viewCode": "View code",
-    "record": "RECORD {number}"
+    "viewCode": "View code"
   },
   "Studies": {
     "back": "Back to projects",
     "caseLabel": "Case study",
     "technologies": "Technologies",
-    "contribution": "Confirmed contribution",
+    "contribution": "My contribution",
     "repository": "View code",
     "demo": "Open application",
     "previous": "Previous project",
     "next": "Next project",
     "moreProjects": "Browse projects",
-    "notSpecified": "Not specified"
+    "notSpecified": "Not specified",
+    "contactTitle": "Want to talk about this project?",
+    "contactText": "If you'd like to dig into the decisions behind this case or discuss an opportunity, email me.",
+    "contactEmail": "Email me",
+    "contactMore": "More ways to reach me"
   },
   "About": {
-    "eyebrow": "// 02 — ABOUT",
+    "eyebrow": "About",
     "heading": "How I work",
     "lead": "I enjoy building complete products, with particular attention to what happens behind the interface.",
     "paragraph": "I work across applications, APIs, data, and automation. In my projects, I try to explain decisions, account for error cases, and make clear what has and has not been validated.",
     "personalNote": "Outside of coding, I enjoy video games."
   },
   "Stack": {
-    "eyebrow": "// 03 — TOOLS I WORK WITH",
+    "eyebrow": "Stack",
     "heading": "Technologies by function",
     "groups": {
       "backend": "Backend",
@@ -95,13 +100,13 @@
       "tools": "Tools and deployment"
     },
     "evidence": {
-      "declared": "Declared",
-      "project": "In a project"
+      "declared": "No published case",
+      "project": "Used in a project"
     }
   },
   "Experience": {
-    "eyebrow": "// 04 — EXPERIENCE",
-    "heading": "Experience",
+    "eyebrow": "Experience",
+    "heading": "Education and experience",
     "kinds": {
       "education": "Education",
       "employment": "Employment",
@@ -109,17 +114,19 @@
     }
   },
   "Contact": {
-    "eyebrow": "// CONTACT",
+    "eyebrow": "Contact",
     "heading": "Let's talk about an opportunity",
     "intro": "I am looking for employment opportunities where I can contribute to full-stack development, with a particular interest in backend work.",
     "socialLabel": "Profiles and contact",
+    "copyEmail": "Copy email",
+    "copyEmailDone": "Email copied",
+    "copyEmailFailed": "Couldn't copy. My email is {email}.",
     "formTitle": "Send a message",
     "formIntro": "Tell me how I can help.",
     "nameLabel": "Name",
     "emailLabel": "Email address",
     "messageLabel": "Message",
     "submit": "Send message",
-    "providerPending": "Sending is disabled until an email provider and spam protection are configured. In the meantime, you can email me or reach me through GitHub or LinkedIn.",
     "validation": {
       "required": "Complete this field.",
       "email": "Enter a valid email address.",

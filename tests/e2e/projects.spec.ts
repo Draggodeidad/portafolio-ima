@@ -13,17 +13,14 @@ for (const locale of ["es", "en"] as const) {
     }) => {
       await page.goto(`/${locale}/proyectos/${project.slug}`);
       await expect(page.locator("main h1")).toContainText(project.title);
-      await expect(page.locator("main h2")).toHaveCount(6);
+      await expect(page.locator("main h2")).toHaveCount(7);
       await expect(page.locator("main")).toContainText(
         locale === "es" ? "Tecnologías" : "Technologies",
       );
 
       await expect(
         page.getByRole("complementary", {
-          name:
-            locale === "es"
-              ? "Aportación confirmada"
-              : "Confirmed contribution",
+          name: locale === "es" ? "Mi aportación" : "My contribution",
         }),
       ).toBeVisible();
 
@@ -75,14 +72,13 @@ test("home project cards open their local case studies", async ({ page }) => {
   await page.goto("/es");
   for (const project of projects) {
     const article = page.locator("article").filter({ hasText: project.title });
-    const link = article.getByRole("link", {
-      name: /Explorar caso|Explorar caso de estudio/,
-    });
+    const link = article.getByRole("link", { name: /^Ver caso/ });
     await expect(link).toHaveAttribute("href", `/es/proyectos/${project.slug}`);
   }
 
   await page
-    .getByRole("link", { name: /Explorar caso/ })
+    .locator("#proyectos")
+    .getByRole("link", { name: /^Ver caso/ })
     .first()
     .click();
   await expect(page).toHaveURL(/\/es\/proyectos\/pwa-utt$/);
@@ -130,3 +126,46 @@ test("projects layout has no horizontal overflow at requested viewport widths", 
     }
   }
 });
+
+test("English pages show translated project names and no literal code marks", async ({
+  page,
+}) => {
+  for (const path of ["/en", "/en/proyectos/pwa-utt"]) {
+    await page.goto(path);
+    const main = page.locator("main");
+    await expect(main).not.toContainText("Inspecciones de laboratorios");
+    await expect(main).not.toContainText("`");
+  }
+  await expect(page.locator("main h1")).toHaveText("PWA UTT — Lab inspections");
+  await expect(page.locator("main code", { hasText: "/login" })).toBeVisible();
+  await expect(page).toHaveTitle(/^PWA UTT — Lab inspections — Case study/);
+});
+
+for (const locale of ["es", "en"] as const) {
+  test(`${locale}: every case study ends with a way to get in touch`, async ({
+    page,
+  }) => {
+    for (const project of projects) {
+      await page.goto(`/${locale}/proyectos/${project.slug}`);
+      const contact = page.getByRole("region", {
+        name:
+          locale === "es"
+            ? "¿Quieres hablar de este proyecto?"
+            : "Want to talk about this project?",
+      });
+      await expect(
+        contact.getByRole("link", {
+          name: locale === "es" ? "Escríbeme" : "Email me",
+        }),
+      ).toHaveAttribute("href", /^mailto:/);
+      await expect(
+        contact.getByRole("link", {
+          name:
+            locale === "es"
+              ? "Más formas de contacto"
+              : "More ways to reach me",
+        }),
+      ).toHaveAttribute("href", `/${locale}#contacto`);
+    }
+  });
+}

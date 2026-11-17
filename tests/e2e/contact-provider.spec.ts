@@ -36,7 +36,7 @@ for (const outcome of ["success", "failure", "rate-limit"] as const) {
     const message = page.getByLabel("Message", { exact: true });
     await message.fill("A valid message for testing.");
     await page.getByRole("button", { name: "Send message" }).click();
-    await expect(page.locator("#contacto [role=status]")).toContainText(
+    await expect(page.locator("#contacto form [role=status]")).toContainText(
       outcome === "success"
         ? "Message accepted"
         : outcome === "rate-limit"
@@ -106,7 +106,7 @@ test("pending request disables the form and prevents duplicate submission", asyn
     );
   expect(count).toBe(1);
   release();
-  await expect(page.locator("#contacto [role=status]")).toContainText(
+  await expect(page.locator("#contacto form [role=status]")).toContainText(
     "Message accepted",
   );
 });

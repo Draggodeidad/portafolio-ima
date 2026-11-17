@@ -136,7 +136,6 @@ test("next/image renders local images and all SVG assets are served", async ({
   }
   for (const asset of [
     "/icon.svg",
-    "/icons/profile.svg",
     "/icons/project-arrow.svg",
     "/icons/download-cv.svg",
     "/icons/language-es.svg",

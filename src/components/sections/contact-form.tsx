@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Script from "next/script";
 import { Button } from "@/components/ui/b-button";
+import { cn } from "@/lib/cn";
 
 const styles = {
   form: "space-y-5 border border-border-subtle bg-surface p-5 sm:p-7",
@@ -17,8 +18,10 @@ const styles = {
   textarea:
     "min-h-36 w-full resize-y rounded-control border border-control-border bg-background px-3 py-2.5 text-base leading-6 text-foreground outline-none placeholder:text-muted-foreground/70 focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent/40 aria-invalid:border-error",
   error: "m-0 text-sm leading-5 text-error",
-  status:
-    "border-l-2 border-accent bg-background/70 px-4 py-3 text-sm leading-6 text-navigation",
+  status: "m-0 text-sm leading-6 text-navigation empty:sr-only",
+  statusSuccess: "text-success",
+  statusError: "text-error",
+  submit: "min-h-11 !rounded-none px-5 text-sm font-semibold",
 } as const;
 
 type FieldName = "name" | "email" | "message";
@@ -29,7 +32,6 @@ type FormCopy = {
   emailLabel: string;
   messageLabel: string;
   submit: string;
-  providerPending: string;
   submitting: string;
   success: string;
   errorGeneric: string;
@@ -181,6 +183,10 @@ export function ContactForm({ copy }: { copy: FormCopy }) {
     setErrors((current) => ({ ...current, [name]: error }));
   }
 
+  // The form exists only when the server confirms a configured provider.
+  // Until then the direct contact routes beside it are the whole section.
+  if (!siteKey) return null;
+
   return (
     <form
       className={styles.form}
@@ -284,25 +290,30 @@ export function ContactForm({ copy }: { copy: FormCopy }) {
           ) : null}
         </div>
       </div>
-      {siteKey ? (
-        <>
-          <Script
-            src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
-            strategy="afterInteractive"
-            onReady={() => setScriptReady(true)}
-            onError={() => {
-              setStatus("error");
-              setStatusText(copy.verification);
-            }}
-          />
-          <div ref={container} />
-        </>
-      ) : null}
-      <p className={styles.status} role="status" aria-live="polite">
-        {siteKey ? statusText : copy.providerPending}
+      <Script
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+        strategy="afterInteractive"
+        onReady={() => setScriptReady(true)}
+        onError={() => {
+          setStatus("error");
+          setStatusText(copy.verification);
+        }}
+      />
+      <div ref={container} />
+      <p
+        className={cn(
+          styles.status,
+          status === "success" && styles.statusSuccess,
+          status === "error" && styles.statusError,
+        )}
+        role="status"
+        aria-live="polite"
+      >
+        {statusText}
       </p>
       <Button
-        disabled={!siteKey || !token || status === "submitting"}
+        className={styles.submit}
+        disabled={!token || status === "submitting"}
         loading={status === "submitting"}
         type="submit"
         disableRipple

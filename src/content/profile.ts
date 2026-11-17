@@ -96,11 +96,16 @@ export const publishedExperienceEntries = experienceEntries.filter(
 export type SkillGroupId = "backend" | "frontend" | "data" | "tools";
 
 export type Skill = {
-  name: string;
+  /** Product names stay as written; descriptive names are localized. */
+  name: string | LocalizedCopy;
   group: SkillGroupId;
   context: LocalizedCopy;
   evidence: "declared" | "project";
 };
+
+export function getSkillName(skill: Skill, locale: Locale) {
+  return typeof skill.name === "string" ? skill.name : skill.name[locale];
+}
 
 export const skills: Skill[] = [
   {
@@ -203,7 +208,7 @@ export const skills: Skill[] = [
     evidence: "project",
   },
   {
-    name: "Herramientas cloud-native",
+    name: { es: "Herramientas cloud-native", en: "Cloud-native tools" },
     group: "tools",
     context: {
       es: "Interés y herramientas declaradas; sin atribuir servicios adicionales no confirmados.",
