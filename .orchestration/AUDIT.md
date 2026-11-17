@@ -70,3 +70,44 @@ Formato: hallazgo → evidencia → impacto → esfuerzo → skill. Orden: impac
 - Entran: los hallazgos de dirección (2, 3, 6, 7, 17) vía Fase 2, y los grupos jerarquía y evidencia (4, 5, 9), copy (8), consistencia y a11y (10–14, 16, 18) y motion (15, 19).
 - Copy (#8): se propone como texto y se aprueba antes de implementar. Solo hechos ya presentes en el sitio o en el CV.
 - #1 y #14: contacto sin formulario; no se reserva un hueco para él. #20 sigue fuera de alcance.
+
+## Antes vs. después (Fase 7, 2026-11-17)
+
+Mismas herramientas en ambas corridas: critique A aislado, critique B con detector y navegador, y capturas en `audit/before/`, `audit/after/` y `audit/F01/` (producción). La corrida «después» de critique A/B es anterior a F01; F01 atacó exactamente sus hallazgos P1/P2.
+
+| Medida                                                     | Antes (main @ 29f1ec2)                   | Después                                                                      |
+| ---------------------------------------------------------- | ---------------------------------------- | ---------------------------------------------------------------------------- |
+| Critique Nielsen (7 y 10 n/a)                              | 21/32 (66 %, Aceptable)                  | 24/32 (75 %, Bueno), pre-F01                                                 |
+| Carga cognitiva                                            | Alta: falla 4/8; header con 10 controles | Moderada: falla 2/8 (marginales); header con 4 secciones + ES/EN             |
+| Detector URL (home 1440 / home 390 / caso 1440 / caso 390) | 13 / 11 / 2 / 0                          | 3 / 2 / 1 / 1 (`cream-palette` y espina deliberados)                         |
+| Detector código fuente                                     | 1 aviso                                  | 0                                                                            |
+| Objetivos táctiles < 44 px a 390                           | ES/EN 36 px, CTAs 40 px, marca 42 px     | Ninguno                                                                      |
+| Foco del CTA primario                                      | Débil (lima sobre lima)                  | Anillo de 3 px ink-deep con offset 4 en todos los controles                  |
+| Contraste mínimo de texto                                  | 7.68:1                                   | 5.43:1 en el peor caso (sobre línea de cuadrícula); todo AA                  |
+| Overflow a 360 con contenido extremo                       | 352 px (botón Iconiq)                    | 0                                                                            |
+| Lighthouse local a 390 (no producción)                     | —                                        | LCP ≈ 0.9 s, CLS 0, JS ≈ 228 KB                                              |
+| three.js / GlassObject                                     | En el repo (flag apagado)                | Retirados                                                                    |
+| e2e                                                        | —                                        | 44 aprobadas, 10 omitidas (proveedor/Workers); 1 test de tiempo intermitente |
+
+| Hallazgo                            | Estado                                                                                     |
+| ----------------------------------- | ------------------------------------------------------------------------------------------ |
+| #1 Formulario ausente en producción | Fuera de diseño: contacto rediseñado sin formulario; config pendiente                      |
+| #2 «IA» leído como AI               | Resuelto                                                                                   |
+| #3 Punto «online»                   | Resuelto                                                                                   |
+| #4 Orden de evidencia               | Resuelto: estadía y CV en el primer viewport                                               |
+| #5 Capturas reales sin usar         | Resuelto: hero, proyectos y galería del caso                                               |
+| #6 HUD genérico                     | Resuelto: mundo «Cuaderno profesional»                                                     |
+| #7 Tracking del H1                  | Resuelto                                                                                   |
+| #8 Voz de auditor                   | Parcial: copy aprobado aplicado; quedan frases de Secure Transfer que requieren copy nuevo |
+| #9 Exceso de opciones               | Resuelto                                                                                   |
+| #10 Estilos de acción               | Resuelto en F01                                                                            |
+| #11 ◀ ▶ falsos                      | Resuelto (selector retirado)                                                               |
+| #12 Foco débil                      | Resuelto                                                                                   |
+| #13 Objetivos táctiles              | Resuelto                                                                                   |
+| #14 Reflow del formulario           | Resuelto para la config actual; el formulario se montaría debajo, sin reacomodar           |
+| #15 Kill global de reduced-motion   | Resuelto (alternativas por componente)                                                     |
+| #16 Botón frágil con texto largo    | Resuelto                                                                                   |
+| #17 Kickers                         | Resuelto                                                                                   |
+| #18 Líneas largas                   | Resuelto (≤ 70 caracteres)                                                                 |
+| #19 Estados que cambian de golpe    | Resuelto: menú móvil y press; los demás estados fueron retirados                           |
+| #20 CV solo ES / demo con login     | Parcial: nota de login visible; CV EN fuera de alcance                                     |
