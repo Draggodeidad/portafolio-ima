@@ -278,10 +278,7 @@ export function NavbarClient({
         </div>
 
         <noscript>
-          <nav
-            className="absolute inset-x-0 top-[var(--nav-height)] flex flex-wrap gap-x-5 border-b border-page-edge bg-desk px-[var(--page-gutter)]"
-            aria-label={copy.navigationLabel}
-          >
+          <nav className={styles.noScriptNav} aria-label={copy.navigationLabel}>
             <a
               className={styles.navLink}
               href={

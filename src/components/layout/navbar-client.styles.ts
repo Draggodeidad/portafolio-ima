@@ -24,6 +24,8 @@ export const styles = {
     "h-0.5 w-5 bg-graphite transition-transform duration-200 ease-[var(--ease-out-ui)] motion-reduce:transition-none",
   menuIconLineFirstOpen: "translate-y-[3.5px] rotate-45",
   menuIconLineLastOpen: "-translate-y-[3.5px] -rotate-45",
+  noScriptNav:
+    "absolute inset-x-0 top-[var(--nav-height)] flex flex-wrap gap-x-5 border-b border-page-edge bg-desk px-[var(--page-gutter)]",
   mobileNav:
     "absolute inset-x-0 top-[var(--nav-height)] hidden max-h-[calc(100dvh-var(--nav-height))] flex-col items-start overflow-y-auto border-b border-graphite bg-desk px-[var(--page-gutter)] pb-5 pointer-events-none invisible [transform:translateY(-8px)] opacity-0 [transition:opacity_150ms_var(--ease-out-ui),transform_150ms_var(--ease-out-ui),visibility_0s_150ms] motion-reduce:[transform:none] motion-reduce:[transition:opacity_150ms_var(--ease-out-ui),visibility_0s_150ms] max-[1023px]:flex",
   mobileNavOpen:
