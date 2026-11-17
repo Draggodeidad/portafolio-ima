@@ -66,9 +66,7 @@ export async function ProjectsSection({ locale }: { locale: Locale }) {
                   />
                 </svg>
                 <p className={styles.contributionText}>
-                  <strong className="bg-highlighter px-1 py-0.5 [box-decoration-break:clone]">
-                    {featured.contribution[locale]}
-                  </strong>
+                  <strong>{featured.contribution[locale]}</strong>
                 </p>
               </div>
             )}

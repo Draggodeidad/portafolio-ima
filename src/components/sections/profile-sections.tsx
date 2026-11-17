@@ -125,15 +125,7 @@ export async function ExperienceSection({ locale }: ProfileSectionsProps) {
                     <p className={styles.status}>
                       {t(pending ? "inProgress" : "completed")}
                     </p>
-                    <h3 className={styles.entryTitle}>
-                      {entry.id === "1degree-internship" ? (
-                        <span className="bg-highlighter px-1 py-0.5 [box-decoration-break:clone]">
-                          {entry.title[locale]}
-                        </span>
-                      ) : (
-                        entry.title[locale]
-                      )}
-                    </h3>
+                    <h3 className={styles.entryTitle}>{entry.title[locale]}</h3>
                     <p className={styles.detail}>
                       {entry.organization} · {entry.period[locale]}
                     </p>

@@ -120,7 +120,11 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
                 aria-label={t("contribution")}
               >
                 <p className={styles.label}>{t("contribution")}</p>
-                <p className={styles.text}>{project.contribution[language]}</p>
+                <p className={styles.text}>
+                  <strong className="bg-highlighter px-1 py-0.5 text-graphite [box-decoration-break:clone]">
+                    {project.contribution[language]}
+                  </strong>
+                </p>
               </aside>
             )}
             <div className="mt-6">
