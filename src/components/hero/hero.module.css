@@ -80,6 +80,8 @@
 }
 .highlight {
   background: var(--highlighter);
+  padding: 3px 4px;
+  box-decoration-break: clone;
   animation: highlight var(--motion-highlighter) var(--ease-highlighter) both;
 }
 .print {
