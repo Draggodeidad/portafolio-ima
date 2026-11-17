@@ -20,8 +20,6 @@
     }
   },
   "Hero": {
-    "eyebrow": "Perfil de desarrollador",
-    "role": "Desarrollador full-stack con enfoque en backend.",
     "description": "Construyo aplicaciones, APIs y automatizaciones con JavaScript y TypeScript.",
     "projects": "Ver proyectos",
     "contact": "Contactar",
@@ -30,27 +28,22 @@
       "es": "español",
       "en": "inglés"
     },
-    "nodeGroupLabel": "Elige un área de trabajo",
-    "nodeCaseLink": "Ver caso",
-    "frameHeader": "Perfil técnico",
-    "hudToggle": "Áreas de trabajo y casos",
-    "nodes": {
-      "api": {
-        "short": "API",
-        "label": "API / Gateway",
-        "description": "Diseño de APIs y lógica de servidor: una API Express que cifra, firma y almacena paquetes de archivos."
-      },
-      "data": {
-        "short": "Datos",
-        "label": "Datos / Caché",
-        "description": "Persistencia local con IndexedDB y una cola que sincroniza con el servidor cuando vuelve la conexión."
-      },
-      "automation": {
-        "short": "Automatización",
-        "label": "Automatización / Integraciones",
-        "description": "Integración de Classroom, Drive y la API de GitHub en un workflow n8n con validación y un modo de simulación (dry-run) que no escribe en GitHub."
-      }
-    }
+    "roleStart": "Desarrollador full-stack con enfoque en ",
+    "roleEnd": ".",
+    "evidence": [
+      "Verificado: estadía en desarrollo backend y transformación digital · 1Degree Holdings · 2025.",
+      "En curso: Ingeniería en TI · Universidad Tecnológica de Tehuacán · 2025–2027 (previsto).",
+      "Verificado: implementación principal y arquitectura de PWA UTT; pruebas y documentación con el equipo."
+    ],
+    "subtitle": "Inspecciones de laboratorios",
+    "imageAlt": "Resumen de coordinación de PWA UTT con datos sintéticos",
+    "caption": "Captura con datos sintéticos",
+    "notes": [
+      "Registro de inspecciones de laboratorio.",
+      "Registros locales en IndexedDB.",
+      "Una cola envía cambios al volver la conexión.",
+      "Conflictos de versión explícitos."
+    ]
   },
   "Projects": {
     "eyebrow": "Proyectos",
