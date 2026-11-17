@@ -22,6 +22,7 @@ Prompt maestro: pegado en la sesión del 2026-11-17 (no guardado en el repo)
 | P02 | QA final + polish                                                       | 7    | merged           | —               | —           | 1 ronda (styling.md, overflow-wrap, noscript)                                    |
 | F01 | Correcciones del finish review (ronda 1)                                | 7    | merged           | —               | —           | Spreads, diagramas a tinta, acciones, estados                                    |
 | F02 | Correcciones del finish review (ronda 2)                                | 7    | merged           | —               | —           | Resaltado móvil, acciones, cierre del spread del caso                            |
+| F03 | Notas al margen y referencias numeradas (decisión GATE FINAL)           | 7    | merged           | —               | —           | e2e 46 passed                                                                    |
 
 ## Decisiones
 
@@ -43,6 +44,9 @@ Prompt maestro: pegado en la sesión del 2026-11-17 (no guardado en el repo)
 - 2026-11-17 — e2e: `deployment.spec.ts` › «locale switching waits for the initial anchor at 390px» es intermitente bajo la suite en paralelo (falló 1 vez y pasó 3/3 aislado y en la siguiente corrida completa).
 
 - 2026-11-17 — Finish review, 2 rondas. Resueltos: fixes 1, 2, 4, 6, 7, 8 y regresiones 1–3. Abiertos para el usuario: fix 3 (flecha decisión→evidencia; columna derecha vacía en Trayectoria, Cómo trabajo y Contacto) y fix 5 (resaltado por pantalla vs. por página).
+
+- 2026-11-17 — GATE FINAL: el usuario aprueba un resaltado por página, notas al margen, referencias numeradas y 3 reglas (copy con aprobación → AGENTS.md; contacto sin formulario → PRODUCT.md; espacio vacío → DESIGN.md). Publicación: rama + PR, sin push a main.
+- Pendientes registrados por el documentador: clases `ink.flow`/`ink.inkStroke` sin definir en `project-visual.module.css` (los diagramas no se dibujan); columna derecha vacía junto a Arquitectura en Secure Transfer y Classroom (≥1280); el tachado de «Demo» es line-through de texto, no un trazo SVG; hover sin gate en los enlaces de contacto y footer; espaciados de 4 px fuera de la celda en proyectos y casos.
 
 ## Sustituciones de herramientas
 
