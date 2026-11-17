@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { Button } from "@/components/ui/b-button";
 import { Container } from "@/components/layout/container";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { ContactForm } from "@/components/sections/contact-form";
@@ -32,8 +33,6 @@ const styles = {
   skillName: "text-label text-graphite",
   contact: "mt-[20px] max-w-[70ch] space-y-[20px]",
   actions: "flex flex-wrap items-center gap-[10px]",
-  primary:
-    "inline-flex min-h-12 items-center bg-ink px-[20px] py-[10px] text-label text-print transition-colors hover:bg-ink-deep active:translate-y-px motion-reduce:transition-none",
   link: "inline-flex min-h-12 items-center text-label text-ink underline decoration-1 underline-offset-4 hover:text-ink-deep",
   email: "max-w-full break-all text-body text-graphite",
   footer: "py-[40px]",
@@ -160,12 +159,13 @@ export async function ContactSection({ locale }: ProfileSectionsProps) {
             {profile.email && (
               <>
                 <div className={styles.actions}>
-                  <a
-                    className={styles.primary}
+                  <Button
                     href={`mailto:${profile.email}`}
+                    variant="default"
+                    disableRipple
                   >
                     {t("emailAction")}
-                  </a>
+                  </Button>
                   <CopyEmailButton
                     email={profile.email}
                     copy={{

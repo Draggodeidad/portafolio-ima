@@ -190,3 +190,22 @@ for (const locale of ["es", "en"] as const) {
     }
   });
 }
+
+test("project diagrams are visible without motion on the home and with reduced motion in a case", async ({
+  page,
+}) => {
+  await page.goto("/es");
+  const homeStrokes = page.locator('figure[aria-label] path[pathLength="1"]');
+  expect(await homeStrokes.count()).toBeGreaterThan(0);
+  for (const stroke of await homeStrokes.all()) {
+    await expect(stroke).toHaveCSS("animation-name", "none");
+  }
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/es/proyectos/pwa-utt");
+  const caseStrokes = page.locator('[data-ink-draw] path[pathLength="1"]');
+  expect(await caseStrokes.count()).toBeGreaterThan(0);
+  for (const stroke of await caseStrokes.all()) {
+    await expect(stroke).toHaveCSS("animation-name", "none");
+    await expect(stroke).toHaveCSS("stroke-dashoffset", "0px");
+  }
+});

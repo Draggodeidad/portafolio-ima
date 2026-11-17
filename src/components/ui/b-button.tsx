@@ -32,14 +32,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "-rotate-1 bg-ink px-5 text-print hover:bg-ink-deep",
+        default:
+          "bg-ink px-5 text-print [@media(hover:hover)_and_(pointer:fine)]:hover:bg-ink-deep",
         outline:
-          "border-b-2 border-ink bg-transparent px-0 text-graphite hover:text-ink",
+          "border-b-2 border-ink bg-transparent px-0 text-graphite [@media(hover:hover)_and_(pointer:fine)]:hover:text-ink",
         secondary:
-          "border-b-2 border-ink bg-transparent px-0 text-graphite hover:text-ink",
-        ghost: "bg-transparent px-0 text-graphite hover:text-ink",
+          "border-b-2 border-ink bg-transparent px-0 text-graphite [@media(hover:hover)_and_(pointer:fine)]:hover:text-ink",
+        ghost:
+          "bg-transparent px-0 text-graphite [@media(hover:hover)_and_(pointer:fine)]:hover:text-ink",
         destructive: "bg-error px-5 text-print",
-        link: "bg-transparent px-0 text-ink underline underline-offset-4 hover:text-ink-deep",
+        link: "bg-transparent px-0 text-ink underline underline-offset-4 [@media(hover:hover)_and_(pointer:fine)]:hover:text-ink-deep",
       },
       linkUnderline: { motion: "", static: "" },
       size: {
@@ -196,12 +198,6 @@ function useMeasure<T extends HTMLElement = HTMLElement>(
 const MotionAnchor = motion.create("a");
 
 const buttonTransition = {
-  scale: {
-    type: "spring",
-    stiffness: 640,
-    damping: 38,
-    mass: 0.85,
-  },
   width: {
     type: "spring",
     stiffness: 420,
@@ -288,19 +284,22 @@ function getButtonAnimate(
   isPressed: boolean,
   animatedWidth: number | undefined,
   reduceMotion: boolean | null,
+  rotate: number,
 ) {
   const shouldReduceMotion = reduceMotion === true;
-  const pressScale = canAnimate && isPressed && !shouldReduceMotion ? 0.96 : 1;
+  const pressScale = canAnimate && isPressed && !shouldReduceMotion ? 0.97 : 1;
 
   if (animatedWidth) {
     return {
       scale: pressScale,
+      rotate,
       width: animatedWidth,
     };
   }
 
   return {
     scale: pressScale,
+    rotate,
   };
 }
 
@@ -449,24 +448,28 @@ function getIconSpinnerAnimate(showSpinner: boolean, noMotion: boolean) {
 }
 
 function buildMotionSurfaceProps({
-  canAnimate,
   isPressed,
   motionAnimate,
   reduceMotion,
   useLinkMotionUnderline,
-  variant,
+  canHover,
 }: {
-  canAnimate: boolean;
   isPressed: boolean;
   motionAnimate: ReturnType<typeof getButtonAnimate>;
   reduceMotion: boolean | null;
   useLinkMotionUnderline: boolean;
-  variant: VariantProps<typeof buttonVariants>["variant"];
+  canHover: boolean;
 }) {
   const shouldReduceMotion = reduceMotion === true;
   const surfaceTransition = shouldReduceMotion
     ? { duration: 0 }
-    : buttonTransition;
+    : {
+        ...buttonTransition,
+        scale: {
+          duration: isPressed ? 0.12 : 0.16,
+          ease: [0.23, 1, 0.32, 1] as const,
+        },
+      };
   const shared = {
     animate: motionAnimate,
     "data-pressed": isPressed ? "true" : "false",
@@ -478,19 +481,14 @@ function buildMotionSurfaceProps({
       ...shared,
       initial: shouldReduceMotion ? (false as const) : ("rest" as const),
       variants: shouldReduceMotion ? undefined : { rest: {}, hover: {} },
-      whileHover: shouldReduceMotion ? undefined : ("hover" as const),
+      whileHover:
+        shouldReduceMotion || !canHover ? undefined : ("hover" as const),
     };
   }
-
-  const hoverLift =
-    canAnimate && variant !== "link" && !shouldReduceMotion
-      ? { y: -1 }
-      : undefined;
 
   return {
     ...shared,
     initial: false as const,
-    whileHover: hoverLift,
   };
 }
 
@@ -838,6 +836,15 @@ const ButtonInner = forwardRef<
     const isLocked = Boolean(disabled || loading);
     const accessibleName = iconLabel ?? ariaLabel;
     const [reduceMotion, setReduceMotion] = useState(false);
+    const [canHover, setCanHover] = useState(false);
+
+    useEffect(() => {
+      const media = window.matchMedia("(hover: hover) and (pointer: fine)");
+      const update = () => setCanHover(media.matches);
+      update();
+      media.addEventListener("change", update);
+      return () => media.removeEventListener("change", update);
+    }, []);
 
     useEffect(() => {
       const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -1067,27 +1074,31 @@ const ButtonInner = forwardRef<
 
     const motionAnimate = useMemo(
       () =>
-        getButtonAnimate(canAnimate, isPressed, animatedWidth, reduceMotion),
-      [animatedWidth, canAnimate, isPressed, reduceMotion],
+        getButtonAnimate(
+          canAnimate,
+          isPressed,
+          animatedWidth,
+          reduceMotion,
+          variant == null || variant === "default" ? -1 : 0,
+        ),
+      [animatedWidth, canAnimate, isPressed, reduceMotion, variant],
     );
 
     const motionSurfaceProps = useMemo(
       () =>
         buildMotionSurfaceProps({
-          canAnimate,
           isPressed,
           motionAnimate,
           reduceMotion,
           useLinkMotionUnderline,
-          variant,
+          canHover,
         }),
       [
-        canAnimate,
         isPressed,
         motionAnimate,
         reduceMotion,
         useLinkMotionUnderline,
-        variant,
+        canHover,
       ],
     );
 

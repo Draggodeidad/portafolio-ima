@@ -156,7 +156,7 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
               </Button>
             </div>
           </header>
-          <div className={styles.evidence}>
+          <div className={styles.evidence} data-ink-draw>
             <ProjectVisual project={project} locale={language} />
             {project.id === "pwa-utt" && (
               <ProjectScreenshots locale={language} />

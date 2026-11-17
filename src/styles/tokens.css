@@ -67,6 +67,7 @@
   --motion-press-in: 120ms;
   --motion-press-out: 160ms;
   --motion-state: 150ms;
+  --ease-out-ui: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-ink: cubic-bezier(0, 0, 0.2, 1);
   --ease-highlighter: cubic-bezier(0.2, 0, 0, 1);
 
