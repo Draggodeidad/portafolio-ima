@@ -6,22 +6,22 @@ import { Button } from "@/components/ui/b-button";
 import { cn } from "@/lib/cn";
 
 const styles = {
-  form: "space-y-5 border border-border-subtle bg-surface p-5 sm:p-7",
-  title: "m-0 font-display text-xl font-semibold text-foreground",
-  intro: "m-0 text-sm leading-6 text-muted-foreground",
-  fields: "grid gap-4 sm:grid-cols-2",
-  field: "min-w-0 space-y-2",
-  fieldWide: "space-y-2 sm:col-span-2",
-  label: "block text-sm font-medium text-foreground",
+  form: "mt-[40px] max-w-[70ch] space-y-[20px] border-t border-ruled-line pt-[40px]",
+  title: "text-h3 text-graphite",
+  intro: "text-body text-graphite-soft",
+  fields: "grid gap-[20px] sm:grid-cols-2",
+  field: "min-w-0 space-y-[10px]",
+  fieldWide: "min-w-0 space-y-[10px] sm:col-span-2",
+  label: "block text-label text-graphite",
   input:
-    "min-h-11 w-full rounded-control border border-control-border bg-background px-3 py-2.5 text-base text-foreground outline-none placeholder:text-muted-foreground/70 focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent/40 aria-invalid:border-error",
+    "min-h-12 w-full border border-ruled-line bg-print px-[10px] py-[10px] text-body text-graphite aria-invalid:border-error",
   textarea:
-    "min-h-36 w-full resize-y rounded-control border border-control-border bg-background px-3 py-2.5 text-base leading-6 text-foreground outline-none placeholder:text-muted-foreground/70 focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent/40 aria-invalid:border-error",
-  error: "m-0 text-sm leading-5 text-error",
-  status: "m-0 text-sm leading-6 text-navigation empty:sr-only",
+    "min-h-40 w-full resize-y border border-ruled-line bg-print px-[10px] py-[10px] text-body text-graphite aria-invalid:border-error",
+  error: "text-small text-error",
+  status: "text-small text-graphite empty:sr-only",
   statusSuccess: "text-success",
   statusError: "text-error",
-  submit: "min-h-11 !rounded-none px-5 text-sm font-semibold",
+  submit: "min-h-12 !rounded-none px-[20px] text-label",
 } as const;
 
 type FieldName = "name" | "email" | "message";
@@ -37,6 +37,7 @@ type FormCopy = {
   errorGeneric: string;
   errorRateLimit: string;
   verification: string;
+  verificationRequired: string;
   validation: {
     required: string;
     email: string;
@@ -311,7 +312,13 @@ export function ContactForm({ copy }: { copy: FormCopy }) {
       >
         {statusText}
       </p>
+      {!token && status !== "submitting" && (
+        <p id="verification-required" className={styles.intro}>
+          {copy.verificationRequired}
+        </p>
+      )}
       <Button
+        aria-describedby={!token ? "verification-required" : undefined}
         className={styles.submit}
         disabled={!token || status === "submitting"}
         loading={status === "submitting"}

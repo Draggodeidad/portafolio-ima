@@ -2,70 +2,46 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
-import { ArrowLeft, ArrowRight, Code2, ExternalLink, Mail } from "lucide-react";
+import { ActionArrow } from "@/components/ui/action-arrow";
 import { Button } from "@/components/ui/b-button";
 import { InlineCode } from "@/components/ui/inline-code";
 import { Container } from "@/components/layout/container";
+import notebook from "@/components/hero/hero.module.css";
+import { EvidenceReference } from "@/components/projects/evidence-reference";
 import { ProjectVisual } from "@/components/projects/project-visual";
+import { ProjectScreenshots } from "@/components/projects/project-screenshots";
 import { profile } from "@/content/profile";
 import { getProject, projects, type StudyBlock } from "@/content/projects";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
-import { cn } from "@/lib/cn";
 
 const styles = {
-  main: "pb-20 pt-[calc(var(--nav-height)+32px)] sm:pt-[calc(var(--nav-height)+48px)]",
-  back: "mb-8 inline-flex min-h-11 items-center gap-2 rounded-control px-1 text-sm font-semibold text-navigation underline-offset-4 hover:text-accent hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent",
-  hero: "grid gap-8 border-b border-border-subtle pb-10 lg:grid-cols-12 lg:items-end",
-  heroCopy: "min-w-0 lg:col-span-8",
-  eyebrow: "mb-3 font-mono text-xs uppercase tracking-[0.11em] text-accent",
-  title:
-    "mb-4 font-display text-[clamp(2.2rem,6vw,4.5rem)] font-bold leading-[1.04] tracking-[-0.045em] text-foreground",
-  description:
-    "max-w-prose text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8",
-  status:
-    "mt-5 inline-flex items-start gap-2 border border-border-subtle bg-surface px-3 py-2 font-mono text-xs uppercase leading-5 tracking-[0.08em] text-navigation",
-  dot: "mt-[7px] size-1.5 shrink-0 rounded-full bg-accent",
-  heroActions: "flex flex-wrap gap-3 lg:col-span-4 lg:justify-end",
-  button: "!min-h-11 !px-4 !text-sm",
-  visual: "my-8 lg:my-10",
-  contribution:
-    "mb-8 grid gap-2 border-l border-accent bg-surface px-5 py-4 sm:grid-cols-[11rem_1fr] sm:items-start",
-  contributionLabel: "font-mono text-xs uppercase tracking-[0.1em] text-accent",
-  contributionText: "text-sm leading-6 text-foreground",
-  techPanel:
-    "mb-12 flex flex-col gap-3 border-y border-border-subtle py-5 sm:flex-row sm:items-center sm:gap-6",
-  techLabel:
-    "shrink-0 font-mono text-xs uppercase tracking-[0.1em] text-navigation",
-  techList: "flex flex-wrap gap-2",
-  tech: "border border-border-subtle bg-control-surface px-2 py-1 font-mono text-xs text-foreground",
-  content:
-    "grid gap-x-14 gap-y-10 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)]",
-  contentIntro: "lg:sticky lg:top-[calc(var(--nav-height)+24px)] lg:self-start",
-  contentTitle:
-    "mb-4 font-display text-2xl font-bold tracking-[-0.03em] text-foreground",
-  contentLead: "max-w-prose text-sm leading-7 text-muted-foreground",
-  blocks: "grid gap-8",
-  block: "border-t border-border-subtle pt-5",
-  blockTitle: "mb-3 font-display text-xl font-semibold text-foreground",
+  main: "bg-desk pb-20 pt-[calc(var(--nav-height)+40px)] text-graphite",
+  page: "relative border border-page-edge bg-paper py-10 pl-[50px] pr-5 [background-image:var(--paper-grid)] [background-size:var(--grid-cell)_var(--grid-cell)] before:absolute before:inset-y-0 before:left-5 before:w-0.5 before:bg-margin-red sm:py-10 sm:pl-[60px] sm:pr-10 sm:before:left-[30px]",
+  back: "inline-flex min-h-12 items-center text-label text-ink underline underline-offset-4",
+  header: "mt-10 border-b border-ruled-line pb-10",
+  title: "max-w-[22ch] text-h2 [overflow-wrap:anywhere]",
+  description: "mt-5 max-w-[65ch] text-body text-graphite-soft",
+  contribution: "mt-10 max-w-[65ch]",
+  label: "mb-[10px] text-label text-graphite",
+  text: "max-w-[65ch] text-body text-graphite-soft [overflow-wrap:anywhere]",
+  technologies:
+    "mt-[10px] flex flex-wrap gap-x-[10px] text-body text-graphite-soft",
+  technology: "not-last:after:ml-[10px] not-last:after:content-['·']",
+  actions: "mt-[30px] flex flex-wrap gap-[10px]",
+  button: "min-h-12",
+  spread:
+    "relative grid gap-10 xl:grid-cols-2 xl:gap-20 xl:before:absolute xl:before:inset-y-0 xl:before:left-1/2 xl:before:w-px xl:before:bg-page-edge",
+  evidence: "grid content-start gap-10 xl:self-start",
+  block: "border-t border-page-edge py-10",
+  blockTitle: "mb-5 text-h2",
   paragraph:
-    "mb-3 max-w-prose text-sm leading-7 text-muted-foreground last:mb-0",
-  points:
-    "mt-4 grid max-w-prose gap-3 pl-5 text-sm leading-6 text-muted-foreground marker:text-accent",
-  cta: "relative mt-16 grid gap-6 border border-border bg-surface p-6 sm:p-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center",
-  ctaTitle:
-    "mb-2 font-display text-2xl font-bold tracking-[-0.03em] text-foreground",
-  ctaText: "max-w-prose text-sm leading-7 text-muted-foreground",
-  ctaActions: "flex flex-wrap items-center gap-3",
-  ctaPrimary:
-    "!min-h-11 !rounded-none !border-accent !bg-accent !px-4 !text-sm !text-accent-foreground hover:!bg-accent/90",
-  ctaMore:
-    "inline-flex min-h-11 items-center gap-2 px-1 text-sm font-semibold text-navigation underline-offset-4 hover:text-accent hover:underline",
-  related: "mt-6 grid gap-3 sm:grid-cols-2",
+    "mb-5 max-w-[65ch] text-body text-graphite-soft last:mb-0 [overflow-wrap:anywhere]",
+  points: "mt-5 grid list-disc gap-[10px] pl-5 text-body text-graphite-soft",
+  related: "mt-10 grid gap-5 border-t border-ruled-line pt-10 sm:grid-cols-2",
   relatedLink:
-    "flex min-h-20 min-w-0 items-center justify-between gap-4 border border-border-subtle bg-surface px-5 py-4 text-sm font-semibold text-foreground transition-colors hover:border-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
-  relatedLabel:
-    "mb-1 block font-mono text-xs uppercase tracking-[0.1em] text-navigation",
+    "flex min-h-12 flex-col justify-center border border-page-edge p-5 text-label text-ink [overflow-wrap:anywhere]",
+  cta: "mt-10 border-t border-ruled-line py-10",
 } as const;
 
 type ProjectPageProps = {
@@ -119,7 +95,6 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
   if (!hasLocale(routing.locales, locale)) notFound();
   const project = getProject(slug);
   if (!project) notFound();
-
   const language = locale as Locale;
   const t = await getTranslations({ locale, namespace: "Studies" });
   const index = projects.findIndex((item) => item.slug === project.slug);
@@ -129,156 +104,146 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
   return (
     <main className={styles.main} id="contenido">
       <Container>
-        <Link
-          className={styles.back}
-          href={{ pathname: "/", hash: "#proyectos" }}
-        >
-          <ArrowLeft size={16} aria-hidden="true" />
-          {t("back")}
-        </Link>
-
-        <header className={styles.hero}>
-          <div className={styles.heroCopy}>
-            <p className={styles.eyebrow}>
-              {t("caseLabel")} · {project.type[language]}
-            </p>
+        <div className={styles.page}>
+          <Link
+            className={styles.back}
+            href={{ pathname: "/", hash: "#proyectos" }}
+          >
+            {t("back")}
+          </Link>
+          <header className={styles.header}>
             <h1 className={styles.title}>{project.name[language]}</h1>
             <p className={styles.description}>
               {project.study.description[language]}
             </p>
-            <p className={styles.status}>
-              <span className={styles.dot} aria-hidden="true" />
-              {project.status[language]}
-            </p>
-          </div>
-          <div className={styles.heroActions}>
-            {project.demo && (
+            {project.contribution && (
+              <aside
+                className={styles.contribution}
+                aria-label={t("contribution")}
+              >
+                <p className={styles.label}>{t("contribution")}</p>
+                <p className={styles.text}>
+                  <strong className="bg-highlighter px-1 py-0.5 text-graphite [box-decoration-break:clone]">
+                    {project.contribution[language]}
+                  </strong>
+                </p>
+              </aside>
+            )}
+            <div className="mt-[20px]">
+              <p className={styles.label}>{t("technologies")}</p>
+              <ul className={styles.technologies}>
+                {project.technologies.map((technology) => (
+                  <li className={styles.technology} key={technology}>
+                    {technology}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className={styles.actions}>
+              {project.demo && (
+                <Button
+                  className={styles.button}
+                  href={project.demo}
+                  target="_blank"
+                  rel="noreferrer"
+                  variant="outline"
+                  disableRipple
+                >
+                  {t("demo")}
+                  <ActionArrow />
+                </Button>
+              )}
               <Button
                 className={styles.button}
-                href={project.demo}
+                href={project.repository}
                 target="_blank"
                 rel="noreferrer"
-                variant="default"
-                size="sm"
+                variant="outline"
                 disableRipple
-                icon={<ExternalLink size={15} aria-hidden="true" />}
-                iconPosition="end"
               >
-                {t("demo")}
+                {t("repository")}
+                <ActionArrow />
               </Button>
+            </div>
+            {project.demo && (
+              <p className={styles.text}>{project.status[language]}</p>
             )}
-            <Button
-              className={cn(
-                styles.button,
-                "!border-control-border !bg-control-surface !text-foreground",
-              )}
-              href={project.repository}
-              target="_blank"
-              rel="noreferrer"
-              variant="outline"
-              size="sm"
-              disableRipple
-              icon={<Code2 size={15} aria-hidden="true" />}
-              iconPosition="start"
-            >
-              {t("repository")}
-            </Button>
-          </div>
-        </header>
-
-        <div className={styles.visual}>
-          <ProjectVisual project={project} locale={language} />
-        </div>
-
-        {project.contribution && (
-          <aside className={styles.contribution} aria-label={t("contribution")}>
-            <span className={styles.contributionLabel}>
-              {t("contribution")}
-            </span>
-            <p className={styles.contributionText}>
-              {project.contribution[language]}
-            </p>
-          </aside>
-        )}
-
-        <div className={styles.techPanel}>
-          <h2 className={styles.techLabel}>{t("technologies")}</h2>
-          <ul className={styles.techList}>
-            {project.technologies.map((technology) => (
-              <li className={styles.tech} key={technology}>
-                {technology}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <article className={styles.content}>
-          <div className={styles.contentIntro}>
-            <h2 className={styles.contentTitle}>
-              {project.study.problem.title[language]}
-            </h2>
-            {project.study.problem.paragraphs.map((paragraph) => (
-              <p className={styles.contentLead} key={paragraph[language]}>
-                <InlineCode text={paragraph[language]} />
-              </p>
-            ))}
-          </div>
-          <div className={styles.blocks}>
+          </header>
+          <StudySection block={project.study.problem} locale={language} />
+          <div className={styles.spread}>
+            <span
+              className={`hidden xl:block ${notebook.spine}`}
+              aria-hidden="true"
+            />
             <StudySection
               block={project.study.architecture}
               locale={language}
+              reference={1}
             />
-            <StudySection block={project.study.decisions} locale={language} />
-            <StudySection block={project.study.validation} locale={language} />
-            <StudySection block={project.study.limitations} locale={language} />
+            <div className={styles.evidence}>
+              <ProjectVisual
+                project={project}
+                locale={language}
+                reference={project.id !== "pwa-utt"}
+              />
+            </div>
+            {project.id === "pwa-utt" && (
+              <>
+                <StudySection
+                  block={project.study.decisions}
+                  locale={language}
+                />
+                <div className={styles.evidence}>
+                  <ProjectScreenshots locale={language} />
+                </div>
+              </>
+            )}
           </div>
-        </article>
-
-        <section className={styles.cta} aria-labelledby="case-contact-title">
-          <div>
-            <h2 className={styles.ctaTitle} id="case-contact-title">
+          {project.id !== "pwa-utt" && (
+            <StudySection block={project.study.decisions} locale={language} />
+          )}
+          <StudySection block={project.study.validation} locale={language} />
+          <StudySection block={project.study.limitations} locale={language} />
+          <nav className={styles.related} aria-label={t("moreProjects")}>
+            {[
+              { project: previous, label: t("previous") },
+              { project: next, label: t("next") },
+            ].map(({ project: related, label }) => (
+              <Link
+                className={styles.relatedLink}
+                key={related.slug}
+                href={`/proyectos/${related.slug}`}
+              >
+                <span>{label}</span>
+                <span>{related.name[language]}</span>
+              </Link>
+            ))}
+          </nav>
+          <section className={styles.cta} aria-labelledby="case-contact-title">
+            <h2 className={styles.blockTitle} id="case-contact-title">
               {t("contactTitle")}
             </h2>
-            <p className={styles.ctaText}>{t("contactText")}</p>
-          </div>
-          <div className={styles.ctaActions}>
-            {profile.email ? (
-              <Button
-                className={styles.ctaPrimary}
-                href={`mailto:${profile.email}`}
-                variant="default"
-                size="sm"
-                disableRipple
-                icon={<Mail size={15} aria-hidden="true" />}
-                iconPosition="start"
+            <p className={styles.text}>{t("contactText")}</p>
+            <div className={styles.actions}>
+              {profile.email && (
+                <Button
+                  className={styles.button}
+                  href={`mailto:${profile.email}`}
+                  variant="default"
+                  disableRipple
+                >
+                  {t("contactEmail")}
+                </Button>
+              )}
+              <Link
+                className={styles.back}
+                href={{ pathname: "/", hash: "#contacto" }}
               >
-                {t("contactEmail")}
-              </Button>
-            ) : null}
-            <Link
-              className={styles.ctaMore}
-              href={{ pathname: "/", hash: "#contacto" }}
-            >
-              {t("contactMore")}
-              <ArrowRight size={16} aria-hidden="true" />
-            </Link>
-          </div>
-        </section>
-
-        <nav className={styles.related} aria-label={t("moreProjects")}>
-          <RelatedProject
-            project={previous}
-            locale={language}
-            label={t("previous")}
-            direction="previous"
-          />
-          <RelatedProject
-            project={next}
-            locale={language}
-            label={t("next")}
-            direction="next"
-          />
-        </nav>
+                {t("contactMore")}
+              </Link>
+            </div>
+          </section>
+        </div>
       </Container>
     </main>
   );
@@ -287,15 +252,18 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
 function StudySection({
   block,
   locale,
+  reference,
 }: {
   block: StudyBlock;
   locale: Locale;
+  reference?: number;
 }) {
   return (
     <section className={styles.block}>
       <h2 className={styles.blockTitle}>{block.title[locale]}</h2>
-      {block.paragraphs.map((paragraph) => (
+      {block.paragraphs.map((paragraph, index) => (
         <p className={styles.paragraph} key={paragraph[locale]}>
+          {index === 0 && reference && <EvidenceReference number={reference} />}
           <InlineCode text={paragraph[locale]} />
         </p>
       ))}
@@ -309,40 +277,5 @@ function StudySection({
         </ul>
       )}
     </section>
-  );
-}
-
-function RelatedProject({
-  project,
-  locale,
-  label,
-  direction,
-}: {
-  project: (typeof projects)[number];
-  locale: Locale;
-  label: string;
-  direction: "previous" | "next";
-}) {
-  return (
-    <Link className={styles.relatedLink} href={`/proyectos/${project.slug}`}>
-      {direction === "previous" && (
-        <ArrowLeft
-          className="shrink-0 text-accent"
-          size={18}
-          aria-hidden="true"
-        />
-      )}
-      <span className="min-w-0">
-        <span className={styles.relatedLabel}>{label}</span>
-        <span className="block">{project.name[locale]}</span>
-      </span>
-      {direction === "next" && (
-        <ArrowRight
-          className="shrink-0 text-accent"
-          size={18}
-          aria-hidden="true"
-        />
-      )}
-    </Link>
   );
 }

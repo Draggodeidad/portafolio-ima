@@ -43,6 +43,8 @@ test("mobile menu opens and closes with the keyboard and restores focus", async 
   await page.goto("/en");
 
   const menuButton = page.locator('button[aria-controls="mobile-navigation"]');
+  // The toggle is disabled until hydration; wait for it before using the keyboard.
+  await expect(menuButton).toBeEnabled();
   await menuButton.focus();
   await page.keyboard.press("Enter");
   await expect(menuButton).toHaveAttribute("aria-expanded", "true");
@@ -62,6 +64,8 @@ test("mobile menu keeps keyboard focus inside the header while open", async ({
   const header = page.getByRole("banner");
   const menuButton = page.locator('button[aria-controls="mobile-navigation"]');
   const mobileNavigation = page.locator("#mobile-navigation");
+  // The toggle is disabled until hydration; wait for it before using the keyboard.
+  await expect(menuButton).toBeEnabled();
   await menuButton.focus();
   await page.keyboard.press("Enter");
   await expect(mobileNavigation).toBeVisible();
@@ -117,4 +121,35 @@ test("mobile menu hydrates on the local network address", async ({
   await expect(menuButton).toHaveAttribute("aria-expanded", "true");
   await expect(page.locator("#mobile-navigation")).toBeVisible();
   await context.close();
+});
+
+test("navigation has four accessible targets and preserves anchors across languages", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.goto("/es#proyectos");
+  const header = page.getByRole("banner");
+  const menu = page.locator("#mobile-navigation");
+  await header.getByRole("button", { name: "Abrir menú" }).click();
+  await expect(menu.getByRole("link")).toHaveText([
+    "Proyectos",
+    "Trayectoria",
+    "Sobre mí",
+    "Contacto",
+  ]);
+  await expect(menu.getByRole("link", { name: "Proyectos" })).toHaveAttribute(
+    "aria-current",
+    "location",
+  );
+  for (const control of await header
+    .locator("a:visible, button:visible")
+    .all()) {
+    const box = await control.boundingBox();
+    expect(box?.height).toBeGreaterThanOrEqual(43.9);
+    expect(box?.width).toBeGreaterThanOrEqual(43.9);
+  }
+  await header
+    .getByRole("link", { name: "Switch language to English" })
+    .click();
+  await expect(page).toHaveURL(/\/en#proyectos$/);
 });

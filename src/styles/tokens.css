@@ -1,78 +1,125 @@
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  --portfolio-background: #101214;
-  --portfolio-project-canvas: #0c0e10;
-  --portfolio-surface: #1b2024;
-  --portfolio-surface-raised: #252c31;
-  --portfolio-foreground: #f2f3ed;
-  --portfolio-muted-foreground: #abb3b8;
-  --portfolio-accent: #c2f362;
-  --portfolio-accent-foreground: #101214;
-  --portfolio-accent-contrast: #4e6e00;
-  --portfolio-border: rgb(242 243 237 / 14%);
-  --portfolio-border-subtle: rgb(242 243 237 / 7%);
-  --portfolio-control-border: #434937;
-  --portfolio-control-surface: #1e2022;
-  --portfolio-control-selected: #333537;
-  --portfolio-navigation-surface: #1a1c1e;
-  --portfolio-navigation-foreground: #c4c9b2;
-  --portfolio-success: #a4e39a;
-  --portfolio-error: #ff8f8f;
-  --portfolio-header-fallback: #121416;
-  --portfolio-header-glass: rgb(18 20 22 / 94%);
-  --portfolio-header-glow: rgb(0 0 0 / 4%);
-  --portfolio-background-glow: rgb(194 243 98 / 5%);
-  --portfolio-accent-glow: rgb(196 245 100 / 25%);
+  --desk: #e6e3da;
+  --paper: #f7f6f1;
+  --print: #fff;
+  --grid-line: #cfdce8;
+  --margin-red: #d2453b;
+  --ink: #1f3a93;
+  --ink-deep: #162a6e;
+  --graphite: #232323;
+  --graphite-soft: #56544d;
+  --highlighter: #e6f54a;
+  --tape: rgb(222 213 187 / 75%);
+  --page-edge: #aaa79f;
+  --ruled-line: #8a877e;
+  --focus: var(--ink-deep);
+  --error: #a3291f;
+  --success: #2b6a3a;
 
-  /* --font-space-grotesk and --font-jetbrains-mono come from next/font in
-     src/app/[locale]/layout.tsx (self-hosted, with metric-matched fallbacks). */
-  --portfolio-font-display: var(--font-space-grotesk), "Arial", sans-serif;
-  --portfolio-font-body: var(--font-space-grotesk), "Arial", sans-serif;
-  --portfolio-font-mono: var(--font-jetbrains-mono), "Courier New", monospace;
-
-  --portfolio-radius-control: 4px;
-  --portfolio-radius-panel: 8px;
-  --shadow-header: 0 1px 8px var(--portfolio-header-glow);
-  --shadow-accent-hover: 0 0 12px var(--portfolio-accent-glow);
-  --glass-fallback: var(--portfolio-header-fallback);
-  --glass-surface: var(--portfolio-header-glass);
-  --glass-blur: 12px;
-  --motion-fast: 180ms;
-  --motion-signal: 550ms;
-  --nav-height: 64px;
+  --grid-cell: 20px;
+  --paper-grid:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  --space-half: 10px;
+  --space-1: 20px;
+  --space-2: 40px;
+  --space-3: 60px;
+  --space-4: 80px;
+  --space-6: 120px;
+  --nav-height: 80px;
   --content-width: 1280px;
-  --page-gutter: clamp(20px, 4vw, 48px);
-}
+  --page-gutter: 20px;
 
-@media (max-width: 900px) {
-  :root {
-    --page-gutter: 20px;
-  }
+  --type-display: clamp(2.75rem, 1.9rem + 3.2vw, 4rem);
+  --type-display-weight: 800;
+  --type-display-leading: 1.05;
+  --type-display-tracking: -0.02em;
+  --type-h2: clamp(1.5rem, 1.3rem + 0.6vw, 1.75rem);
+  --type-h2-weight: 700;
+  --type-h2-leading: 2.5rem;
+  --type-h2-tracking: -0.01em;
+  --type-h3: clamp(1.25rem, 1.15rem + 0.3vw, 1.375rem);
+  --type-h3-weight: 700;
+  --type-h3-leading: 1.875rem;
+  --type-h3-tracking: 0em;
+  --type-body: 1rem;
+  --type-body-weight: 400;
+  --type-body-leading: 1.5;
+  --type-body-tracking: 0em;
+  --type-small: 0.875rem;
+  --type-small-weight: 400;
+  --type-small-leading: 1.25rem;
+  --type-small-tracking: 0em;
+  --type-label: 0.875rem;
+  --type-label-weight: 700;
+  --type-label-leading: 1.25rem;
+  --type-label-tracking: 0.01em;
+  --type-annotation: 0.9375rem;
+  --type-annotation-weight: 700;
+  --type-annotation-leading: 1.25rem;
+  --type-annotation-tracking: 0em;
+
+  --motion-ink-draw: 500ms;
+  --motion-ink-stagger: 80ms;
+  --motion-highlighter: 400ms;
+  --motion-press-in: 120ms;
+  --motion-press-out: 160ms;
+  --motion-state: 150ms;
+  --ease-out-ui: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-ink: cubic-bezier(0, 0, 0.2, 1);
+  --ease-highlighter: cubic-bezier(0.2, 0, 0, 1);
+
+  --font-notebook: var(--font-schibsted), "Helvetica Neue", Arial, sans-serif;
 }
 
 @theme inline {
-  --color-background: var(--portfolio-background);
-  --color-project-canvas: var(--portfolio-project-canvas);
-  --color-surface: var(--portfolio-surface);
-  --color-surface-raised: var(--portfolio-surface-raised);
-  --color-foreground: var(--portfolio-foreground);
-  --color-muted-foreground: var(--portfolio-muted-foreground);
-  --color-accent: var(--portfolio-accent);
-  --color-accent-foreground: var(--portfolio-accent-foreground);
-  --color-accent-contrast: var(--portfolio-accent-contrast);
-  --color-border: var(--portfolio-border);
-  --color-border-subtle: var(--portfolio-border-subtle);
-  --color-control-border: var(--portfolio-control-border);
-  --color-control-surface: var(--portfolio-control-surface);
-  --color-control-selected: var(--portfolio-control-selected);
-  --color-navigation-surface: var(--portfolio-navigation-surface);
-  --color-navigation: var(--portfolio-navigation-foreground);
-  --color-success: var(--portfolio-success);
-  --color-error: var(--portfolio-error);
-  --font-display: var(--portfolio-font-display);
-  --font-sans: var(--portfolio-font-body);
-  --font-mono: var(--portfolio-font-mono);
-  --radius-control: var(--portfolio-radius-control);
-  --radius-panel: var(--portfolio-radius-panel);
+  --color-desk: var(--desk);
+  --color-paper: var(--paper);
+  --color-print: var(--print);
+  --color-grid-line: var(--grid-line);
+  --color-margin-red: var(--margin-red);
+  --color-ink: var(--ink);
+  --color-ink-deep: var(--ink-deep);
+  --color-graphite: var(--graphite);
+  --color-graphite-soft: var(--graphite-soft);
+  --color-highlighter: var(--highlighter);
+  --color-tape: var(--tape);
+  --color-page-edge: var(--page-edge);
+  --color-ruled-line: var(--ruled-line);
+  --color-focus: var(--focus);
+  --color-success: var(--success);
+  --color-error: var(--error);
+  --font-body: var(--font-notebook);
+  --text-display: var(--type-display);
+  --text-display--line-height: var(--type-display-leading);
+  --text-display--letter-spacing: var(--type-display-tracking);
+  --text-display--font-weight: var(--type-display-weight);
+  --text-h2: var(--type-h2);
+  --text-h2--line-height: var(--type-h2-leading);
+  --text-h2--letter-spacing: var(--type-h2-tracking);
+  --text-h2--font-weight: var(--type-h2-weight);
+  --text-h3: var(--type-h3);
+  --text-h3--line-height: var(--type-h3-leading);
+  --text-h3--letter-spacing: var(--type-h3-tracking);
+  --text-h3--font-weight: var(--type-h3-weight);
+  --text-body: var(--type-body);
+  --text-body--line-height: var(--type-body-leading);
+  --text-body--letter-spacing: var(--type-body-tracking);
+  --text-body--font-weight: var(--type-body-weight);
+  --text-small: var(--type-small);
+  --text-small--line-height: var(--type-small-leading);
+  --text-small--letter-spacing: var(--type-small-tracking);
+  --text-small--font-weight: var(--type-small-weight);
+  --text-label: var(--type-label);
+  --text-label--line-height: var(--type-label-leading);
+  --text-label--letter-spacing: var(--type-label-tracking);
+  --text-label--font-weight: var(--type-label-weight);
+  --text-annotation: var(--type-annotation);
+  --text-annotation--line-height: var(--type-annotation-leading);
+  --text-annotation--letter-spacing: var(--type-annotation-tracking);
+  --text-annotation--font-weight: var(--type-annotation-weight);
+  --breakpoint-tablet: 48rem;
+  --breakpoint-desktop: 80rem;
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import { Schibsted_Grotesk } from "next/font/google";
 import { hasLocale } from "next-intl";
 import { NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
@@ -10,16 +10,11 @@ import { routing } from "@/i18n/routing";
 import { siteConfig } from "@/lib/site-config";
 import "../globals.css";
 
-const spaceGrotesk = Space_Grotesk({
+const schibsted = Schibsted_Grotesk({
   subsets: ["latin"],
+  weight: ["400", "600", "700", "800"],
   display: "swap",
-  variable: "--font-space-grotesk",
-});
-
-const jetBrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-jetbrains-mono",
+  variable: "--font-schibsted",
 });
 
 type LocaleLayoutProps = Readonly<{
@@ -57,7 +52,7 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       data-scroll-behavior="smooth"
-      className={`${spaceGrotesk.variable} ${jetBrainsMono.variable}`}
+      className={schibsted.variable}
     >
       <body>
         <NextIntlClientProvider locale={locale} messages={{}}>

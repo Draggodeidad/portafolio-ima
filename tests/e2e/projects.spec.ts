@@ -13,7 +13,32 @@ for (const locale of ["es", "en"] as const) {
     }) => {
       await page.goto(`/${locale}/proyectos/${project.slug}`);
       await expect(page.locator("main h1")).toContainText(project.title);
-      await expect(page.locator("main h2")).toHaveCount(7);
+      await expect(page.locator("main h2")).toHaveCount(6);
+      const contribution = page.getByRole("complementary", {
+        name: locale === "es" ? "Mi aportación" : "My contribution",
+      });
+      const diagram = page
+        .locator("main figure")
+        .filter({ hasText: locale === "es" ? "Diagrama" : "Diagram" });
+      expect(
+        await contribution.evaluate(
+          (element) => element.getBoundingClientRect().top,
+        ),
+      ).toBeLessThan(
+        await diagram.evaluate(
+          (element) => element.getBoundingClientRect().top,
+        ),
+      );
+      if (project.hasDemo) {
+        await expect(
+          page.locator("main figure").filter({
+            hasText:
+              locale === "es"
+                ? "Captura con datos sintéticos"
+                : "Screenshot with synthetic data",
+          }),
+        ).toHaveCount(3);
+      }
       await expect(page.locator("main")).toContainText(
         locale === "es" ? "Tecnologías" : "Technologies",
       );
@@ -95,11 +120,7 @@ for (const locale of ["es", "en"] as const) {
         name: locale === "es" ? "Proyectos" : "Projects",
       }),
     ).toHaveAttribute("href", `/${locale}#proyectos`);
-    const homeLink = nav.getByRole("link", {
-      name: locale === "es" ? "Inicio" : "Home",
-    });
-    await expect(homeLink).toHaveAttribute("href", `/${locale}#inicio`);
-    await expect(homeLink).not.toHaveAttribute("aria-current", "location");
+    await expect(nav.locator('[aria-current="location"]')).toHaveCount(0);
   });
 }
 
@@ -166,6 +187,47 @@ for (const locale of ["es", "en"] as const) {
               : "More ways to reach me",
         }),
       ).toHaveAttribute("href", `/${locale}#contacto`);
+    }
+  });
+}
+
+test("project diagrams are visible without motion on the home and with reduced motion in a case", async ({
+  page,
+}) => {
+  await page.goto("/es");
+  const homeStrokes = page.locator('figure[aria-label] path[pathLength="1"]');
+  expect(await homeStrokes.count()).toBeGreaterThan(0);
+  for (const stroke of await homeStrokes.all()) {
+    await expect(stroke).toHaveCSS("animation-name", "none");
+  }
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/es/proyectos/pwa-utt");
+  const caseStrokes = page.locator('main figure path[pathLength="1"]');
+  expect(await caseStrokes.count()).toBeGreaterThan(0);
+  for (const stroke of await caseStrokes.all()) {
+    await expect(stroke).toHaveCSS("animation-name", "none");
+    await expect(stroke).toHaveCSS("stroke-dashoffset", "0px");
+  }
+});
+
+for (const locale of ["es", "en"] as const) {
+  test(`${locale}: each case pairs its visible evidence reference`, async ({
+    page,
+  }) => {
+    for (const width of [390, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      for (const project of projects) {
+        await page.goto(`/${locale}/proyectos/${project.slug}`);
+        const references = page.locator('[data-evidence-reference="1"]');
+        await expect(references).toHaveCount(2);
+        await expect(references.nth(0)).toBeVisible();
+        await expect(references.nth(1)).toBeVisible();
+        await expect(references.nth(0)).toHaveText("1");
+        await expect(references.nth(1)).toHaveText("1");
+        await expect(
+          references.nth(1).locator("xpath=ancestor::figure"),
+        ).toHaveCount(1);
+      }
     }
   });
 }

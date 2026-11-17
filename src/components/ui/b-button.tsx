@@ -27,113 +27,38 @@ import {
 
 import { cn } from "@/lib/cn";
 
-const componentThemeClassName =
-  "[--ic-background:var(--portfolio-background)] [--ic-foreground:var(--portfolio-foreground)] [--ic-primary:var(--portfolio-accent)] [--ic-primary-foreground:var(--portfolio-accent-foreground)] [--ic-secondary:var(--portfolio-control-surface)] [--ic-border:var(--portfolio-control-border)] [--ic-muted:var(--portfolio-surface-raised)] [--ic-ring:var(--portfolio-accent)] [--ic-destructive:var(--portfolio-error)]";
-
-const buttonThemeClassName =
-  "[--button-destructive:var(--ic-destructive)] [--button-input:var(--ic-border)] [--button-primary-foreground:var(--ic-primary-foreground)] [--button-ring:var(--ic-ring)] [--button-ripple:color-mix(in_oklch,var(--ic-foreground),transparent_52%)] [--button-secondary:var(--ic-secondary)] [--button-secondary-foreground:var(--ic-foreground)]";
-
-const buttonCornerClassName = "rounded-control";
-
-const buttonCornerXsClassName = "rounded-control";
-
-const buttonCornerSmClassName = "rounded-control";
-
-const buttonGroupCornerClassName =
-  "in-data-[slot=button-group]:rounded-control";
-
 const buttonVariants = cva(
-  cn(
-    componentThemeClassName,
-    buttonThemeClassName,
-    buttonCornerClassName,
-    "group/button relative isolate inline-flex shrink-0 cursor-pointer touch-manipulation select-none items-center justify-center overflow-hidden whitespace-nowrap border border-transparent bg-clip-border font-medium text-sm no-underline outline-none transition-[background-color,border-color,color,box-shadow] focus-visible:border-[color:var(--button-ring)] focus-visible:ring-3 focus-visible:ring-[color:color-mix(in_oklch,var(--button-ring),transparent_50%)] active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-[color:var(--button-destructive)] aria-invalid:ring-3 aria-invalid:ring-[color:color-mix(in_oklch,var(--button-destructive),transparent_80%)] [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
-  ),
+  "group/button relative inline-flex min-h-12 shrink-0 cursor-pointer touch-manipulation items-center justify-center gap-2 rounded-none font-bold text-label outline-offset-4 transition-[background-color,color,transform] duration-[var(--motion-press-out)] focus-visible:outline-3 focus-visible:outline-focus disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         default:
-          "bg-[color:var(--ic-primary)] text-[color:var(--button-primary-foreground)] [--button-ripple:color-mix(in_oklch,var(--button-primary-foreground),transparent_45%)] hover:brightness-105 [&_svg]:text-current",
+          "bg-ink px-5 text-print [@media(hover:hover)_and_(pointer:fine)]:hover:bg-ink-deep",
         outline:
-          "border-[color:var(--button-input)] bg-[color:var(--button-secondary)] text-[color:var(--ic-foreground)] hover:bg-[color:var(--ic-muted)] aria-expanded:bg-[color:var(--ic-muted)] [&_svg]:text-current",
+          "border-b-2 border-ink bg-transparent px-0 text-graphite [@media(hover:hover)_and_(pointer:fine)]:hover:text-ink",
         secondary:
-          "bg-[color:var(--button-secondary)] text-[color:var(--button-secondary-foreground)] hover:bg-[color:var(--ic-muted)] aria-expanded:bg-[color:var(--ic-muted)] [&_svg]:text-current",
+          "border-b-2 border-ink bg-transparent px-0 text-graphite [@media(hover:hover)_and_(pointer:fine)]:hover:text-ink",
         ghost:
-          "text-[color:var(--ic-foreground)] hover:bg-[color:var(--ic-muted)] aria-expanded:bg-[color:var(--ic-muted)] [&_svg]:text-current",
-        destructive:
-          "bg-[color-mix(in_oklch,var(--button-destructive),transparent_85%)] text-[color:var(--button-destructive)] [--button-ripple:color-mix(in_oklch,var(--button-destructive),transparent_40%)] hover:bg-[color-mix(in_oklch,var(--button-destructive),transparent_75%)] [&_svg]:text-current",
-        link: "",
+          "bg-transparent px-0 text-graphite [@media(hover:hover)_and_(pointer:fine)]:hover:text-ink",
+        destructive: "bg-error px-5 text-print",
+        link: "bg-transparent px-0 text-ink underline underline-offset-4 [@media(hover:hover)_and_(pointer:fine)]:hover:text-ink-deep",
       },
-      linkUnderline: {
-        motion: "",
-        static: "",
-      },
+      linkUnderline: { motion: "", static: "" },
       size: {
-        default:
-          "h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
-        xs: cn(
-          "h-6 gap-1 px-2 text-xs has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
-          buttonGroupCornerClassName,
-          buttonCornerXsClassName,
-        ),
-        sm: cn(
-          "h-7 gap-1 px-2.5 text-[0.8rem] has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
-          buttonGroupCornerClassName,
-          buttonCornerSmClassName,
-        ),
-        lg: "h-10 gap-1.5 px-4 text-base leading-5 has-data-[icon=inline-end]:pr-3.5 has-data-[icon=inline-start]:pl-3.5",
-        icon: "size-8",
-        "icon-xs": cn(
-          "size-6 [&_svg:not([class*='size-'])]:size-3",
-          buttonGroupCornerClassName,
-          buttonCornerXsClassName,
-        ),
-        "icon-sm": cn(
-          "size-7",
-          buttonGroupCornerClassName,
-          buttonCornerSmClassName,
-        ),
-        "icon-lg": "size-9",
+        default: "min-h-12",
+        xs: "min-h-12",
+        sm: "min-h-12",
+        lg: "min-h-12",
+        icon: "size-12",
+        "icon-xs": "size-12",
+        "icon-sm": "size-12",
+        "icon-lg": "size-12",
       },
     },
-    compoundVariants: [
-      {
-        variant: "link",
-        linkUnderline: "motion",
-        class:
-          "visited:!text-foreground hover:!text-foreground focus-visible:!text-foreground px-0 text-foreground shadow-none active:translate-y-0 [&_[data-link-label]]:font-medium [&_[data-link-label]]:text-[1em]",
-      },
-      {
-        variant: "link",
-        linkUnderline: "static",
-        class:
-          "visited:!text-foreground hover:!text-foreground focus-visible:!text-foreground px-0 text-foreground underline-offset-4 hover:underline [&_[data-link-label]]:font-medium [&_[data-link-label]]:text-[1em]",
-      },
-      {
-        variant: "link",
-        size: "default",
-        class: "h-8 px-0 text-sm leading-5",
-      },
-      {
-        variant: "link",
-        size: "lg",
-        class: "h-10 px-0 text-base leading-5",
-      },
-      {
-        variant: "link",
-        size: "sm",
-        class: "h-7 px-0 text-[0.8rem]",
-      },
-      {
-        variant: "link",
-        size: "xs",
-        class: "h-6 px-0 text-xs",
-      },
-    ],
     defaultVariants: {
       variant: "default",
       size: "default",
-      linkUnderline: "motion",
+      linkUnderline: "static",
     },
   },
 );
@@ -273,12 +198,6 @@ function useMeasure<T extends HTMLElement = HTMLElement>(
 const MotionAnchor = motion.create("a");
 
 const buttonTransition = {
-  scale: {
-    type: "spring",
-    stiffness: 640,
-    damping: 38,
-    mass: 0.85,
-  },
   width: {
     type: "spring",
     stiffness: 420,
@@ -324,21 +243,18 @@ const loadingLayoutTransition = {
 
 const loadingLabelVariants = {
   animate: {
-    filter: "blur(0px)",
     opacity: 1,
     scale: 1,
     transition: loadingLabelEnterTransition,
     y: 0,
   },
   exit: {
-    filter: "blur(3px)",
     opacity: 0,
     scale: 0.96,
     transition: loadingLabelExitTransition,
     y: -4,
   },
   initial: {
-    filter: "blur(3px)",
     opacity: 0,
     scale: 0.96,
     y: 4,
@@ -368,19 +284,22 @@ function getButtonAnimate(
   isPressed: boolean,
   animatedWidth: number | undefined,
   reduceMotion: boolean | null,
+  rotate: number,
 ) {
   const shouldReduceMotion = reduceMotion === true;
-  const pressScale = canAnimate && isPressed && !shouldReduceMotion ? 0.96 : 1;
+  const pressScale = canAnimate && isPressed && !shouldReduceMotion ? 0.97 : 1;
 
   if (animatedWidth) {
     return {
       scale: pressScale,
+      rotate,
       width: animatedWidth,
     };
   }
 
   return {
     scale: pressScale,
+    rotate,
   };
 }
 
@@ -510,7 +429,6 @@ function getIconIdleAnimate(showSpinner: boolean, noMotion: boolean) {
   }
 
   return {
-    filter: showSpinner ? "blur(3px)" : "blur(0px)",
     opacity: showSpinner ? 0 : 1,
     rotate: showSpinner ? -56 : 0,
     scale: showSpinner ? 0.82 : 1,
@@ -523,7 +441,6 @@ function getIconSpinnerAnimate(showSpinner: boolean, noMotion: boolean) {
   }
 
   return {
-    filter: showSpinner ? "blur(0px)" : "blur(3px)",
     opacity: showSpinner ? 1 : 0,
     rotate: showSpinner ? 0 : 56,
     scale: showSpinner ? 1 : 0.82,
@@ -531,24 +448,28 @@ function getIconSpinnerAnimate(showSpinner: boolean, noMotion: boolean) {
 }
 
 function buildMotionSurfaceProps({
-  canAnimate,
   isPressed,
   motionAnimate,
   reduceMotion,
   useLinkMotionUnderline,
-  variant,
+  canHover,
 }: {
-  canAnimate: boolean;
   isPressed: boolean;
   motionAnimate: ReturnType<typeof getButtonAnimate>;
   reduceMotion: boolean | null;
   useLinkMotionUnderline: boolean;
-  variant: VariantProps<typeof buttonVariants>["variant"];
+  canHover: boolean;
 }) {
   const shouldReduceMotion = reduceMotion === true;
   const surfaceTransition = shouldReduceMotion
     ? { duration: 0 }
-    : buttonTransition;
+    : {
+        ...buttonTransition,
+        scale: {
+          duration: isPressed ? 0.12 : 0.16,
+          ease: [0.23, 1, 0.32, 1] as const,
+        },
+      };
   const shared = {
     animate: motionAnimate,
     "data-pressed": isPressed ? "true" : "false",
@@ -560,19 +481,14 @@ function buildMotionSurfaceProps({
       ...shared,
       initial: shouldReduceMotion ? (false as const) : ("rest" as const),
       variants: shouldReduceMotion ? undefined : { rest: {}, hover: {} },
-      whileHover: shouldReduceMotion ? undefined : ("hover" as const),
+      whileHover:
+        shouldReduceMotion || !canHover ? undefined : ("hover" as const),
     };
   }
-
-  const hoverLift =
-    canAnimate && variant !== "link" && !shouldReduceMotion
-      ? { y: -1 }
-      : undefined;
 
   return {
     ...shared,
     initial: false as const,
-    whileHover: hoverLift,
   };
 }
 
@@ -689,7 +605,6 @@ const ButtonSpinnerPresence = memo(function ButtonSpinnerPresence({
             noMotion
               ? { opacity: 0 }
               : {
-                  filter: "blur(2px)",
                   opacity: 0,
                   scale: 0.86,
                   transition: loadingLabelExitTransition,
@@ -893,7 +808,7 @@ const ButtonInner = forwardRef<
       children,
       className,
       disabled,
-      disableRipple = false,
+      disableRipple = true,
       href,
       icon,
       iconLabel,
@@ -921,6 +836,15 @@ const ButtonInner = forwardRef<
     const isLocked = Boolean(disabled || loading);
     const accessibleName = iconLabel ?? ariaLabel;
     const [reduceMotion, setReduceMotion] = useState(false);
+    const [canHover, setCanHover] = useState(false);
+
+    useEffect(() => {
+      const media = window.matchMedia("(hover: hover) and (pointer: fine)");
+      const update = () => setCanHover(media.matches);
+      update();
+      media.addEventListener("change", update);
+      return () => media.removeEventListener("change", update);
+    }, []);
 
     useEffect(() => {
       const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -944,15 +868,12 @@ const ButtonInner = forwardRef<
     const [contentRef, bounds] = useMeasure<HTMLSpanElement>(shouldAnimateSize);
     const lastContentWidthRef = useRef(0);
     const resolvedLinkUnderline =
-      variant === "link" ? (linkUnderline ?? "motion") : undefined;
+      variant === "link" ? (linkUnderline ?? "static") : undefined;
     const useLinkMotionUnderline = resolvedLinkUnderline === "motion";
 
     const canAnimate = !isLocked && reduceMotion !== true;
-    const allowsRipple =
-      !(disableRipple || loading) &&
-      variant !== "link" &&
-      !isLocked &&
-      reduceMotion !== true;
+    void disableRipple;
+    const allowsRipple = false;
     useLayoutEffect(() => {
       if (bounds.width > 0) {
         lastContentWidthRef.current = bounds.width;
@@ -1153,27 +1074,31 @@ const ButtonInner = forwardRef<
 
     const motionAnimate = useMemo(
       () =>
-        getButtonAnimate(canAnimate, isPressed, animatedWidth, reduceMotion),
-      [animatedWidth, canAnimate, isPressed, reduceMotion],
+        getButtonAnimate(
+          canAnimate,
+          isPressed,
+          animatedWidth,
+          reduceMotion,
+          variant == null || variant === "default" ? -1 : 0,
+        ),
+      [animatedWidth, canAnimate, isPressed, reduceMotion, variant],
     );
 
     const motionSurfaceProps = useMemo(
       () =>
         buildMotionSurfaceProps({
-          canAnimate,
           isPressed,
           motionAnimate,
           reduceMotion,
           useLinkMotionUnderline,
-          variant,
+          canHover,
         }),
       [
-        canAnimate,
         isPressed,
         motionAnimate,
         reduceMotion,
         useLinkMotionUnderline,
-        variant,
+        canHover,
       ],
     );
 

@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
-import { sectionIds, type SectionId } from "@/lib/i18n/sections";
+import { type NavSectionId, navSectionIds } from "@/lib/i18n/sections";
 import { publishedExperienceEntries } from "@/content/profile";
 import { NavbarClient } from "./navbar-client";
 
@@ -17,16 +17,14 @@ export async function Navbar({ locale }: NavbarProps) {
     closeMenuLabel: t("closeMenuLabel"),
     switchToSpanish: t("switchToSpanish"),
     switchToEnglish: t("switchToEnglish"),
-    contactAction: t("contactAction"),
-    githubContext: t("githubContext"),
     skipToContent: t("skipToContent"),
     brandLabel: t("brandLabel"),
     sections: Object.fromEntries(
-      sectionIds.map((id) => [id, t(`sections.${id}`)]),
-    ) as Record<SectionId, string>,
+      navSectionIds.map((id) => [id, t(`sections.${id}`)]),
+    ) as Record<NavSectionId, string>,
   };
 
-  const visibleSectionIds = sectionIds.filter(
+  const visibleSectionIds = navSectionIds.filter(
     (id) => id !== "trayectoria" || publishedExperienceEntries.length > 0,
   );
 

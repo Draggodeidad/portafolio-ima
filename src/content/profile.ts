@@ -29,6 +29,7 @@ export type ExperienceEntry = {
   organization: string;
   title: LocalizedCopy;
   period: LocalizedCopy;
+  modality?: LocalizedCopy;
   description: LocalizedCopy;
 };
 
@@ -42,10 +43,11 @@ export const experienceEntries: ExperienceEntry[] = [
     kind: "employment",
     organization: "1Degree Holdings Limited",
     title: {
-      es: "Estadía: desarrollo backend y transformación digital · Remoto",
-      en: "Internship: backend development and digital transformation · Remote",
+      es: "Estadía: desarrollo backend y transformación digital",
+      en: "Internship: backend development and digital transformation",
     },
     period: { es: "Mayo – agosto de 2025", en: "May – August 2025" },
+    modality: { es: "Remoto", en: "Remote" },
     description: {
       es: "Colaboré en la integración de servicios de IA con Node.js, Express y TypeScript para flujos de entrevistas en tiempo real, participé en la validación y estructuración de datos con PostgreSQL/Supabase y documenté la arquitectura y los endpoints del backend.",
       en: "Collaborated on integrating AI services with Node.js, Express, and TypeScript for real-time interview flows, took part in validating and structuring data with PostgreSQL/Supabase, and documented the backend architecture and endpoints.",

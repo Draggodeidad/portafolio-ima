@@ -1,0 +1,740 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-17T22:36:09+00:00",
+  "title": "Design System: Imanol Antonio De la Cruz — Portafolio",
+  "extensions": {
+    "colorMeta": {
+      "desk": {
+        "role": "neutral",
+        "displayName": "Desk",
+        "canonical": "#e6e3da",
+        "oklch": "oklch(91.6% 0.013 91.5)",
+        "tonalRamp": [
+          "#0c0b08",
+          "#282622",
+          "#47453f",
+          "#68665f",
+          "#8b8982",
+          "#b0aea7",
+          "#d3d1cb",
+          "#f0eeea"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Notebook Paper",
+        "canonical": "#f7f6f1",
+        "oklch": "oklch(97.3% 0.007 97.4)",
+        "tonalRamp": [
+          "#0b0b0a",
+          "#272624",
+          "#464542",
+          "#676662",
+          "#8a8985",
+          "#afaeaa",
+          "#d1d1ce",
+          "#efeeec"
+        ]
+      },
+      "print": {
+        "role": "neutral",
+        "displayName": "Print White",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#262626",
+          "#454545",
+          "#666666",
+          "#898989",
+          "#aeaeae",
+          "#d1d1d1",
+          "#eeeeee"
+        ]
+      },
+      "grid-line": {
+        "role": "neutral",
+        "displayName": "Quad Grid Blue",
+        "canonical": "#cfdce8",
+        "oklch": "oklch(88.8% 0.022 245.9)",
+        "tonalRamp": [
+          "#080c0f",
+          "#21272d",
+          "#3e464e",
+          "#5d6871",
+          "#808b95",
+          "#a6afb8",
+          "#cad2d9",
+          "#e9eff5"
+        ]
+      },
+      "margin-red": {
+        "role": "secondary",
+        "displayName": "Margin Red",
+        "canonical": "#d2453b",
+        "oklch": "oklch(58.9% 0.179 27.9)",
+        "tonalRamp": [
+          "#260000",
+          "#510000",
+          "#801512",
+          "#b32f28",
+          "#d95b4f",
+          "#f78b7e",
+          "#ffb6a9",
+          "#ffd9ce"
+        ]
+      },
+      "ink": {
+        "role": "primary",
+        "displayName": "Bic Ink",
+        "canonical": "#1f3a93",
+        "oklch": "oklch(38.7% 0.150 266.4)",
+        "tonalRamp": [
+          "#020629",
+          "#102155",
+          "#273f84",
+          "#4060b7",
+          "#6385da",
+          "#8dacf5",
+          "#b5d0ff",
+          "#d8eeff"
+        ]
+      },
+      "ink-deep": {
+        "role": "primary",
+        "displayName": "Pressed Ink",
+        "canonical": "#162a6e",
+        "oklch": "oklch(31.6% 0.121 266.7)",
+        "tonalRamp": [
+          "#030824",
+          "#15234c",
+          "#2d4278",
+          "#4862a7",
+          "#6b87cb",
+          "#94ade8",
+          "#bbd0ff",
+          "#dceeff"
+        ]
+      },
+      "graphite": {
+        "role": "neutral",
+        "displayName": "Graphite",
+        "canonical": "#232323",
+        "oklch": "oklch(25.6% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#262626",
+          "#454545",
+          "#666666",
+          "#898989",
+          "#aeaeae",
+          "#d1d1d1",
+          "#eeeeee"
+        ]
+      },
+      "graphite-soft": {
+        "role": "neutral",
+        "displayName": "Soft Graphite",
+        "canonical": "#56544d",
+        "oklch": "oklch(44.6% 0.011 93.7)",
+        "tonalRamp": [
+          "#0c0b09",
+          "#282622",
+          "#474540",
+          "#68665f",
+          "#8b8982",
+          "#b0aea8",
+          "#d2d1cc",
+          "#f0eeea"
+        ]
+      },
+      "highlighter": {
+        "role": "secondary",
+        "displayName": "Highlighter",
+        "canonical": "#e6f54a",
+        "oklch": "oklch(93.0% 0.186 114.4)",
+        "tonalRamp": [
+          "#0c0d00",
+          "#272a00",
+          "#464b00",
+          "#666e00",
+          "#899300",
+          "#acb744",
+          "#cfda82",
+          "#edf6af"
+        ]
+      },
+      "tape": {
+        "role": "neutral",
+        "displayName": "Tape",
+        "canonical": "rgb(222 213 187 / 75%)",
+        "oklch": "oklch(87.3% 0.036 91.1)",
+        "tonalRamp": [
+          "#0e0b04",
+          "#2b2619",
+          "#4b4533",
+          "#6d6650",
+          "#908973",
+          "#b4ae9b",
+          "#d6d1c1",
+          "#f3eee1"
+        ],
+        "note": "Ramp derived from the opaque base #ded5bb; the token itself is 75% alpha."
+      },
+      "page-edge": {
+        "role": "neutral",
+        "displayName": "Page Edge",
+        "canonical": "#aaa79f",
+        "oklch": "oklch(72.9% 0.012 89.8)",
+        "tonalRamp": [
+          "#0c0b08",
+          "#282622",
+          "#47453f",
+          "#68665f",
+          "#8c8982",
+          "#b0aea8",
+          "#d3d1cc",
+          "#f0eeea"
+        ]
+      },
+      "ruled-line": {
+        "role": "neutral",
+        "displayName": "Ruled Line",
+        "canonical": "#8a877e",
+        "oklch": "oklch(62.3% 0.014 91.6)",
+        "tonalRamp": [
+          "#0c0b08",
+          "#282622",
+          "#47453f",
+          "#69665e",
+          "#8c8981",
+          "#b0aea7",
+          "#d3d1cb",
+          "#f0eee9"
+        ]
+      },
+      "focus": {
+        "role": "primary",
+        "displayName": "Focus Ring",
+        "canonical": "#162a6e",
+        "oklch": "oklch(31.6% 0.121 266.7)",
+        "tonalRamp": [
+          "#030824",
+          "#15234c",
+          "#2d4278",
+          "#4862a7",
+          "#6b87cb",
+          "#94ade8",
+          "#bbd0ff",
+          "#dceeff"
+        ]
+      },
+      "error": {
+        "role": "status",
+        "displayName": "Correction Red",
+        "canonical": "#a3291f",
+        "oklch": "oklch(47.5% 0.160 29.2)",
+        "tonalRamp": [
+          "#230000",
+          "#4d0503",
+          "#7b1f17",
+          "#ac392e",
+          "#d26254",
+          "#f09082",
+          "#ffb9ac",
+          "#ffdbd0"
+        ]
+      },
+      "success": {
+        "role": "status",
+        "displayName": "Ledger Green",
+        "canonical": "#2b6a3a",
+        "oklch": "oklch(47.0% 0.100 148.9)",
+        "tonalRamp": [
+          "#001002",
+          "#092f14",
+          "#21512c",
+          "#3b7547",
+          "#61986b",
+          "#8dbc94",
+          "#b6ddbc",
+          "#d9f8dd"
+        ]
+      }
+    },
+    "contrast": [
+      {
+        "foreground": "graphite",
+        "background": "paper",
+        "ratio": 14.52,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "graphite",
+        "background": "desk",
+        "ratio": 12.25,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "graphite",
+        "background": "highlighter",
+        "ratio": 13.12,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "graphite",
+        "background": "print",
+        "ratio": 15.72,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "graphite-soft",
+        "background": "paper",
+        "ratio": 7.0,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "graphite-soft",
+        "background": "desk",
+        "ratio": 5.91,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "graphite-soft",
+        "background": "grid-line",
+        "ratio": 5.43,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "ink",
+        "background": "paper",
+        "ratio": 9.31,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "ink",
+        "background": "desk",
+        "ratio": 7.85,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "ink",
+        "background": "grid-line",
+        "ratio": 7.22,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "print",
+        "background": "ink",
+        "ratio": 10.07,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "print",
+        "background": "ink-deep",
+        "ratio": 12.2,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "ink-deep",
+        "background": "paper",
+        "ratio": 12.2,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "error",
+        "background": "paper",
+        "ratio": 6.71,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "error",
+        "background": "desk",
+        "ratio": 5.65,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "success",
+        "background": "paper",
+        "ratio": 6.02,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "success",
+        "background": "desk",
+        "ratio": 5.07,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "ruled-line",
+        "background": "paper",
+        "ratio": 3.32,
+        "passes": "non-text 3:1 only"
+      },
+      {
+        "foreground": "margin-red",
+        "background": "paper",
+        "ratio": 4.17,
+        "passes": "non-text 3:1 only"
+      },
+      {
+        "foreground": "grid-line",
+        "background": "paper",
+        "ratio": 1.29,
+        "passes": "decorative only"
+      }
+    ],
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The name on the first page only."
+      },
+      "h2": {
+        "displayName": "Section title",
+        "purpose": "Home section titles, case title and case section titles; 40 px line."
+      },
+      "h3": {
+        "displayName": "Sub-heading",
+        "purpose": "Role statement, project names, trajectory entries, stack and form titles; 30 px line."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Descriptions, case prose and diagram labels; main text at most 70 characters per line."
+      },
+      "small": {
+        "displayName": "Small",
+        "purpose": "Evidence lines, captions, margin notes, evidence numbers; 20 px line."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Buttons, nav links, field labels and small headings; sentence case, never uppercase kickers."
+      },
+      "annotation": {
+        "displayName": "Ink annotation",
+        "purpose": "Short factual notes in Bic Ink beside drawn arrows."
+      }
+    },
+    "fontLoading": {
+      "family": "Schibsted Grotesk",
+      "weights": [
+        400,
+        600,
+        700,
+        800
+      ],
+      "source": "Self-hosted via next/font/google (Schibsted_Grotesk) as --font-schibsted, exposed as --font-notebook."
+    },
+    "shadows": [],
+    "depth": [
+      {
+        "name": "tape-over-print",
+        "value": "hero: two 84x24 px strips, var(--tape), rotate(+/-6deg), top:-12px; captures: one 80x20 px strip, rotate(-2deg), centred",
+        "purpose": "Holds prints to the page."
+      },
+      {
+        "name": "print-on-paper",
+        "value": "hero: 10 px white border, 1 px graphite edge, rotate(1deg); captures: white sheet, 1 px page-edge image border",
+        "purpose": "Separates a real screenshot from the page."
+      },
+      {
+        "name": "page-on-desk",
+        "value": "1 px page-edge border on desk background",
+        "purpose": "Every section sheet."
+      },
+      {
+        "name": "spine-fold",
+        "value": "18 px linear-gradient(90deg, transparent, var(--paper) 30%, var(--page-edge) 50%, var(--paper) 70%, transparent) with ink stitches 2 px every 40 px",
+        "purpose": "The one shaded crease; hero spread, featured project at >=1024 px, case spread at >=1280 px."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-ui",
+        "value": "cubic-bezier(0.23, 1, 0.32, 1)",
+        "purpose": "Press, menu panel and menu icon transitions."
+      },
+      {
+        "name": "ease-ink",
+        "value": "cubic-bezier(0, 0, 0.2, 1)",
+        "purpose": "Ink draw."
+      },
+      {
+        "name": "ease-highlighter",
+        "value": "cubic-bezier(0.2, 0, 0, 1)",
+        "purpose": "Highlighter sweep."
+      },
+      {
+        "name": "ink-draw",
+        "value": "stroke-dasharray 1 on pathLength=1, stroke-dashoffset 1 -> 0, 500ms var(--ease-ink), fill-mode both",
+        "purpose": "Plays only in the hero (the circled 'backend' and the first three annotation arrows), Diagrams and every other mark are static: re-hiding a server-rendered stroke on hydration to animate it flashes. Never loops, never replays on hover."
+      },
+      {
+        "name": "ink-draw-stagger",
+        "value": "80ms per sibling mark",
+        "purpose": "Hero annotation arrows draw in reading order."
+      },
+      {
+        "name": "highlighter-sweep",
+        "value": "background-size 0% 100% -> 100% 100% with box-decoration-break: clone, 400ms var(--ease-highlighter)",
+        "purpose": "The hero's single swipe. Never clip-path (it hid wrapped lines on mobile). The case-study swipe on 'Mi aportación' is static."
+      },
+      {
+        "name": "press",
+        "value": "scale(0.97) composed with existing rotation (primary -1deg), 120ms in / 160ms out, var(--ease-out-ui)",
+        "purpose": "Tactile feedback on buttons. No hover lift."
+      },
+      {
+        "name": "hover",
+        "value": "colour only, gated to @media (hover: hover) and (pointer: fine)",
+        "purpose": "Buttons, nav links, language links."
+      },
+      {
+        "name": "mobile-menu",
+        "value": "opacity + translateY(-8px); 200ms open, 150ms close, var(--ease-out-ui); visibility delayed on close",
+        "purpose": "Panel under the nav bar below 1024 px."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "handled per component: marks fully drawn, highlighter fully shown, no press scale, menu fades without translate, menu icon static, scroll-behavior auto",
+        "purpose": "No global kill; all information still present."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile",
+        "value": "0-767px",
+        "note": "Design at 360 and 390. Pages stack, margin rule at 20 px, spine replaced by an 8 px double page-edge rule."
+      },
+      {
+        "name": "tablet",
+        "value": "768px (md / tablet)",
+        "note": "Hero spread opens; secondary projects split 3fr/2fr."
+      },
+      {
+        "name": "lg",
+        "value": "1024px",
+        "note": "Desktop nav replaces the menu panel; featured project splits; trajectory margin notes and two-column contact appear."
+      },
+      {
+        "name": "desktop",
+        "value": "1280px (xl / desktop)",
+        "note": "Full 1280 px container; hero padding 60/30/40/60 with margin rule at 40 px; case-study claim/evidence spread opens."
+      }
+    ],
+    "strokeMarks": {
+      "color": "ink (#1f3a93) only",
+      "strokeWidth": "2px for marks in text (tick, ○, circle, nav underline, action arrows); 2.2px for diagram boxes, diagram arrows and trajectory/project ticks; 2.5px for annotation arrows",
+      "caps": "round caps and joins; fill none; non-scaling stroke on stretched boxes and underlines",
+      "geometry": "Irregular, slightly unclosed SVG paths. Diagram boxes are hand-drawn rectangles with pathLength=1. Never font glyphs.",
+      "vocabulary": {
+        "circle": "Around 'backend' in the hero role; -8 px inset, preserveAspectRatio none.",
+        "tick": "Verified evidence and completed trajectory entries, 20x20.",
+        "pending-circle": "Pending evidence and in-progress entries.",
+        "strike": "Unavailable item, reason stated in words.",
+        "arrow": "40x20 lead-in for annotations; 16x16 directional arrows in actions; 24x24 down arrows between diagram boxes.",
+        "underline": "2 px pen underline for secondary actions; wavering SVG underline for active/hovered nav.",
+        "diagram-box": "Hand-drawn rectangle around each diagram step.",
+        "evidence-reference": "28 px ink ring around a real-text number pairing a claim with its evidence; max 3 per case."
+      },
+      "a11y": "Marks are aria-hidden; state prefixes and labels are sr-only text."
+    },
+    "rotations": {
+      "button-primary": "-1deg (kept during press)",
+      "hero-print": "1deg",
+      "hero-tape": "+/-6deg",
+      "capture-tape": "-2deg",
+      "text": "never rotated"
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button (blue ink)",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one main action per view: Bic Ink fill, -1deg, press scale 0.97, colour-only hover.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#proyectos\">Ver proyectos<svg viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M3 10 H17 M12 5 L17 10 L12 15\"/></svg></a>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 20px;background:var(--ink);color:var(--print);font-family:var(--font-notebook, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif);font-size:14px;font-weight:700;line-height:20px;letter-spacing:.01em;text-decoration:none;border-radius:0;transform:rotate(-1deg);transition:background-color 160ms var(--ease-out-ui),transform 160ms var(--ease-out-ui)}.ds-btn-primary svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}@media (hover:hover) and (pointer:fine){.ds-btn-primary:hover{background:var(--ink-deep)}}.ds-btn-primary:focus-visible{outline:3px solid var(--focus);outline-offset:4px}.ds-btn-primary:active{transform:rotate(-1deg) scale(.97);transition-duration:120ms}@media (prefers-reduced-motion:reduce){.ds-btn-primary:active{transform:rotate(-1deg)}}"
+    },
+    {
+      "name": "Secondary Button (pen underline)",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Secondary actions: graphite label on a 2 px Bic Ink underline.",
+      "html": "<a class=\"ds-btn-secondary\" href=\"#contacto\">Contactar</a>",
+      "css": ".ds-btn-secondary{display:inline-flex;align-items:center;min-height:48px;padding:0;background:transparent;color:var(--graphite);font-family:var(--font-notebook, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif);font-size:14px;font-weight:700;line-height:20px;letter-spacing:.01em;text-decoration:none;border-bottom:2px solid var(--ink);border-radius:0;transition:color 160ms var(--ease-out-ui),transform 160ms var(--ease-out-ui)}@media (hover:hover) and (pointer:fine){.ds-btn-secondary:hover{color:var(--ink)}}.ds-btn-secondary:focus-visible{outline:3px solid var(--focus);outline-offset:4px}.ds-btn-secondary:active{transform:scale(.97);transition-duration:120ms}@media (prefers-reduced-motion:reduce){.ds-btn-secondary:active{transform:none}}"
+    },
+    {
+      "name": "Inline Link",
+      "kind": "custom",
+      "refersTo": "link",
+      "description": "Bic Ink, bold, underlined; hover to Pressed Ink.",
+      "html": "<p class=\"ds-p\"><a class=\"ds-link\" href=\"#contacto\">Más formas de contacto</a></p>",
+      "css": ".ds-p{font-family:var(--font-notebook, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif);font-size:16px;line-height:1.5;color:var(--graphite)}.ds-link{display:inline-flex;align-items:center;min-height:48px;color:var(--ink);font-size:14px;font-weight:700;text-decoration:underline;text-underline-offset:4px}@media (hover:hover) and (pointer:fine){.ds-link:hover{color:var(--ink-deep)}}.ds-link:focus-visible{outline:3px solid var(--focus);outline-offset:4px}"
+    },
+    {
+      "name": "Evidence List",
+      "kind": "custom",
+      "refersTo": "evidence-item",
+      "description": "Hero ledger: drawn tick/○ beside each item, sr-only state prefix, the page's one highlighter swipe on the first item.",
+      "html": "<ul class=\"ds-evidence\"><li><svg viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M2 10 L7 15 L18 3\"/></svg><span><span class=\"ds-sr\">Verificado: </span><strong class=\"ds-hl\">Estadía de desarrollo backend</strong> · 2025</span></li><li class=\"ds-pending\"><svg viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M10 2.5 C15 2 18 5.5 17.5 10 C17 15 14 18 9.5 17.5 C5 17 2 14 2.5 9.5 C3 5 5.5 2.5 10 2.5Z\"/></svg><span><span class=\"ds-sr\">En curso: </span>Ingeniería, en curso</span></li></ul>",
+      "css": ".ds-evidence{list-style:none;margin:0;padding:0;font-family:var(--font-notebook, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif);font-size:14px;line-height:20px;color:var(--graphite)}.ds-evidence li{display:flex;align-items:flex-start;gap:10px;margin:8px 0}.ds-evidence svg{width:20px;height:20px;flex:none;margin-top:2px;fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.ds-pending{color:var(--graphite-soft)}.ds-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.ds-hl{background-image:linear-gradient(var(--highlighter),var(--highlighter));background-repeat:no-repeat;background-size:100% 100%;padding:3px 4px;-webkit-box-decoration-break:clone;box-decoration-break:clone;animation:ds-hl 400ms var(--ease-highlighter) both}@keyframes ds-hl{from{background-size:0% 100%}to{background-size:100% 100%}}@media (prefers-reduced-motion:reduce){.ds-hl{animation:none}}"
+    },
+    {
+      "name": "Evidence Reference",
+      "kind": "custom",
+      "refersTo": "evidence-reference",
+      "description": "Ink-circled real-text number: same number beside a claim and beside the evidence that shows it; max 3 per case.",
+      "html": "<p class=\"ds-claim\"><span class=\"ds-ref\">1</span>El cliente entrega el archivo y la clave pública a la API.</p><div class=\"ds-node\"><span class=\"ds-ref\">1</span>Servidor: cifrar, hash, firmar y empaquetar</div>",
+      "css": ".ds-claim,.ds-node{font-family:var(--font-notebook, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif);font-size:16px;line-height:1.5;color:var(--graphite-soft);max-width:65ch}.ds-node{color:var(--graphite);margin-top:20px;padding:16px 20px;border:2px solid var(--ink)}.ds-ref{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;margin-right:8px;border:2px solid var(--ink);border-radius:9999px;color:var(--ink);font-size:14px;font-weight:700;line-height:20px;vertical-align:middle}"
+    },
+    {
+      "name": "Taped Screenshot",
+      "kind": "card",
+      "refersTo": "taped-screenshot",
+      "description": "Real screenshot on a white print, +1deg, tape over the corners, synthetic data labelled.",
+      "html": "<figure class=\"ds-print\"><div class=\"ds-print-img\" role=\"img\" aria-label=\"Captura de PWA UTT con datos sintéticos\"></div><figcaption>Captura con datos sintéticos</figcaption></figure>",
+      "css": ".ds-print{position:relative;margin:20px 10px;padding:10px;background:var(--print);border:1px solid var(--graphite);transform:rotate(1deg);font-family:var(--font-notebook, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif);max-width:420px}.ds-print::before,.ds-print::after{content:\"\";position:absolute;top:-12px;width:84px;height:24px;background:var(--tape);z-index:1}.ds-print::before{left:30px;transform:rotate(-6deg)}.ds-print::after{right:30px;transform:rotate(6deg)}.ds-print-img{height:200px;background:linear-gradient(var(--grid-line) 1px,transparent 1px) 0 0/20px 20px,var(--paper)}.ds-print figcaption{padding-top:10px;font-size:14px;line-height:20px;color:var(--graphite-soft)}"
+    },
+    {
+      "name": "Ink Annotation",
+      "kind": "custom",
+      "refersTo": "ink-annotation",
+      "description": "Bic Ink note led by a drawn arrow; draws once in the hero only.",
+      "html": "<ul class=\"ds-notes\"><li><svg viewBox=\"0 0 40 20\" aria-hidden=\"true\"><path class=\"ds-ink\" pathLength=\"1\" d=\"M2 15 Q17 14 34 5 M27 3 L35 5 L31 12\"/></svg><span>Cola de sincronización</span></li></ul>",
+      "css": ".ds-notes{list-style:none;margin:0;padding:0;font-family:var(--font-notebook, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif);color:var(--ink);font-size:15px;font-weight:700;line-height:20px}.ds-notes li{display:flex;align-items:center;gap:10px;margin:10px 0}.ds-notes svg{width:40px;height:20px;flex:none;fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}.ds-ink{stroke-dasharray:1;animation:ds-draw 500ms var(--ease-ink) both}@keyframes ds-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}@media (prefers-reduced-motion:reduce){.ds-ink{animation:none}}"
+    },
+    {
+      "name": "Ink Diagram",
+      "kind": "custom",
+      "refersTo": "ink-diagram-node",
+      "description": "Vertical flow of hand-drawn SVG boxes (pathLength=1) joined by drawn arrows; static below the fold.",
+      "html": "<figure class=\"ds-diagram\"><figcaption>Diagrama · Cliente a almacenamiento</figcaption><div class=\"ds-dnode\"><svg viewBox=\"0 0 300 60\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path pathLength=\"1\" d=\"M4 5 Q75 2 150 4 T296 5 L295 55 Q220 58 150 56 T5 55 Z\"/></svg>Archivo y clave pública</div><svg class=\"ds-darrow\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M11.2 2.5c1.1 5.7-.7 10.6.8 18M6 15.2c2.1 1.1 4.2 3.5 6 5.3 2-2.1 4-4.2 6.2-5.9\"/></svg><div class=\"ds-dnode\"><svg viewBox=\"0 0 300 60\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path pathLength=\"1\" d=\"M4 5 Q75 2 150 4 T296 5 L295 55 Q220 58 150 56 T5 55 Z\"/></svg>Supabase Storage</div></figure>",
+      "css": ".ds-diagram{margin:0;font-family:var(--font-notebook, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif);max-width:420px}.ds-diagram figcaption{margin-bottom:20px;font-size:14px;font-weight:700;line-height:20px;color:var(--graphite-soft)}.ds-dnode{position:relative;padding:16px 20px;font-size:16px;line-height:1.5;color:var(--graphite)}.ds-dnode svg{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}.ds-dnode path{vector-effect:non-scaling-stroke}.ds-darrow{display:block;width:24px;height:24px;margin:8px 0 8px 20px;fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}"
+    },
+    {
+      "name": "Trajectory Margin Note",
+      "kind": "custom",
+      "refersTo": "margin-note",
+      "description": "Entry on the left; ✓/○, dates and place/modality as a right-margin note aligned with it; state words sr-only.",
+      "html": "<ol class=\"ds-tl\"><li><div class=\"ds-mn\"><svg viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M2.8 10.4 7.5 15.2 17.2 4.5\"/></svg><span class=\"ds-sr\">Completado</span><span>2025 · Organización · Remoto</span></div><div class=\"ds-tb\"><h3>Estadía de desarrollo backend</h3><p>Descripción confirmada de la entrada.</p></div></li></ol>",
+      "css": ".ds-tl{list-style:none;margin:0;padding:0;font-family:var(--font-notebook, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif)}.ds-tl li{display:grid;gap:10px}@media (min-width:1024px){.ds-tl li{grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:40px}.ds-mn{grid-column:2;grid-row:1}.ds-tb{grid-column:1;grid-row:1}}.ds-mn{display:flex;align-items:flex-start;gap:10px;font-size:14px;line-height:20px;color:var(--graphite-soft)}.ds-mn svg{width:20px;height:20px;flex:none;fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}.ds-tb h3{margin:0;font-size:22px;line-height:30px;font-weight:700;color:var(--graphite)}.ds-tb p{margin:10px 0 0;max-width:52ch;font-size:16px;line-height:1.5;color:var(--graphite)}.ds-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}"
+    },
+    {
+      "name": "Notebook Page",
+      "kind": "card",
+      "refersTo": "notebook-page",
+      "description": "Paper sheet with the 20 px quad grid and one red margin rule.",
+      "html": "<section class=\"ds-page\"><h2>Trayectoria</h2><p>Contenido en una medida de 70ch.</p></section>",
+      "css": ".ds-page{position:relative;padding:60px 30px 40px 60px;background-color:var(--paper);background-image:var(--paper-grid);background-size:20px 20px;border:1px solid var(--page-edge);font-family:var(--font-notebook, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif);color:var(--graphite)}.ds-page::before{content:\"\";position:absolute;top:0;bottom:0;left:40px;border-left:2px solid var(--margin-red)}.ds-page h2{margin:0;font-size:28px;line-height:40px;font-weight:700;letter-spacing:-.01em}.ds-page p{max-width:70ch;font-size:16px;line-height:1.5}"
+    },
+    {
+      "name": "Notebook Spread",
+      "kind": "card",
+      "refersTo": "notebook-spread",
+      "description": "Two pages with a sewn spine; stacks below its breakpoint.",
+      "html": "<div class=\"ds-spread\"><div class=\"ds-spine\" aria-hidden=\"true\"></div><div class=\"ds-leaf\"></div><div class=\"ds-leaf\"></div></div>",
+      "css": ".ds-spread{position:relative;display:grid;grid-template-columns:1fr 1fr;max-width:1280px;min-height:200px;border:1px solid var(--page-edge);background:var(--paper) var(--paper-grid);background-size:20px 20px}.ds-spine{position:absolute;z-index:2;top:0;bottom:0;left:50%;width:18px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,var(--paper) 30%,var(--page-edge) 50%,var(--paper) 70%,transparent)}.ds-spine::after{content:\"\";position:absolute;inset:30px auto 30px 7px;width:5px;background:repeating-linear-gradient(to bottom,var(--ink) 0 2px,transparent 2px 40px)}"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "Fixed desk bar: desktop links with wavering ink underline at >=1024 px; below, a focus-trapped menu panel that fades and slides 8 px.",
+      "html": "<header class=\"ds-nav\"><a class=\"ds-brand\" href=\"#inicio\">Imanol De la Cruz</a><nav aria-label=\"Principal\"><a href=\"#proyectos\" aria-current=\"location\">Proyectos</a><a href=\"#trayectoria\">Trayectoria</a><a href=\"#sobre-mi\">Sobre mí</a><a href=\"#contacto\">Contacto</a></nav><div class=\"ds-lang\"><a aria-current=\"page\" href=\"/es\">ES</a><span aria-hidden=\"true\">|</span><a href=\"/en\">EN</a></div></header>",
+      "css": ".ds-nav{display:flex;align-items:center;justify-content:space-between;gap:20px;height:80px;padding:0 20px;background:var(--desk);color:var(--graphite);font-family:var(--font-notebook, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif)}.ds-brand{font-weight:800;font-size:18px;color:inherit;text-decoration:none}.ds-nav nav{display:flex;gap:40px}.ds-nav nav a,.ds-lang a{display:inline-flex;align-items:center;min-height:44px;font-size:14px;font-weight:700;line-height:20px;color:inherit;text-decoration:none}.ds-nav nav a[aria-current]{color:var(--ink);text-decoration:underline wavy var(--ink) 2px;text-underline-offset:8px}.ds-lang{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700}.ds-lang a{min-width:44px;justify-content:center}.ds-lang a[aria-current]{color:var(--ink);text-decoration:underline 2px;text-underline-offset:4px}@media (hover:hover) and (pointer:fine){.ds-nav nav a:hover,.ds-lang a:hover{color:var(--ink)}}.ds-nav a:focus-visible{outline:3px solid var(--focus);outline-offset:4px}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Square print-white field, Ruled Line border, persistent label; only when a contact provider is configured.",
+      "html": "<div class=\"ds-field\"><label for=\"ds-n\">Nombre</label><input id=\"ds-n\" class=\"ds-input\" type=\"text\"></div>",
+      "css": ".ds-field{display:grid;gap:10px;font-family:var(--font-notebook, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif);max-width:420px}.ds-field label{font-size:14px;font-weight:700;line-height:20px;color:var(--graphite)}.ds-input{min-height:48px;padding:10px;border:1px solid var(--ruled-line);border-radius:0;background:var(--print);color:var(--graphite);font:inherit;font-size:16px}.ds-input:focus-visible{outline:3px solid var(--focus);outline-offset:4px}.ds-input[aria-invalid=true]{border-color:var(--error)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Open Engineering Notebook",
+    "overview": "The site is a quad-ruled notebook lying open on a desk. Warm paper carries a 5 mm (20 px) blue grid and one red margin rule; the author writes over it in Bic-blue ink: a circle around the word that matters, ticks beside verified facts, arrows from a screenshot to what it proves, a pen underline under a secondary action, hand-drawn boxes for an architecture diagram, and circled numbers that tie a claim to its evidence. Real screenshots are printed and taped in, never floated in glass. Set text is graphite in one sturdy grotesk; the hand shows only in strokes, never in a handwriting font.\n\nDensity is a working notebook, not a magazine: content sits on the grid, prose keeps a measured line, and every mark carries information. State is written, not lit: ✓ verified, ○ pending, struck through = unavailable. Depth comes only from overlap: tape over a print, a print over the page, a page over the desk. Empty space is never filled with decoration: when a column would be empty, already-published content moves into the margin or the page narrows. The world refuses the dark-neon developer portfolio entirely: no graphite-and-lime HUD, no mono kicker labels, no glass, no glow.\n\nThe notebook is professional first. Personality lives in the precision of the marks and the honesty of the annotations (synthetic data labelled as synthetic, pending dates marked pending), not in decoration. Motion is the pen arriving once, at the top of the page, and nowhere else.",
+    "keyCharacteristics": [
+      "Warm paper on a slightly darker desk, a 20 px blue quad grid, one red margin rule per page.",
+      "Bic-blue ink is the only accent that acts: buttons, links, marks, annotations, diagram boxes, evidence numbers.",
+      "One highlighter swipe per page, on the strongest single piece of evidence.",
+      "Main text at most 70 characters per line.",
+      "Square everything except the evidence-number circle. Slight hand-placed rotation on prints (+1°) and the primary button (−1°).",
+      "Depth by overlap only; no blurred shadows.",
+      "Irregular SVG ink strokes that draw once in the hero and are simply present everywhere else."
+    ],
+    "rules": [
+      {
+        "name": "The One Pen Rule",
+        "body": "Blue ink is the only colour that marks or acts. Red belongs to the margin and to errors; it never circles, ticks or underlines.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Swipe Rule",
+        "body": "One highlighter swipe per page, not per screen. On the home page it sits on the hero evidence only; on each case study it sits on \"Mi aportación\" only. A second highlight means neither is the strongest.",
+        "section": "colors"
+      },
+      {
+        "name": "The Set Type Rule",
+        "body": "Text is always set in Schibsted Grotesk. No handwriting, script or \"marker\" fonts, ever; the hand is the strokes.",
+        "section": "typography"
+      },
+      {
+        "name": "The Measured Reading Rule",
+        "body": "Main text stays at ≤ 70 characters per line (`max-width: 70ch` on profile prose, 65ch on project and case prose, 450 px for the hero description).",
+        "section": "typography"
+      },
+      {
+        "name": "The Grid Line Rule",
+        "body": "Headings, small text, labels and component heights snap to the 20 px grid (40 px, 30 px, 20 px lines). Body prose keeps 1.5 for readability and does not chase grid lines; blocks re-align through their margins.",
+        "section": "typography"
+      },
+      {
+        "name": "The Cell Rule",
+        "body": "If a measurement is not a multiple of 10 px, it is wrong unless it is a 1–2 px stroke, a 44/48 px touch target or a text measure in ch.",
+        "section": "layout"
+      },
+      {
+        "name": "The Empty Space Rule",
+        "body": "«El espacio vacío no se rellena con decoración. Si una columna queda vacía, se reacomoda contenido ya publicado (notas al margen) o se angosta el layout. Las relaciones entre elementos se marcan con referencias numeradas legibles, no con flechas que dependan de la posición.»",
+        "section": "layout"
+      },
+      {
+        "name": "The Overlap Rule",
+        "body": "If something must look raised, put it on top of something else. Never add box-shadow, glow, blur or backdrop-filter.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep spacing on the 20 px cell (10 px half-steps), except 1–2 px strokes, 44/48 px touch targets and ch measures.",
+      "Do keep main text at ≤ 70 characters per line.",
+      "Do draw every mark (circle, tick, ○, arrow, strike, underline, diagram box) as an irregular SVG stroke in Bic Ink (#1f3a93).",
+      "Do let the ink draw (500 ms `--ease-ink`, 80 ms stagger) only in the hero; diagrams and every other mark are static.",
+      "Do sweep the highlighter with background-size and `box-decoration-break: clone` (400 ms `--ease-highlighter`).",
+      "Do handle reduced motion per component (marks fully drawn, highlighter fully shown, no press scale, menu fade only); there is no global kill.",
+      "Do gate hover styles to `(hover: hover) and (pointer: fine)`.",
+      "Do mark state with ✓ verified, ○ pending, struck = unavailable, with the words available to assistive tech.",
+      "Do move already-published content into the margin, or narrow the page, when a column would otherwise be empty.",
+      "Do tie a claim to its evidence with a numbered evidence reference, at most 3 per case.",
+      "Do label synthetic data as synthetic on every taped screenshot.",
+      "Do create depth by overlap: tape over print over paper over desk."
+    ],
+    "donts": [
+      "Don't use more than one highlighter swipe per page.",
+      "Don't fill empty space with decoration, or point at relationships with arrows that depend on position.",
+      "Don't animate the highlighter with clip-path; it hid wrapped lines on mobile.",
+      "Don't add a hover lift or replay ink on hover.",
+      "Don't render an empty form slot when no contact provider is configured.",
+      "Don't use handwriting, script or marker fonts.",
+      "Don't use gradient text, glass, backdrop blur, glow or blurred drop shadows.",
+      "Don't use a dark or neon theme, or any part of the old graphite + lime HUD (Space Grotesk, JetBrains Mono, #101214, #C2F362).",
+      "Don't use an \"IA\" monogram or any generated or simulated portrait; omit the portrait slot until a real photo exists.",
+      "Don't show availability indicators, response-time promises or status dots.",
+      "Don't invent metrics, proficiency bars, percentages or counts.",
+      "Don't use red ink for marks or emphasis; red is the margin and errors only.",
+      "Don't use mono or uppercase kicker/eyebrow labels above headings.",
+      "Don't use font glyph icons (↗, ↓, ✓ as text) in place of drawn strokes."
+    ]
+  }
+}

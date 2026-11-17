@@ -10,22 +10,16 @@
     "closeMenuLabel": "Close menu",
     "switchToSpanish": "Switch language to Spanish",
     "switchToEnglish": "Switch language to English",
-    "contactAction": "Contact",
-    "githubContext": ": Imanol's profile, opens in a new tab",
     "skipToContent": "Skip to content",
     "brandLabel": "Imanol Antonio De la Cruz — home",
     "sections": {
-      "inicio": "Home",
       "proyectos": "Projects",
-      "sobre-mi": "About",
-      "stack": "Stack",
       "trayectoria": "Experience",
+      "sobre-mi": "About",
       "contacto": "Contact"
     }
   },
   "Hero": {
-    "eyebrow": "Developer profile",
-    "role": "Full-stack developer with a backend focus.",
     "description": "I build applications, APIs, and automations with JavaScript and TypeScript.",
     "projects": "View projects",
     "contact": "Get in touch",
@@ -34,42 +28,32 @@
       "es": "Spanish",
       "en": "English"
     },
-    "nodeGroupLabel": "Choose an area of work",
-    "nodeCaseLink": "View case study",
-    "frameHeader": "Technical profile",
-    "hudToggle": "Areas of work and case studies",
-    "nodes": {
-      "api": {
-        "short": "API",
-        "label": "API / Gateway",
-        "description": "API design and server-side logic: an Express API that encrypts, signs, and stores file packages."
-      },
-      "data": {
-        "short": "Data",
-        "label": "Data / Cache",
-        "description": "Local persistence with IndexedDB and a queue that syncs with the server when the connection returns."
-      },
-      "automation": {
-        "short": "Automation",
-        "label": "Automation / Integrations",
-        "description": "Integrating Classroom, Drive, and the GitHub API in an n8n workflow with validation and a dry-run mode that doesn't write to GitHub."
-      }
-    }
+    "roleStart": "Full-stack developer with a ",
+    "roleEnd": " focus.",
+    "evidence": [
+      "Verified: backend development and digital transformation internship · 1Degree Holdings · 2025.",
+      "In progress: IT engineering degree · Universidad Tecnológica de Tehuacán · 2025–2027 (expected).",
+      "Verified: primary implementation and architecture of PWA UTT; testing and documentation with the team."
+    ],
+    "subtitle": "Lab inspections",
+    "imageAlt": "PWA UTT coordination overview with synthetic data",
+    "caption": "Screenshot with synthetic data",
+    "notes": [
+      "Lab inspection records.",
+      "Local records in IndexedDB.",
+      "A queue sends changes when connectivity returns.",
+      "Explicit version conflicts."
+    ]
   },
   "Projects": {
-    "eyebrow": "Projects",
-    "heading": "Software engineering and applied architecture",
-    "index": "{count, plural, one {# project} other {# projects}}",
-    "featuredLabel": "Featured project",
-    "contribution": "My contribution",
-    "technologyList": "Project technologies",
+    "heading": "Projects and decisions",
     "exploreCase": "View case study",
-    "openApp": "Open application",
-    "viewCode": "View code"
+    "contribution": "My contribution",
+    "queue": "A queue sends changes when connectivity returns",
+    "conflicts": "Explicit version conflicts"
   },
   "Studies": {
     "back": "Back to projects",
-    "caseLabel": "Case study",
     "technologies": "Technologies",
     "contribution": "My contribution",
     "repository": "View code",
@@ -77,46 +61,29 @@
     "previous": "Previous project",
     "next": "Next project",
     "moreProjects": "Browse projects",
-    "notSpecified": "Not specified",
     "contactTitle": "Want to talk about this project?",
     "contactText": "If you'd like to dig into the decisions behind this case or discuss an opportunity, email me.",
     "contactEmail": "Email me",
     "contactMore": "More ways to reach me"
   },
   "About": {
-    "eyebrow": "About",
     "heading": "How I work",
-    "lead": "I enjoy building complete products, with particular attention to what happens behind the interface.",
-    "paragraph": "I work across applications, APIs, data, and automation. In my projects, I try to explain decisions, account for error cases, and make clear what has and has not been validated.",
+    "lead": "I enjoy building complete products and understanding what happens behind the interface.",
+    "paragraph": "In my projects, I explain decisions, account for error cases, and make clear what has and has not been validated.",
     "personalNote": "Outside of coding, I enjoy video games."
   },
   "Stack": {
-    "eyebrow": "Stack",
-    "heading": "Technologies by function",
-    "groups": {
-      "backend": "Backend",
-      "frontend": "Frontend",
-      "data": "Data",
-      "tools": "Tools and deployment"
-    },
-    "evidence": {
-      "declared": "No published case",
-      "project": "Used in a project"
-    }
+    "heading": "Supported by project work",
+    "declared": "Also familiar with: NestJS, Hono, React, SvelteKit, and cloud-native tools."
   },
   "Experience": {
-    "eyebrow": "Experience",
     "heading": "Education and experience",
-    "kinds": {
-      "education": "Education",
-      "employment": "Employment",
-      "personal-project": "Personal project"
-    }
+    "completed": "Completed",
+    "inProgress": "In progress"
   },
   "Contact": {
-    "eyebrow": "Contact",
     "heading": "Let's talk about an opportunity",
-    "intro": "I am looking for employment opportunities where I can contribute to full-stack development, with a particular interest in backend work.",
+    "intro": "I'm looking for a role where I can contribute to full-stack development, especially backend work. If you'd like to talk about my work, email me.",
     "socialLabel": "Profiles and contact",
     "copyEmail": "Copy email",
     "copyEmailDone": "Email copied",
@@ -133,7 +100,7 @@
       "tooShort": "The message must contain at least 10 characters.",
       "tooLong": "This value exceeds the allowed limit."
     },
-    "cvLink": "CV in {language} · {format}",
+    "cvLink": "Download CV ({language} · {format})",
     "cvLanguages": {
       "es": "Spanish",
       "en": "English"
@@ -142,7 +109,9 @@
     "success": "Message accepted for sending. Thanks for reaching out.",
     "errorGeneric": "Could not send message. Please try again.",
     "errorRateLimit": "Too many attempts. Please try again later.",
-    "verification": "Could not verify your request. Please try again."
+    "verification": "Could not verify your request. Please try again.",
+    "emailAction": "Email me",
+    "verificationRequired": "Complete the verification to send."
   },
   "Footer": {
     "linksLabel": "Useful links",

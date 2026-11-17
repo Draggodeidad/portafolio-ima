@@ -4,15 +4,23 @@
 
 Estas instrucciones aplican a todo el repositorio, junto con instrucciones de mayor prioridad y las solicitudes del usuario.
 
-Construir un portafolio ES/EN para conseguir empleo como desarrollador full-stack con enfoque en backend. Público: reclutadores y líderes técnicos. Dirección: Perfil HUD + System Playground, grafito y lima eléctrico, influencia gamer contenida y liquid glass legible.
+Construir un portafolio ES/EN para conseguir empleo como desarrollador full-stack con enfoque en backend. Público: reclutadores y líderes técnicos. Dirección: «Cuaderno profesional» (rediseño libre aprobado el 2026-11-17). Ver DESIGN.md en la raíz.
 
 Completar cada etapa autorizada y verificarla. Detenerse en los puntos de revisión acordados antes de construir la siguiente. No pedir aprobación para decisiones rutinarias dentro de la etapa. No publicar, cambiar infraestructura, fusionar PRs ni enviar correos reales de prueba sin autorización específica.
 
+## Rediseño 2026-11-17 (prioridad sobre este archivo)
+
+- `DESIGN.md` (raíz) y `.impeccable/design.json` mandan en tokens, tipografía, componentes y motion.
+- Contrato de dirección: `.impeccable/surfaces/`. Orquestación, fases y gates: `.orchestration/STATUS.md`.
+- `PRODUCT.md` manda en contenido y verdad del producto.
+- `docs/DESIGN.md` y el Figma son historial y anti-referencia: no implementar desde ellos.
+- **Copy con aprobación (regla del usuario, 2026-11-17):** todo copy nuevo o reescrito se propone como texto ES/EN antes de implementarlo y solo se publica con la aprobación del usuario. Nunca se inventan logros, métricas, fechas ni tecnologías que no estén ya en el sitio o en su CV. Por qué: el usuario lo pidió como condición del rediseño; cada afirmación debe ser trazable y suya.
+- Queda sin efecto todo lo de este archivo que choque con DESIGN.md: HUD, liquid glass, Canvas UI Glass Object, Bencho (Action node, Tilt card), monograma IA, Space Grotesk/JetBrains Mono. Iconiq Button se conserva, reestilizado con los tokens del cuaderno.
+
 ## Fuentes de verdad
 
-- Leer docs/DESIGN.md. Si existe únicamente DESIGN.md en raíz, usarlo y conservarlo al organizar documentación.
-- Figma: https://www.figma.com/design/ioLPZ28yV1QWAd1J8BdLOF/Untitled?node-id=12-2701
-- Figma define composición y apariencia; DESIGN.md y datos confirmados definen contenido.
+- `DESIGN.md` (raíz) define la apariencia; `PRODUCT.md` y los datos confirmados definen el contenido.
+- `docs/DESIGN.md` y Figma (https://www.figma.com/design/ioLPZ28yV1QWAd1J8BdLOF/Untitled?node-id=12-2701) son solo historial.
 - Registrar diferencias importantes en docs/implementation-plan.md.
 - No convertir textos decorativos del diseño en datos reales: coordenadas, transmisión, promesas de respuesta en 24 horas o especialización no demostrada.
 - No inventar métricas, cargos, clientes, experiencia, resultados, certificaciones ni aportaciones.
@@ -162,10 +170,10 @@ Adaptar a convenciones existentes y crear archivos cuando se necesiten. Páginas
 - Centralizar tokens; conservar valores específicos de una pieza cuando sea necesario.
 - Descargar assets por el mecanismo indicado por Figma. No usar URLs temporales ni screenshots como página implementada.
 - Respetar assets, proporciones y slots; no sustituir imágenes arbitrariamente.
-- Foto pendiente: monograma IA. Correo y CV pendientes: no inventar enlaces ni descargas.
+- Foto pendiente: omitir el slot (sin monograma IA). Correo y CV pendientes: no inventar enlaces ni descargas.
 - Navbar fija, anclas y menú móvil; IntersectionObserver para sección activa.
 - Compensar navbar con scroll-margin-top.
-- Liquid glass con @supports y fallback opaco. Evitar blur de grandes superficies/filtros anidados.
+- Sin vidrio ni blur: la profundidad sale de la superposición (ver DESIGN.md).
 - Probar 360/390, 768 y 1280 px. El desktop de Figma requiere una adaptación móvil deliberada.
 - Sin cursor personalizado, audio automático, intro obligatoria ni scroll secuestrado.
 

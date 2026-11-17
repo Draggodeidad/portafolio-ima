@@ -1,0 +1,62 @@
+[
+  {
+    "width": 1440,
+    "results": {
+      "checked": 193,
+      "failures": [
+        {
+          "text": "|",
+          "ratio": 2.48,
+          "color": "oklab(0.256152 0.0000116825 0.000005126 / 0.42)",
+          "background": [
+            247,
+            246,
+            241
+          ],
+          "tag": "SPAN",
+          "cls": ""
+        }
+      ]
+    }
+  },
+  {
+    "width": 768,
+    "results": {
+      "checked": 171,
+      "failures": [
+        {
+          "text": "|",
+          "ratio": 2.48,
+          "color": "oklab(0.256152 0.0000116825 0.000005126 / 0.42)",
+          "background": [
+            247,
+            246,
+            241
+          ],
+          "tag": "SPAN",
+          "cls": ""
+        }
+      ]
+    }
+  },
+  {
+    "width": 390,
+    "results": {
+      "checked": 170,
+      "failures": [
+        {
+          "text": "|",
+          "ratio": 2.48,
+          "color": "oklab(0.256152 0.0000116825 0.000005126 / 0.42)",
+          "background": [
+            247,
+            246,
+            241
+          ],
+          "tag": "SPAN",
+          "cls": ""
+        }
+      ]
+    }
+  }
+]
