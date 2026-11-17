@@ -56,6 +56,7 @@ body {
   h3,
   h4 {
     text-wrap: balance;
+    overflow-wrap: anywhere;
   }
 
   p,
@@ -64,6 +65,7 @@ body {
   figcaption,
   blockquote {
     text-wrap: pretty;
+    overflow-wrap: anywhere;
   }
 }
 
