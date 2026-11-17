@@ -18,6 +18,7 @@ Prompt maestro: pegado en la sesión del 2026-11-17 (no guardado en el repo)
 | T03 | Hero cuaderno abierto + b-button + retiro de three/HUD                  | 4    | merged           | —               | —           | 1 ronda (flecha, acciones en una fila); main: lint/typecheck/format/build verdes |
 | T04 | Proyectos y casos                                                       | 4    | merged           | —               | —           | 1 ronda (mundo cuaderno, galería, flechas a tinta)                               |
 | T05 | Trayectoria, Sobre mí + stack, contacto, footer, orden de la home       | 4    | merged           | —               | —           | Sin rondas; integración: 2 tests ajustados en main                               |
+| M01 | Pasada de motion (reduced-motion, trazos visibles, press, menú móvil)   | 5    | en curso         | ux/M01-motion   | m01-motion  | 4 planes, 1 commit por plan                                                      |
 
 ## Decisiones
 
