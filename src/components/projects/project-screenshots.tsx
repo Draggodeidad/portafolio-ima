@@ -23,11 +23,11 @@ const screenshots = [
   },
 ] as const;
 const styles = {
-  gallery: "grid gap-8 sm:grid-cols-2",
-  figure: "relative min-w-0 bg-print p-2 pt-3",
-  tape: "absolute -top-2 left-1/2 z-10 h-5 w-20 -translate-x-1/2 -rotate-2 bg-tape",
+  gallery: "grid gap-10 sm:grid-cols-2",
+  figure: "relative min-w-0 bg-print p-[10px]",
+  tape: "absolute -top-[10px] left-1/2 z-10 h-5 w-20 -translate-x-1/2 -rotate-2 bg-tape",
   image: "h-auto w-full border border-page-edge",
-  caption: "mt-2 text-small text-graphite-soft",
+  caption: "mt-[10px] text-small text-graphite-soft",
 } as const;
 export function ProjectScreenshots({
   locale,

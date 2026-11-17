@@ -37,7 +37,7 @@ const styles = {
   contactLayout: "grid gap-[20px] lg:grid-cols-2 lg:gap-[40px]",
   contact: "space-y-[20px]",
   actions: "flex flex-wrap items-center gap-[10px]",
-  link: "inline-flex min-h-12 items-center text-label text-ink underline decoration-1 underline-offset-4 hover:text-ink-deep",
+  link: "inline-flex min-h-12 items-center text-label text-ink underline decoration-1 underline-offset-4 [@media(hover:hover)_and_(pointer:fine)]:hover:text-ink-deep",
   email: "max-w-full break-all text-body text-graphite",
   footer: "py-[40px]",
   footerInner: "flex flex-wrap items-center justify-between gap-[20px]",

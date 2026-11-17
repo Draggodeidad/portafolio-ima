@@ -8,6 +8,7 @@ import { InlineCode } from "@/components/ui/inline-code";
 import { Container } from "@/components/layout/container";
 import notebook from "@/components/hero/hero.module.css";
 import { EvidenceReference } from "@/components/projects/evidence-reference";
+import { InkViewport } from "@/components/projects/ink-viewport";
 import { ProjectVisual } from "@/components/projects/project-visual";
 import { ProjectScreenshots } from "@/components/projects/project-screenshots";
 import { profile } from "@/content/profile";
@@ -17,29 +18,30 @@ import { routing, type Locale } from "@/i18n/routing";
 
 const styles = {
   main: "bg-desk pb-20 pt-[calc(var(--nav-height)+40px)] text-graphite",
-  page: "relative border border-page-edge bg-paper py-8 pl-12 pr-5 [background-image:var(--paper-grid)] [background-size:var(--grid-cell)_var(--grid-cell)] before:absolute before:inset-y-0 before:left-5 before:w-0.5 before:bg-margin-red sm:py-10 sm:pl-16 sm:pr-10 sm:before:left-8",
+  page: "relative border border-page-edge bg-paper py-10 pl-[50px] pr-5 [background-image:var(--paper-grid)] [background-size:var(--grid-cell)_var(--grid-cell)] before:absolute before:inset-y-0 before:left-5 before:w-0.5 before:bg-margin-red sm:py-10 sm:pl-[60px] sm:pr-10 sm:before:left-[30px]",
   back: "inline-flex min-h-12 items-center text-label text-ink underline underline-offset-4",
-  header: "mt-8 border-b border-ruled-line pb-10",
+  header: "mt-10 border-b border-ruled-line pb-10",
   title: "max-w-[22ch] text-h2 [overflow-wrap:anywhere]",
   description: "mt-5 max-w-[65ch] text-body text-graphite-soft",
-  contribution: "mt-8 max-w-[65ch]",
-  label: "mb-2 text-label text-graphite",
+  contribution: "mt-10 max-w-[65ch]",
+  label: "mb-[10px] text-label text-graphite",
   text: "max-w-[65ch] text-body text-graphite-soft [overflow-wrap:anywhere]",
-  technologies: "mt-2 flex flex-wrap gap-x-2 text-body text-graphite-soft",
-  technology: "not-last:after:ml-2 not-last:after:content-['·']",
-  actions: "mt-7 flex flex-wrap gap-3",
+  technologies:
+    "mt-[10px] flex flex-wrap gap-x-[10px] text-body text-graphite-soft",
+  technology: "not-last:after:ml-[10px] not-last:after:content-['·']",
+  actions: "mt-[30px] flex flex-wrap gap-[10px]",
   button: "min-h-12",
   spread:
     "relative grid gap-10 xl:grid-cols-2 xl:gap-20 xl:before:absolute xl:before:inset-y-0 xl:before:left-1/2 xl:before:w-px xl:before:bg-page-edge",
   evidence: "grid content-start gap-10 xl:self-start",
-  block: "border-t border-page-edge py-8",
-  blockTitle: "mb-4 text-h2",
+  block: "border-t border-page-edge py-10",
+  blockTitle: "mb-5 text-h2",
   paragraph:
-    "mb-4 max-w-[65ch] text-body text-graphite-soft last:mb-0 [overflow-wrap:anywhere]",
-  points: "mt-4 grid list-disc gap-3 pl-5 text-body text-graphite-soft",
-  related: "mt-10 grid gap-4 border-t border-ruled-line pt-8 sm:grid-cols-2",
+    "mb-5 max-w-[65ch] text-body text-graphite-soft last:mb-0 [overflow-wrap:anywhere]",
+  points: "mt-5 grid list-disc gap-[10px] pl-5 text-body text-graphite-soft",
+  related: "mt-10 grid gap-5 border-t border-ruled-line pt-10 sm:grid-cols-2",
   relatedLink:
-    "flex min-h-12 flex-col justify-center border border-page-edge p-4 text-label text-ink [overflow-wrap:anywhere]",
+    "flex min-h-12 flex-col justify-center border border-page-edge p-5 text-label text-ink [overflow-wrap:anywhere]",
   cta: "mt-10 border-t border-ruled-line py-10",
 } as const;
 
@@ -128,7 +130,7 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
                 </p>
               </aside>
             )}
-            <div className="mt-6">
+            <div className="mt-[20px]">
               <p className={styles.label}>{t("technologies")}</p>
               <ul className={styles.technologies}>
                 {project.technologies.map((technology) => (
@@ -180,19 +182,29 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
               reference={1}
             />
             <div className={styles.evidence}>
-              {project.id === "pwa-utt" && (
-                <ProjectVisual project={project} locale={language} />
-              )}
+              <InkViewport>
+                <ProjectVisual
+                  project={project}
+                  locale={language}
+                  reference={project.id !== "pwa-utt"}
+                />
+              </InkViewport>
             </div>
-            <StudySection block={project.study.decisions} locale={language} />
-            <div className={styles.evidence}>
-              {project.id === "pwa-utt" ? (
-                <ProjectScreenshots locale={language} />
-              ) : (
-                <ProjectVisual project={project} locale={language} reference />
-              )}
-            </div>
+            {project.id === "pwa-utt" && (
+              <>
+                <StudySection
+                  block={project.study.decisions}
+                  locale={language}
+                />
+                <div className={styles.evidence}>
+                  <ProjectScreenshots locale={language} />
+                </div>
+              </>
+            )}
           </div>
+          {project.id !== "pwa-utt" && (
+            <StudySection block={project.study.decisions} locale={language} />
+          )}
           <StudySection block={project.study.validation} locale={language} />
           <StudySection block={project.study.limitations} locale={language} />
           <nav className={styles.related} aria-label={t("moreProjects")}>

@@ -148,7 +148,7 @@
 @media (max-width: 767px) {
   .page {
     min-height: 0;
-    padding: 40px 25px 40px 40px;
+    padding: 40px 20px 40px 40px;
   }
   .page::before {
     left: 20px;

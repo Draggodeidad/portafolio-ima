@@ -6,9 +6,9 @@ import type { Locale } from "@/i18n/routing";
 const styles = {
   figure: "min-w-0",
   caption: "mb-5 text-label text-graphite-soft",
-  flow: "flex flex-col items-stretch gap-2",
-  node: "relative min-w-0 px-5 py-4 text-body text-graphite [overflow-wrap:anywhere]",
-  arrow: "ml-5 h-6 w-6 text-ink",
+  flow: "flex flex-col items-stretch gap-[10px]",
+  node: "relative min-w-0 px-5 py-[20px] text-body text-graphite [overflow-wrap:anywhere]",
+  arrow: "ml-5 h-[20px] w-[20px] text-ink",
 } as const;
 
 export function ProjectVisual({
@@ -97,6 +97,7 @@ export function ProjectVisual({
                 aria-hidden="true"
               >
                 <path
+                  className={ink.inkStroke}
                   pathLength={1}
                   d="M4 5 Q75 2 150 4 T296 5 L295 55 Q220 58 150 56 T5 55 Z"
                 />
