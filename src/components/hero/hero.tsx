@@ -140,12 +140,26 @@ export async function Hero({ locale }: { locale: Locale }) {
                   {index === 0 ? (
                     <>
                       <strong className={styles.highlight}>
-                        {item.slice(item.indexOf(":") + 2, item.indexOf(" · "))}
+                        <span className={styles.initial}>
+                          {item.slice(
+                            item.indexOf(":") + 2,
+                            item.indexOf(":") + 3,
+                          )}
+                        </span>
+                        {item.slice(item.indexOf(":") + 3, item.indexOf(" · "))}
                       </strong>
                       {item.slice(item.indexOf(" · "))}
                     </>
                   ) : (
-                    item.slice(item.indexOf(":") + 2)
+                    <>
+                      <span className={styles.initial}>
+                        {item.slice(
+                          item.indexOf(":") + 2,
+                          item.indexOf(":") + 3,
+                        )}
+                      </span>
+                      {item.slice(item.indexOf(":") + 3)}
+                    </>
                   )}
                 </span>
               </li>

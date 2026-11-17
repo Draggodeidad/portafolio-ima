@@ -79,8 +79,11 @@
   }
 }
 .highlight {
-  background: var(--highlighter);
+  background-image: linear-gradient(var(--highlighter), var(--highlighter));
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
   padding: 3px 4px;
+  -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   animation: highlight var(--motion-highlighter) var(--ease-highlighter) both;
 }
@@ -127,10 +130,10 @@
 }
 @keyframes highlight {
   from {
-    clip-path: inset(0 100% 0 0);
+    background-size: 0% 100%;
   }
   to {
-    clip-path: inset(0);
+    background-size: 100% 100%;
   }
 }
 @media (max-width: 1279px) {
@@ -165,5 +168,16 @@
   .noteDraw,
   .highlight {
     animation: none;
+  }
+}
+
+.initial {
+  text-transform: uppercase;
+}
+
+@media (min-width: 1280px) {
+  .page {
+    padding-right: 30px;
+    padding-left: 60px;
   }
 }
