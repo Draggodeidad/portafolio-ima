@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { EvidenceReference } from "./evidence-reference";
 import type { Locale } from "@/i18n/routing";
 
 const screenshots = [
@@ -62,6 +63,9 @@ export function ProjectScreenshots({
             }
           />
           <figcaption className={styles.caption}>
+            {!featured && shot.file === "sincronizacion" && (
+              <EvidenceReference number={1} />
+            )}
             {shot[locale]} ·{" "}
             {locale === "es"
               ? "Captura con datos sintéticos"
