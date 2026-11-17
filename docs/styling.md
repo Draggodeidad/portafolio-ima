@@ -1,55 +1,39 @@
 # Styling conventions
 
-The project uses Tailwind CSS 4. Keep layout, spacing, responsive behavior, and ordinary component states in Tailwind utilities. `src/styles/tokens.css` is the source of reusable design values and maps semantic colors, fonts, and radii into Tailwind with `@theme inline`. `src/app/globals.css` is reserved for resets, document defaults, accessibility defaults, and reduced-motion behavior.
+`DESIGN.md` defines the notebook's appearance. `src/styles/tokens.css` is the source for semantic colours, typography, spacing, grid and motion; Tailwind CSS 4 exposes these through `@theme inline`. Use roles such as `paper`, `ink`, `graphite`, `font-body`, `text-h2` and `text-body` rather than duplicating values. The 20 px grid and 10 px half-cell govern spacing.
 
 ## Component classes
 
-Group complete, static class strings in a component-local `styles` object. Keep it outside the component when it does not depend on props. Use semantic keys and compose state with `cn()`:
+Keep layout, spacing and responsive behaviour in Tailwind utilities. Group complete, statically detectable class strings in a semantic local `styles` object outside the component when they do not depend on props. Use `cn()` for conditional classes, with a caller-provided `className` last:
 
 ```tsx
 const styles = {
-  root: "grid items-center gap-6",
-  title: "font-display text-3xl text-foreground",
-  active: "bg-accent text-accent-foreground",
+  root: "border border-page-edge bg-paper p-5",
+  title: "text-h2 text-graphite",
+  active: "text-ink",
 } as const;
 
-<section className={cn(styles.root, active && styles.active, className)} />;
+<section className={cn(styles.root, active && styles.active, className)}>
+  <h2 className={styles.title}>{title}</h2>
+</section>;
 ```
 
-`cn()` in `src/lib/cn.ts` combines conditional classes with `clsx` and resolves Tailwind utility conflicts with `tailwind-merge`. Put a caller-provided `className` last. Keep utility names literal so Tailwind can detect them; do not construct utility names dynamically.
+`cn()` in `src/lib/cn.ts` combines `clsx` with `tailwind-merge`. Keep utility names literal; do not construct class names dynamically. Check compositions involving semantic `text-*` roles: `tailwind-merge` can confuse custom text sizes with colours and remove a needed class.
 
-## Variants
+## Variants and effects
 
-Use CVA only for a reusable component that has meaningful variants. Keep the base composition in CVA and avoid repeating the same variant classes in a separate `styles` object. There are no such components in the current foundation, so CVA is not installed.
+Use CVA only for reusable components with real variants, deriving variant types from their definitions. The imported Iconiq Button retains its CVA variants; do not duplicate those classes in a separate styles object.
 
-## CSS Modules
+Use CSS Modules for complex effects specific to a component, such as ink strokes, tape, grid effects and motion. Keep ordinary layout, spacing and responsive behaviour in Tailwind utilities. Static style objects alone do not require a client boundary; preserve Server Components unless interaction requires one.
 
-Use a component CSS Module for effects that are clearer as scoped CSS, including pseudo-elements, HUD signal effects, glass surfaces, `@supports` rules, and effect-specific fallbacks. Keep structural layout and responsive utilities in Tailwind. Legacy glass surfaces remain isolated in CSS Modules, but their shared tokens are opaque and flat during migration.
+## Document defaults and accessibility
 
-Preserve keyboard focus, reduced-motion behavior, readable contrast, and functionality when decorative effects are unavailable. Do not add client boundaries solely to organize styles.
+Element resets and shared focus styles live in `@layer base` in `src/app/globals.css`. Unlayered rules outrank Tailwind's layered utilities and can silently override component text colour, font or outline utilities. Keep focus visible and interactive targets comfortably sized.
 
-The Stage 2 hero keeps its main grid, spacing, and button states in Tailwind. Its scoped module (`src/components/hero/hero.module.css`) also positions the three nodes against the HUD frame because those percentage offsets and connection endpoints form one component-specific composition; it contains the reticle, responsive paths, one-shot selection signal, and liquid-glass enhancement with an opaque fallback. The node selector owns only its selected-node state; descriptive content and frame stay server-rendered. The imported Iconiq Button keeps its real CVA variants, with the hero supplying token-based `className` overrides.
+Schibsted Grotesk is loaded with `next/font/google`. Semantic typography roles provide size, weight, leading and tracking. Body text and form input text use at least 16 px; small, label and annotation roles are reserved for secondary or functional text and remain at least 14 px. Use the defined roles rather than arbitrary smaller sizes.
 
-Stage 3 keeps the decorative Glass Object in the small `HudVisual` client island. The HUD's square reservation, static SVG fallback, and monogram remain in the existing composition. `hero.module.css` owns only the component-specific canvas/fallback layering and loaded-state detail; Tailwind continues to own page layout. The effect starts only after viewport entry, WebGL support, and motion preference checks. Reduced motion, renderer/asset errors, and context loss restore the static ring. The build flag `NEXT_PUBLIC_ENABLE_HUD_GLASS=true` enables the experimental effect; without it, the server-rendered fallback is the default.
+Each component owns its `prefers-reduced-motion` alternative: information and state remain visible without the animation. There is no global animation kill rule; the global preference only disables smooth scrolling. Preserve keyboard access and readable content when decorative effects are unavailable.
 
-Stage 4 project content stays in server-rendered components and a typed local data module. `projects-section.tsx` and the case route keep their complete utility strings in local semantic `styles` objects. Project diagrams use ordinary HTML/CSS and labelled text instead of product screenshots or another rendering engine. The single Figma section canvas color is exposed as the `project-canvas` theme token; shared background, surfaces, borders, typography, and spacing continue to use existing tokens and utilities.
+## Notebook layout
 
-Stage 5 profile sections remain Server Components backed by typed local profile/skill/experience data and localized messages. Their layout and form controls use semantic local `styles` objects with existing Tailwind theme tokens. The experience timeline is rendered only when a complete confirmed entry exists. Lucide icons already present through Iconiq are used for skill groups and social links; no icon package was added. The unavailable contact form does not add a client boundary because it has no interactive submission behavior.
-
-Global element resets (`a`, `button`, `:focus-visible`) live in `@layer base` in `src/app/globals.css`. Unlayered rules outrank every Tailwind layer, so a reset outside a layer silently discards text-colour, font, and outline utilities. The Iconiq Button maps its `--ic-*` and `--button-*` variables to portfolio tokens inside `b-button.tsx`; there are no OS-dependent `dark:` variants because the site has a single light theme.
-
-Glass surfaces declare only the unprefixed `backdrop-filter` inside `@supports (backdrop-filter: …)`. When a rule pairs `-webkit-backdrop-filter` with `backdrop-filter` and the value uses `var()`, the CSS compiler drops both declarations, which left the navbar translucent but unblurred. The compiler already adds the `-webkit-` alternative to the `@supports` condition. The translucent background belongs inside the same `@supports` block so browsers without blur keep the opaque fallback.
-
-The hero area selector (`node-selector.tsx`) is a size container (`@container`); its tiles switch from stacked rows to three across at Tailwind's `@sm` container width, and `hero.module.css` mirrors that with `@container (min-width: 24rem)` for the cursor and connector. Below `lg`, `HudDisclosure` collapses the HUD into a single toggle row.
-
-Typography floor: functional text (labels, metadata, tags, navigation, diagram labels) uses Tailwind's `text-xs` (12px) as the minimum; no `text-[9px]`, `text-[10px]`, or `text-[11px]` remain. Semantic `text-*` role utilities are available in the theme; when composing classes with `cn()`, verify the result because `tailwind-merge` can confuse custom text sizes with colors. Headings get `text-wrap: balance` and running text (`p`, `li`, `dd`, `figcaption`, `blockquote`) gets `text-wrap: pretty` from `@layer base` in `globals.css`. Case-study prose is capped at `max-w-prose`.
-
-## Notebook foundations
-
-`DESIGN.md` defines the notebook palette and typography. `tokens.css` exposes semantic colors to Tailwind with `@theme inline`; use `desk`, `paper`, `print`, `ink`, `graphite`, and the other named roles instead of copying values. The explicitly marked legacy aliases temporarily map existing components to the light palette; remove them as those components migrate. Glass and shadow aliases are flat and opaque.
-
-Schibsted Grotesk is loaded with `next/font/google` for weights 400, 600, 700, and 800. The `--type-*` role tokens encode the fluid display, h2, h3, body, small, label, and annotation scales, including their weights, leading, and tracking. Legacy display, sans, and mono font aliases all use this family. The roles are also exposed as `text-display`, `text-h2`, `text-h3`, `text-body`, `text-small`, `text-label`, and `text-annotation` with their associated leading, tracking, and weight; `font-body` is the semantic font utility. Check composition with `cn()` because `tailwind-merge` can confuse custom text sizes with colors.
-
-The notebook grid uses `--grid-cell` (20px) and `--paper-grid` as a decorative background; size it with `background-size: var(--grid-cell) var(--grid-cell)`. Spacing tokens use 10px half-cells and 20px multiples. The spread is capped at `--content-width` (1280px); the shared page gutter is 20px at all widths. Named tablet and desktop breakpoints are 768px and 1280px. The navigation height is 80px. Motion tokens describe ink, highlighter, press, and color transitions; reduced motion must leave information visible.
-
-All controls share a 3px ink-deep `:focus-visible` outline with 4px offset. The unlayered focus rule temporarily takes precedence over legacy component utilities until those components migrate. The page uses the desk background and graphite text; surfaces can opt into paper and the grid when their sections are rebuilt.
+Notebook pages share paper, the 20 px grid and a red margin. Content starts to the right of that rule, and home sections use 40 px vertical padding to produce an 80 px interval between sections. The spread is capped at `--content-width`, with shared page gutters and navigation height defined in the tokens.

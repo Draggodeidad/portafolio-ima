@@ -152,7 +152,8 @@ export async function Hero({ locale }: { locale: Locale }) {
               width={800}
               height={558}
               sizes="(min-width: 1280px) 500px, (min-width: 768px) 40vw, calc(100vw - 100px)"
-              priority
+              loading="eager"
+              fetchPriority="high"
               className={styles.image}
             />
             <figcaption className="pt-[10px] text-small text-graphite-soft">

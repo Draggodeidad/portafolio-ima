@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 
 const styles = {
-  code: "rounded-[3px] border border-border-subtle bg-control-surface px-1 py-px font-mono text-[0.92em] text-foreground",
+  code: "border border-page-edge bg-paper px-1 py-px font-body text-graphite",
 } as const;
 
 /**

@@ -71,43 +71,7 @@
   --ease-ink: cubic-bezier(0, 0, 0.2, 1);
   --ease-highlighter: cubic-bezier(0.2, 0, 0, 1);
 
-  /* legacy aliases — remove when sections migrate */
-  --portfolio-background: var(--desk);
-  --portfolio-project-canvas: var(--paper);
-  --portfolio-surface: var(--paper);
-  --portfolio-surface-raised: var(--print);
-  --portfolio-foreground: var(--graphite);
-  --portfolio-muted-foreground: var(--graphite-soft);
-  --portfolio-accent: var(--ink);
-  --portfolio-accent-foreground: var(--print);
-  --portfolio-accent-contrast: var(--ink-deep);
-  --portfolio-border: var(--ruled-line);
-  --portfolio-border-subtle: var(--page-edge);
-  --portfolio-control-border: var(--ruled-line);
-  --portfolio-control-surface: var(--paper);
-  --portfolio-control-selected: var(--desk);
-  --portfolio-navigation-surface: var(--desk);
-  --portfolio-navigation-foreground: var(--graphite);
-  --portfolio-success: var(--success);
-  --portfolio-error: var(--error);
-  --portfolio-header-fallback: var(--desk);
-  --portfolio-header-glass: var(--desk);
-  --portfolio-header-glow: transparent;
-  --portfolio-background-glow: transparent;
-  --portfolio-accent-glow: transparent;
-  --portfolio-font-display:
-    var(--font-schibsted), "Helvetica Neue", Arial, sans-serif;
-  --portfolio-font-body: var(--portfolio-font-display);
-  --portfolio-font-mono: var(--portfolio-font-display);
-  --portfolio-radius-control: 0px;
-  --portfolio-radius-panel: 0px;
-  --shadow-header: none;
-  --shadow-accent-hover: none;
-  --glass-fallback: var(--desk);
-  --glass-surface: var(--desk);
-  --glass-blur: 0px;
-  --motion-fast: var(--motion-state);
-  --motion-signal: var(--motion-ink-draw);
+  --font-notebook: var(--font-schibsted), "Helvetica Neue", Arial, sans-serif;
 }
 
 @theme inline {
@@ -127,7 +91,7 @@
   --color-focus: var(--focus);
   --color-success: var(--success);
   --color-error: var(--error);
-  --font-body: var(--portfolio-font-body);
+  --font-body: var(--font-notebook);
   --text-display: var(--type-display);
   --text-display--line-height: var(--type-display-leading);
   --text-display--letter-spacing: var(--type-display-tracking);
@@ -158,26 +122,4 @@
   --text-annotation--font-weight: var(--type-annotation-weight);
   --breakpoint-tablet: 48rem;
   --breakpoint-desktop: 80rem;
-  /* legacy aliases — remove when sections migrate */
-  --color-background: var(--portfolio-background);
-  --color-project-canvas: var(--portfolio-project-canvas);
-  --color-surface: var(--portfolio-surface);
-  --color-surface-raised: var(--portfolio-surface-raised);
-  --color-foreground: var(--portfolio-foreground);
-  --color-muted-foreground: var(--portfolio-muted-foreground);
-  --color-accent: var(--portfolio-accent);
-  --color-accent-foreground: var(--portfolio-accent-foreground);
-  --color-accent-contrast: var(--portfolio-accent-contrast);
-  --color-border: var(--portfolio-border);
-  --color-border-subtle: var(--portfolio-border-subtle);
-  --color-control-border: var(--portfolio-control-border);
-  --color-control-surface: var(--portfolio-control-surface);
-  --color-control-selected: var(--portfolio-control-selected);
-  --color-navigation-surface: var(--portfolio-navigation-surface);
-  --color-navigation: var(--portfolio-navigation-foreground);
-  --font-display: var(--portfolio-font-display);
-  --font-sans: var(--portfolio-font-body);
-  --font-mono: var(--portfolio-font-mono);
-  --radius-control: var(--portfolio-radius-control);
-  --radius-panel: var(--portfolio-radius-panel);
 }

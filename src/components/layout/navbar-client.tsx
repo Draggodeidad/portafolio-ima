@@ -277,6 +277,26 @@ export function NavbarClient({
           </div>
         </div>
 
+        <noscript>
+          <nav className={styles.noScriptNav} aria-label={copy.navigationLabel}>
+            <a
+              className={styles.navLink}
+              href={
+                locale === "es"
+                  ? `/en${pathname === "/" ? "" : pathname}`
+                  : `/es${pathname === "/" ? "" : pathname}`
+              }
+              lang={locale === "es" ? "en" : "es"}
+            >
+              {locale === "es" ? "EN" : "ES"}
+            </a>
+            {visibleSectionIds.map((id) => (
+              <a className={styles.navLink} href={`/${locale}#${id}`} key={id}>
+                {copy.sections[id]}
+              </a>
+            ))}
+          </nav>
+        </noscript>
         <nav
           className={cn(styles.mobileNav, menuOpen && styles.mobileNavOpen)}
           id="mobile-navigation"

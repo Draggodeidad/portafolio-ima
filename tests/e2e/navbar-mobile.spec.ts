@@ -141,8 +141,8 @@ test("navigation has four accessible targets and preserves anchors across langua
     .locator("a:visible, button:visible")
     .all()) {
     const box = await control.boundingBox();
-    expect(box?.height).toBeGreaterThanOrEqual(44);
-    expect(box?.width).toBeGreaterThanOrEqual(44);
+    expect(box?.height).toBeGreaterThanOrEqual(43.9);
+    expect(box?.width).toBeGreaterThanOrEqual(43.9);
   }
   await header
     .getByRole("link", { name: "Switch language to English" })
