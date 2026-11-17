@@ -339,7 +339,13 @@ type LanguageSwitchProps = {
   ready: boolean;
 };
 
-function LanguageSwitch({ locale, copy, pathname, hash }: LanguageSwitchProps) {
+function LanguageSwitch({
+  locale,
+  copy,
+  pathname,
+  hash,
+  ready,
+}: LanguageSwitchProps) {
   const router = useRouter();
   const href = hash ? { pathname, hash } : pathname;
 
