@@ -43,6 +43,8 @@ test("mobile menu opens and closes with the keyboard and restores focus", async 
   await page.goto("/en");
 
   const menuButton = page.locator('button[aria-controls="mobile-navigation"]');
+  // The toggle is disabled until hydration; wait for it before using the keyboard.
+  await expect(menuButton).toBeEnabled();
   await menuButton.focus();
   await page.keyboard.press("Enter");
   await expect(menuButton).toHaveAttribute("aria-expanded", "true");
@@ -62,6 +64,8 @@ test("mobile menu keeps keyboard focus inside the header while open", async ({
   const header = page.getByRole("banner");
   const menuButton = page.locator('button[aria-controls="mobile-navigation"]');
   const mobileNavigation = page.locator("#mobile-navigation");
+  // The toggle is disabled until hydration; wait for it before using the keyboard.
+  await expect(menuButton).toBeEnabled();
   await menuButton.focus();
   await page.keyboard.press("Enter");
   await expect(mobileNavigation).toBeVisible();

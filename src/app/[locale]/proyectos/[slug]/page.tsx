@@ -8,7 +8,6 @@ import { InlineCode } from "@/components/ui/inline-code";
 import { Container } from "@/components/layout/container";
 import notebook from "@/components/hero/hero.module.css";
 import { EvidenceReference } from "@/components/projects/evidence-reference";
-import { InkViewport } from "@/components/projects/ink-viewport";
 import { ProjectVisual } from "@/components/projects/project-visual";
 import { ProjectScreenshots } from "@/components/projects/project-screenshots";
 import { profile } from "@/content/profile";
@@ -182,13 +181,11 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
               reference={1}
             />
             <div className={styles.evidence}>
-              <InkViewport>
-                <ProjectVisual
-                  project={project}
-                  locale={language}
-                  reference={project.id !== "pwa-utt"}
-                />
-              </InkViewport>
+              <ProjectVisual
+                project={project}
+                locale={language}
+                reference={project.id !== "pwa-utt"}
+              />
             </div>
             {project.id === "pwa-utt" && (
               <>

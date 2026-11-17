@@ -16,30 +16,3 @@
 .frame path {
   vector-effect: non-scaling-stroke;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  :global([data-ink-draw]) .flow > :nth-child(-n + 4) .frame .inkStroke {
-    stroke-dasharray: 1;
-    animation: draw var(--motion-ink-draw) var(--ease-ink) both;
-    animation-delay: calc(var(--motion-ink-stagger) * var(--stroke-order, 0));
-  }
-
-  :global([data-ink-draw]) .flow > :nth-child(2) {
-    --stroke-order: 1;
-  }
-  :global([data-ink-draw]) .flow > :nth-child(3) {
-    --stroke-order: 2;
-  }
-  :global([data-ink-draw]) .flow > :nth-child(4) {
-    --stroke-order: 3;
-  }
-}
-
-@keyframes draw {
-  from {
-    stroke-dashoffset: 1;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}

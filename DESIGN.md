@@ -181,7 +181,7 @@ The notebook is professional first. Personality lives in the precision of the ma
 - Main text at most 70 characters per line.
 - Square everything except the evidence-number circle. Slight hand-placed rotation on prints (+1°) and the primary button (−1°).
 - Depth by overlap only; no blurred shadows.
-- Irregular SVG ink strokes that draw once in the first viewport and are simply present everywhere else.
+- Irregular SVG ink strokes that draw once in the hero and are simply present everywhere else.
 
 ## Colors
 
@@ -324,7 +324,7 @@ Square Print White field, 1 px Ruled Line border, 48 px minimum height, 10 px pa
 - **Do** keep spacing on the 20 px cell (10 px half-steps), except 1–2 px strokes, 44/48 px touch targets and ch measures.
 - **Do** keep main text at ≤ 70 characters per line.
 - **Do** draw every mark (circle, tick, ○, arrow, strike, underline, diagram box) as an irregular SVG stroke in Bic Ink (#1f3a93).
-- **Do** let the ink draw (500 ms `--ease-ink`, 80 ms stagger) only in the hero, and in a case diagram only when it sits in the first viewport; everything below the fold is static.
+- **Do** let the ink draw (500 ms `--ease-ink`, 80 ms stagger) only in the hero; diagrams and every other mark are static (a server-rendered stroke that re-hides on hydration to animate flashes).
 - **Do** sweep the highlighter with background-size and `box-decoration-break: clone` (400 ms `--ease-highlighter`).
 - **Do** handle reduced motion per component (marks fully drawn, highlighter fully shown, no press scale, menu fade only); there is no global kill.
 - **Do** gate hover styles to `(hover: hover) and (pointer: fine)`.

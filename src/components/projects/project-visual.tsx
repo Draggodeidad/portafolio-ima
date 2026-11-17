@@ -78,7 +78,6 @@ export function ProjectVisual({
                 aria-hidden="true"
               >
                 <path
-                  className={ink.inkStroke}
                   pathLength={1}
                   d="M11.2 2.5c1.1 5.7-.7 10.6.8 18M6 15.2c2.1 1.1 4.2 3.5 6 5.3 2-2.1 4-4.2 6.2-5.9"
                   stroke="currentColor"
@@ -97,7 +96,6 @@ export function ProjectVisual({
                 aria-hidden="true"
               >
                 <path
-                  className={ink.inkStroke}
                   pathLength={1}
                   d="M4 5 Q75 2 150 4 T296 5 L295 55 Q220 58 150 56 T5 55 Z"
                 />

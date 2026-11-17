@@ -258,6 +258,8 @@ export function NavbarClient({
               aria-expanded={menuOpen}
               aria-controls="mobile-navigation"
               aria-label={menuOpen ? copy.closeMenuLabel : copy.menuLabel}
+              // Server snapshot is null until hydration; a tap before then would be lost.
+              disabled={hash === null}
               onClick={() => setMenuOpen((open) => !open)}
               ref={menuButtonRef}
             >
