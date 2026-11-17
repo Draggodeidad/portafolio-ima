@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
+import { ActionArrow } from "@/components/ui/action-arrow";
 import { Button } from "@/components/ui/b-button";
 import { InlineCode } from "@/components/ui/inline-code";
 import { Container } from "@/components/layout/container";
@@ -118,12 +119,12 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
                 className={styles.contribution}
                 aria-label={t("contribution")}
               >
-                <h2 className={styles.label}>{t("contribution")}</h2>
+                <p className={styles.label}>{t("contribution")}</p>
                 <p className={styles.text}>{project.contribution[language]}</p>
               </aside>
             )}
             <div className="mt-6">
-              <h2 className={styles.label}>{t("technologies")}</h2>
+              <p className={styles.label}>{t("technologies")}</p>
               <ul className={styles.technologies}>
                 {project.technologies.map((technology) => (
                   <li className={styles.technology} key={technology}>
@@ -134,16 +135,20 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
             </div>
             <div className={styles.actions}>
               {project.demo && (
-                <Button
-                  className={styles.button}
-                  href={project.demo}
-                  target="_blank"
-                  rel="noreferrer"
-                  variant="default"
-                  disableRipple
-                >
-                  {t("demo")}
-                </Button>
+                <div>
+                  <Button
+                    className={styles.button}
+                    href={project.demo}
+                    target="_blank"
+                    rel="noreferrer"
+                    variant="outline"
+                    disableRipple
+                  >
+                    {t("demo")}
+                    <ActionArrow />
+                  </Button>
+                  <p className={styles.text}>{project.status[language]}</p>
+                </div>
               )}
               <Button
                 className={styles.button}
@@ -154,6 +159,7 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
                 disableRipple
               >
                 {t("repository")}
+                <ActionArrow />
               </Button>
             </div>
           </header>
