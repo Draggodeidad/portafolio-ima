@@ -52,6 +52,7 @@ function Arrow({ animated }: { animated: boolean }) {
     >
       <path
         className={animated ? styles.noteDraw : undefined}
+        pathLength={1}
         d="M2 15 Q17 14 34 5 M27 3 L35 5 L31 12"
       />
     </svg>
@@ -86,6 +87,7 @@ export async function Hero({ locale }: { locale: Locale }) {
               >
                 <path
                   className={styles.draw}
+                  pathLength={1}
                   d="M4 21 C3 5 30 2 54 3 C85 2 98 10 96 20 C94 33 72 37 47 37 C20 37 5 32 4 21Z"
                 />
               </svg>
