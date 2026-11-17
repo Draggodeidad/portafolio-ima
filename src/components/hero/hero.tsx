@@ -12,7 +12,7 @@ const classes = {
   heading: "m-0 text-display",
   role: "mt-6 text-h3",
   description: "mt-4 max-w-[450px] text-body",
-  actions: "my-[30px] flex flex-wrap items-center gap-x-4 gap-y-2",
+  actions: "my-[30px] flex flex-wrap items-center gap-x-[10px] gap-y-2",
   evidence: "space-y-2 text-small",
   evidenceItem: "flex items-start gap-[10px]",
   title: "text-h2",
@@ -94,7 +94,11 @@ export async function Hero({ locale }: { locale: Locale }) {
           </p>
           <p className={classes.description}>{t("description")}</p>
           <div className={classes.actions}>
-            <Button href="#proyectos" variant="default">
+            <Button
+              href="#proyectos"
+              variant="default"
+              className="desktop:px-[10px]"
+            >
               {t("projects")}{" "}
               <svg
                 aria-hidden="true"
@@ -104,7 +108,7 @@ export async function Hero({ locale }: { locale: Locale }) {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <path d="M4 16 L16 4 M7 4 H16 V13" />
+                <path d="M3 10 H17 M12 5 L17 10 L12 15" />
               </svg>
             </Button>
             {profile.cv && (
