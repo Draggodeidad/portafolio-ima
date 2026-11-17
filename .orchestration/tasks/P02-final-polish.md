@@ -1,11 +1,13 @@
 # P02-final-polish — QA final y polish de todo el sitio (Fase 7)
 
 ## Contexto
+
 - Lee `.orchestration/tasks/_COMMON.md` y todo lo que enumera, más `.orchestration/AUDIT.md` (hallazgos originales y decisiones del GATE 1).
 - Worktree: `/home/dragodeidad/Documents/portafolio-P02` · Rama: `ux/P02-final-polish` · Dev: puerto 3207 · e2e: `PLAYWRIGHT_PORT=3217`.
 - Las secciones, la nav, el hero, los proyectos, los casos y el motion ya están en `main`. Esta es la última pasada sobre **todo el sitio** (home ES/EN y los 3 casos ES/EN). Es refinamiento, no rediseño: conserva la identidad, el copy aprobado y el comportamiento.
 
 ## Pasos (en orden; un commit por paso cuando haya cambios)
+
 1. **`break-ui`:** contenido extremo en todo el sitio (títulos y organizaciones largos, muchas tecnologías, correo de 75 caracteres, textos EN más largos), simulado en el navegador sin dejar toggles en el código. Arregla lo que se rompa.
 2. **`mobile-native`:** tap highlight, hover pegajoso, `100dvh`, zoom en inputs (font-size ≥ 16 px en el formulario condicional), `touch-action` y safe areas, a 360/390.
 3. **`/impeccable harden`:** estados vacíos o ausentes (proyecto sin demo, sin CV, sin foto), errores, i18n (atributos `lang`, fechas) y foco. Sin JS: el contenido sigue legible y navegable.
@@ -23,10 +25,12 @@
 6. **Verificación final:** `impeccable detect --json src/app src/components` (si no te funciona el comando, usa `~/.agents/skills/impeccable/scripts/impeccable detect`) sin hallazgos nuevos. Capturas full-page en `.orchestration/audit/P02/` (webp) de `/es`, `/en` y `/es/proyectos/{pwa-utt,secure-transfer,classroom-github}` a 1440, 768, 390 y 360.
 
 ## Alcance
+
 - PUEDES tocar: `src/**`, `messages/*.json` (solo para errores mecánicos; **no cambies el copy aprobado**), `docs/styling.md`, `docs/component-sources.md` y `tests/e2e/**` (comportamiento).
 - PROHIBIDO: `DESIGN.md`, `PRODUCT.md`, `AGENTS.md`, `package.json` y `pnpm-lock.yaml` (sin dependencias nuevas), infra y despliegue (`wrangler.jsonc`, `vite.config.mts`, `.github/`, `workers/`) y la lógica de envío del contacto (`src/lib/contact/**`, `src/app/api/**`).
 
 ## Criterios de aceptación
+
 - [ ] Sin roturas con contenido extremo a 360–1440 (lista lo que probaste).
 - [ ] Todas las páginas del cuaderno comparten margen rojo, cuadrícula y alineación.
 - [ ] Sin alias legacy; tokens solo semánticos.

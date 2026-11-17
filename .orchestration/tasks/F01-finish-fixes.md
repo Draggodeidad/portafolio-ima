@@ -1,6 +1,7 @@
 # F01-finish-fixes — Correcciones de la revisión final (disposición: fix)
 
 ## Contexto
+
 - Lee `.orchestration/tasks/_COMMON.md` y todo lo que enumera.
 - Lee las tres revisiones: `.orchestration/audit/critique-A-after.md`, `.orchestration/audit/critique-B-after.md` y el resumen del finish reviewer de abajo.
 - Worktree: `/home/dragodeidad/Documents/portafolio-F01` · Rama: `ux/F01-finish-fixes` · Dev: 3208 · e2e: `PLAYWRIGHT_PORT=3218`.
@@ -38,13 +39,16 @@
 9. **Alt:** el alt de las capturas no debe repetir el figcaption. Alt breve y descriptivo; el pie conserva «Captura con datos sintéticos».
 
 ## Fuera de alcance (no lo hagas)
+
 - Reescribir frases (voz de Secure Transfer, «Validación documentada», heading «Formación y experiencia» frente a la nav «Trayectoria»). Anótalo como «requiere copy».
 - Tokens, `DESIGN.md`, `PRODUCT.md`, `AGENTS.md`, dependencias, infra y API de contacto.
 
 ## Alcance
+
 - PUEDES tocar: `src/components/**`, `src/app/[locale]/**` (sin tocar metadata ni rutas), `src/content/projects.ts` y `src/content/profile.ts` (solo estructura, sin cambiar texto), `messages/*.json` (solo mover claves; sin texto nuevo) y `tests/e2e/**`.
 
 ## Verificación
+
 - Checks de `_COMMON.md` y la suite e2e completa.
 - `impeccable detect` sin hallazgos nuevos (`cream-palette` y `repeating-stripes-gradient` son deliberados).
 - **Capturas desde build de producción** (`pnpm build && pnpm start -p 3208`), no desde el dev server, en `.orchestration/audit/F01/`:

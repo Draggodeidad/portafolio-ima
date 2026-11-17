@@ -6,23 +6,24 @@ Prompt maestro: pegado en la sesión del 2026-11-17 (no guardado en el repo)
 
 ## Tareas
 
-| ID  | Título                                                                  | Fase | Estado           | Rama            | Terminal hc | Notas                                                                            |
-| --- | ----------------------------------------------------------------------- | ---- | ---------------- | --------------- | ----------- | -------------------------------------------------------------------------------- |
-| F0  | Setup y contexto                                                        | 0    | aprobado         | main            | —           | PRODUCT.md actualizado; Impeccable v4.9.1                                        |
-| F1  | Auditoría (critique, audit, motion, break-ui, capturas)                 | 1    | aprobado         | main            | —           | AUDIT.md: 20 hallazgos; critique 21/32, audit 14/20                              |
-| F2  | Dirección visual                                                        | 2    | aprobado         | main            | —           | A "Cuaderno profesional"; DESIGN.md aprobado; commit d7b94a5                     |
-| P01 | Prototipos del hero (3 direcciones, HTML en .impeccable/mocks/decision) | 2    | terminado        | — (sin commits) | —           | 1 ronda de correcciones                                                          |
-| T01 | Fundaciones (tokens, fuentes, base, assets PWA)                         | 3    | merged (c0dbe15) | —               | —           | 1 ronda de correcciones; checks verdes                                           |
-| C01 | Propuesta de copy ES/EN                                                 | 4    | aprobada         | main            | —           | Aprobada con las 3 frases de siguiente paso                                      |
-| T02 | Navbar del cuaderno                                                     | 4    | merged (f4be7e2) | —               | —           | 1 ronda (alineación al ancho del spread)                                         |
-| T03 | Hero cuaderno abierto + b-button + retiro de three/HUD                  | 4    | merged           | —               | —           | 1 ronda (flecha, acciones en una fila); main: lint/typecheck/format/build verdes |
-| T04 | Proyectos y casos                                                       | 4    | merged           | —               | —           | 1 ronda (mundo cuaderno, galería, flechas a tinta)                               |
-| T05 | Trayectoria, Sobre mí + stack, contacto, footer, orden de la home       | 4    | merged           | —               | —           | Sin rondas; integración: 2 tests ajustados en main                               |
-| M01 | Pasada de motion                                                        | 5    | merged           | —               | —           | review-animations: aprobado; traza sin layout/paint por frame                    |
-| P02 | QA final + polish                                                       | 7    | merged           | —               | —           | 1 ronda (styling.md, overflow-wrap, noscript)                                    |
-| F01 | Correcciones del finish review (ronda 1)                                | 7    | merged           | —               | —           | Spreads, diagramas a tinta, acciones, estados                                    |
-| F02 | Correcciones del finish review (ronda 2)                                | 7    | merged           | —               | —           | Resaltado móvil, acciones, cierre del spread del caso                            |
-| F03 | Notas al margen y referencias numeradas (decisión GATE FINAL)           | 7    | merged           | —               | —           | e2e 46 passed                                                                    |
+| ID  | Título                                                                  | Fase | Estado           | Rama                 | Terminal hc | Notas                                                                                                                                |
+| --- | ----------------------------------------------------------------------- | ---- | ---------------- | -------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| F0  | Setup y contexto                                                        | 0    | aprobado         | main                 | —           | PRODUCT.md actualizado; Impeccable v4.9.1                                                                                            |
+| F1  | Auditoría (critique, audit, motion, break-ui, capturas)                 | 1    | aprobado         | main                 | —           | AUDIT.md: 20 hallazgos; critique 21/32, audit 14/20                                                                                  |
+| F2  | Dirección visual                                                        | 2    | aprobado         | main                 | —           | A "Cuaderno profesional"; DESIGN.md aprobado; commit d7b94a5                                                                         |
+| P01 | Prototipos del hero (3 direcciones, HTML en .impeccable/mocks/decision) | 2    | terminado        | — (sin commits)      | —           | 1 ronda de correcciones                                                                                                              |
+| T01 | Fundaciones (tokens, fuentes, base, assets PWA)                         | 3    | merged (c0dbe15) | —                    | —           | 1 ronda de correcciones; checks verdes                                                                                               |
+| C01 | Propuesta de copy ES/EN                                                 | 4    | aprobada         | main                 | —           | Aprobada con las 3 frases de siguiente paso                                                                                          |
+| T02 | Navbar del cuaderno                                                     | 4    | merged (f4be7e2) | —                    | —           | 1 ronda (alineación al ancho del spread)                                                                                             |
+| T03 | Hero cuaderno abierto + b-button + retiro de three/HUD                  | 4    | merged           | —                    | —           | 1 ronda (flecha, acciones en una fila); main: lint/typecheck/format/build verdes                                                     |
+| T04 | Proyectos y casos                                                       | 4    | merged           | —                    | —           | 1 ronda (mundo cuaderno, galería, flechas a tinta)                                                                                   |
+| T05 | Trayectoria, Sobre mí + stack, contacto, footer, orden de la home       | 4    | merged           | —                    | —           | Sin rondas; integración: 2 tests ajustados en main                                                                                   |
+| M01 | Pasada de motion                                                        | 5    | merged           | —                    | —           | review-animations: aprobado; traza sin layout/paint por frame                                                                        |
+| P02 | QA final + polish                                                       | 7    | merged           | —                    | —           | 1 ronda (styling.md, overflow-wrap, noscript)                                                                                        |
+| F01 | Correcciones del finish review (ronda 1)                                | 7    | merged           | —                    | —           | Spreads, diagramas a tinta, acciones, estados                                                                                        |
+| F02 | Correcciones del finish review (ronda 2)                                | 7    | merged           | —                    | —           | Resaltado móvil, acciones, cierre del spread del caso                                                                                |
+| F03 | Notas al margen y referencias numeradas (decisión GATE FINAL)           | 7    | merged           | —                    | —           | e2e 46 passed                                                                                                                        |
+| F04 | Desvíos del documentador + CI de Workers                                | 7    | en PR #15        | ux/redesign-cuaderno | —           | Diagramas estáticos (sin flash), columna junto a Arquitectura, tachado SVG, hover con gate, celda; menú deshabilitado hasta hidratar |
 
 ## Decisiones
 
@@ -47,6 +48,8 @@ Prompt maestro: pegado en la sesión del 2026-11-17 (no guardado en el repo)
 
 - 2026-11-17 — GATE FINAL: el usuario aprueba un resaltado por página, notas al margen, referencias numeradas y 3 reglas (copy con aprobación → AGENTS.md; contacto sin formulario → PRODUCT.md; espacio vacío → DESIGN.md). Publicación: rama + PR, sin push a main.
 - Pendientes registrados por el documentador: clases `ink.flow`/`ink.inkStroke` sin definir en `project-visual.module.css` (los diagramas no se dibujan); columna derecha vacía junto a Arquitectura en Secure Transfer y Classroom (≥1280); el tachado de «Demo» es line-through de texto, no un trazo SVG; hover sin gate en los enlaces de contacto y footer; espaciados de 4 px fuera de la celda en proyectos y casos.
+
+- 2026-11-17 — CI de Workers del PR #15: colisión `noteDraw` en CSS Module (renombrado el keyframe) y textos viejos en `workers-cache.spec.ts`. Los tests del menú móvil fallaban de forma intermitente en Workers al tocar antes de hidratar: el toggle queda deshabilitado hasta hidratar y los tests esperan `toBeEnabled` (5/5 corridas verdes). `_COMMON.md` ahora exige los checks de Workers.
 
 ## Sustituciones de herramientas
 

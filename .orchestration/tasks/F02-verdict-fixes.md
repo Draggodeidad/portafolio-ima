@@ -1,10 +1,12 @@
 # F02-verdict-fixes — Ronda final del finish review
 
 ## Contexto
+
 - Lee `.orchestration/tasks/_COMMON.md`. Worktree: `/home/dragodeidad/Documents/portafolio-F02` · Rama: `ux/F02-verdict-fixes` · Puerto: 3209 · e2e: `PLAYWRIGHT_PORT=3219`.
 - Es la última ronda. Corrige solo esto, sin rediseñar ni cambiar el copy aprobado.
 
 ## Correcciones
+
 1. **[Grave] Texto perdido en móvil.** En `src/components/hero/hero.module.css` (~líneas 85 y 128–135), el resaltado inline (`<strong className={styles.highlight}>`) anima con `clip-path: inset()`. Al partirse en varias líneas, a 390 y 360 px solo se ve la primera («estadía en desarrollo backend y») y desaparece «transformación digital».
    - Sustituye el barrido por `background-image: linear-gradient(var(--highlighter), var(--highlighter))` con `background-size` de `0% 100%` a `100% 100%`, `background-repeat: no-repeat` y `box-decoration-break: clone` (más `-webkit-box-decoration-break`).
    - Con reduced-motion, el resaltado aparece completo y estático.
@@ -16,10 +18,12 @@
 6. **Página derecha en blanco en el caso.** Desde «Validación documentada» hacia abajo, la página derecha queda vacía (~600 px). Cierra el spread donde acaba la evidencia: las secciones siguientes continúan en una sola página a todo el ancho de lectura (≤ 70 caracteres por línea, alineadas al margen), sin una mitad vacía.
 
 ## Verificación
+
 - Checks de `_COMMON.md`, la e2e completa y `impeccable detect` sin hallazgos nuevos.
 - Capturas **de producción** (`pnpm build && pnpm start -p 3209`) en `.orchestration/audit/F02/` (webp): `/es` y `/en` a 1440, 390 y 360; `/es/proyectos/pwa-utt` a 1440 y 390.
 - Copia `/es` 1440 → `.impeccable/review/desktop.png` y 390 → `.impeccable/review/mobile.png` (png).
 - Reporta con hc send t10.
 
 ## Alcance
+
 `src/components/hero/**`, `src/app/[locale]/proyectos/[slug]/page.tsx`, `src/components/projects/**` y `tests/e2e/**`. Nada más.
