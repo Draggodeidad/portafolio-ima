@@ -11,7 +11,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .inkStroke {
+  :global([data-ink-draw]) .flow > :nth-child(-n + 5) .inkStroke {
     animation: none;
     stroke-dashoffset: 0;
   }
