@@ -13,6 +13,7 @@ const styles = {
     "relative grid min-w-0 grid-cols-[minmax(0,1fr)] gap-8 border border-page-edge bg-paper py-10 pl-12 pr-5 [background-image:var(--paper-grid)] [background-size:var(--grid-cell)_var(--grid-cell)] before:absolute before:inset-y-0 before:left-5 before:w-0.5 before:bg-margin-red sm:pl-16 sm:pr-10 sm:before:left-8 lg:grid-cols-2 lg:items-center",
   heading: "mb-4 text-h3 [overflow-wrap:anywhere]",
   body: "max-w-[65ch] text-body text-graphite-soft [overflow-wrap:anywhere]",
+  contributionText: "min-w-0",
   action:
     "mt-5 min-h-12 underline decoration-ink decoration-2 underline-offset-4",
   secondary: "grid gap-10 pt-10 md:grid-cols-2",
@@ -59,7 +60,7 @@ export async function ProjectsSection({ locale }: { locale: Locale }) {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <p className="min-w-0">
+                <p className={styles.contributionText}>
                   <strong>{t("contribution")}: </strong>
                   {featured.contribution[locale]}
                 </p>
