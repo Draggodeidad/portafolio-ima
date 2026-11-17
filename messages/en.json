@@ -24,8 +24,6 @@
     }
   },
   "Hero": {
-    "eyebrow": "Developer profile",
-    "role": "Full-stack developer with a backend focus.",
     "description": "I build applications, APIs, and automations with JavaScript and TypeScript.",
     "projects": "View projects",
     "contact": "Get in touch",
@@ -34,27 +32,22 @@
       "es": "Spanish",
       "en": "English"
     },
-    "nodeGroupLabel": "Choose an area of work",
-    "nodeCaseLink": "View case study",
-    "frameHeader": "Technical profile",
-    "hudToggle": "Areas of work and case studies",
-    "nodes": {
-      "api": {
-        "short": "API",
-        "label": "API / Gateway",
-        "description": "API design and server-side logic: an Express API that encrypts, signs, and stores file packages."
-      },
-      "data": {
-        "short": "Data",
-        "label": "Data / Cache",
-        "description": "Local persistence with IndexedDB and a queue that syncs with the server when the connection returns."
-      },
-      "automation": {
-        "short": "Automation",
-        "label": "Automation / Integrations",
-        "description": "Integrating Classroom, Drive, and the GitHub API in an n8n workflow with validation and a dry-run mode that doesn't write to GitHub."
-      }
-    }
+    "roleStart": "Full-stack developer with a ",
+    "roleEnd": " focus.",
+    "evidence": [
+      "Verified: backend development and digital transformation internship · 1Degree Holdings · 2025.",
+      "In progress: IT engineering degree · Universidad Tecnológica de Tehuacán · 2025–2027 (expected).",
+      "Verified: primary implementation and architecture of PWA UTT; testing and documentation with the team."
+    ],
+    "subtitle": "Lab inspections",
+    "imageAlt": "PWA UTT coordination overview with synthetic data",
+    "caption": "Screenshot with synthetic data",
+    "notes": [
+      "Lab inspection records.",
+      "Local records in IndexedDB.",
+      "A queue sends changes when connectivity returns.",
+      "Explicit version conflicts."
+    ]
   },
   "Projects": {
     "eyebrow": "Projects",
