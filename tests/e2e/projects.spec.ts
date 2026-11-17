@@ -209,3 +209,25 @@ test("project diagrams are visible without motion on the home and with reduced m
     await expect(stroke).toHaveCSS("stroke-dashoffset", "0px");
   }
 });
+
+for (const locale of ["es", "en"] as const) {
+  test(`${locale}: each case pairs its visible evidence reference`, async ({
+    page,
+  }) => {
+    for (const width of [390, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      for (const project of projects) {
+        await page.goto(`/${locale}/proyectos/${project.slug}`);
+        const references = page.locator('[data-evidence-reference="1"]');
+        await expect(references).toHaveCount(2);
+        await expect(references.nth(0)).toBeVisible();
+        await expect(references.nth(1)).toBeVisible();
+        await expect(references.nth(0)).toHaveText("1");
+        await expect(references.nth(1)).toHaveText("1");
+        await expect(
+          references.nth(1).locator("xpath=ancestor::figure"),
+        ).toHaveCount(1);
+      }
+    }
+  });
+}

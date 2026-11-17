@@ -1,3 +1,4 @@
+import { EvidenceReference } from "./evidence-reference";
 import ink from "./project-visual.module.css";
 import type { Project } from "@/content/projects";
 import type { Locale } from "@/i18n/routing";
@@ -13,9 +14,11 @@ const styles = {
 export function ProjectVisual({
   project,
   locale,
+  reference = false,
 }: {
   project: Project;
   locale: Locale;
+  reference?: boolean;
 }) {
   const labels =
     project.visual.kind === "offline-sync"
@@ -98,6 +101,7 @@ export function ProjectVisual({
                   d="M4 5 Q75 2 150 4 T296 5 L295 55 Q220 58 150 56 T5 55 Z"
                 />
               </svg>
+              {reference && index === 1 && <EvidenceReference number={1} />}
               {label}
             </div>
           </div>

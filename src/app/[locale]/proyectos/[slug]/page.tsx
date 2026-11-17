@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/b-button";
 import { InlineCode } from "@/components/ui/inline-code";
 import { Container } from "@/components/layout/container";
 import notebook from "@/components/hero/hero.module.css";
+import { EvidenceReference } from "@/components/projects/evidence-reference";
 import { ProjectVisual } from "@/components/projects/project-visual";
 import { ProjectScreenshots } from "@/components/projects/project-screenshots";
 import { profile } from "@/content/profile";
@@ -176,6 +177,7 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
             <StudySection
               block={project.study.architecture}
               locale={language}
+              reference={1}
             />
             <div className={styles.evidence}>
               {project.id === "pwa-utt" && (
@@ -187,7 +189,7 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
               {project.id === "pwa-utt" ? (
                 <ProjectScreenshots locale={language} />
               ) : (
-                <ProjectVisual project={project} locale={language} />
+                <ProjectVisual project={project} locale={language} reference />
               )}
             </div>
           </div>
@@ -241,15 +243,18 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
 function StudySection({
   block,
   locale,
+  reference,
 }: {
   block: StudyBlock;
   locale: Locale;
+  reference?: number;
 }) {
   return (
     <section className={styles.block}>
       <h2 className={styles.blockTitle}>{block.title[locale]}</h2>
-      {block.paragraphs.map((paragraph) => (
+      {block.paragraphs.map((paragraph, index) => (
         <p className={styles.paragraph} key={paragraph[locale]}>
+          {index === 0 && reference && <EvidenceReference number={reference} />}
           <InlineCode text={paragraph[locale]} />
         </p>
       ))}
