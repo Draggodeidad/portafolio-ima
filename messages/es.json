@@ -80,39 +80,23 @@
     "contactMore": "Más formas de contacto"
   },
   "About": {
-    "eyebrow": "Sobre mí",
     "heading": "Cómo trabajo",
-    "lead": "Me interesa construir productos completos, con especial atención a lo que ocurre detrás de la interfaz.",
-    "paragraph": "Trabajo entre aplicaciones, APIs, datos y automatizaciones. En mis proyectos procuro explicar las decisiones, cuidar los casos de error y dejar claros los límites de lo que está validado.",
+    "lead": "Me interesa construir productos completos y entender lo que ocurre detrás de la interfaz.",
+    "paragraph": "En mis proyectos explico las decisiones, cuido los casos de error y dejo claros los límites de lo que está validado.",
     "personalNote": "Fuera del código, disfruto los videojuegos."
   },
   "Stack": {
-    "eyebrow": "Stack",
-    "heading": "Tecnologías por función",
-    "groups": {
-      "backend": "Backend",
-      "frontend": "Frontend",
-      "data": "Datos",
-      "tools": "Herramientas y despliegue"
-    },
-    "evidence": {
-      "declared": "Sin caso publicado",
-      "project": "Usado en un proyecto"
-    }
+    "heading": "Con evidencia en proyectos",
+    "declared": "También conozco: NestJS, Hono, React, SvelteKit y herramientas cloud-native."
   },
   "Experience": {
-    "eyebrow": "Trayectoria",
     "heading": "Formación y experiencia",
-    "kinds": {
-      "education": "Educación",
-      "employment": "Empleo",
-      "personal-project": "Proyecto personal"
-    }
+    "completed": "Completado",
+    "inProgress": "En curso"
   },
   "Contact": {
-    "eyebrow": "Contacto",
     "heading": "Hablemos de una oportunidad",
-    "intro": "Estoy buscando oportunidades de empleo donde pueda aportar en desarrollo full-stack, con interés especial en backend.",
+    "intro": "Busco un puesto donde pueda aportar al desarrollo full-stack, especialmente en backend. Si quieres conversar sobre mi trabajo, escríbeme.",
     "socialLabel": "Perfiles y contacto",
     "copyEmail": "Copiar correo",
     "copyEmailDone": "Correo copiado",
@@ -129,7 +113,7 @@
       "tooShort": "El mensaje debe tener al menos 10 caracteres.",
       "tooLong": "El contenido supera el límite permitido."
     },
-    "cvLink": "CV en {language} · {format}",
+    "cvLink": "Descargar CV ({language} · {format})",
     "cvLanguages": {
       "es": "español",
       "en": "inglés"
@@ -138,7 +122,9 @@
     "success": "Mensaje aceptado para envío. Gracias por contactarme.",
     "errorGeneric": "No se pudo enviar el mensaje. Intenta de nuevo.",
     "errorRateLimit": "Demasiados intentos. Intenta de nuevo más tarde.",
-    "verification": "No se pudo verificar la solicitud. Intenta de nuevo."
+    "verification": "No se pudo verificar la solicitud. Intenta de nuevo.",
+    "emailAction": "Escríbeme",
+    "verificationRequired": "Completa la verificación para enviar."
   },
   "Footer": {
     "linksLabel": "Enlaces útiles",

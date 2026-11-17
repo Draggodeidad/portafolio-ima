@@ -1,113 +1,82 @@
-import {
-  ArrowUpRight,
-  Braces,
-  Database,
-  Download,
-  Layers3,
-  Mail,
-  Wrench,
-} from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/layout/container";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { ContactForm } from "@/components/sections/contact-form";
 import { CopyEmailButton } from "@/components/contact/copy-email-button";
-import { Button } from "@/components/ui/b-button";
 import type { Locale } from "@/i18n/routing";
 import {
   getSkillName,
   profile,
   publishedExperienceEntries,
-  skillGroups,
   skills,
-  type SkillGroupId,
 } from "@/content/profile";
+import ink from "./profile-sections.module.css";
+import { cn } from "@/lib/cn";
 
 const styles = {
-  section:
-    "scroll-mt-[calc(var(--nav-height)+24px)] border-b border-border-subtle py-16 md:py-24",
-  sectionInner: "space-y-10",
-  aboutGrid:
-    "grid gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16",
-  aboutLead:
-    "max-w-xl text-xl font-medium leading-8 text-foreground sm:text-2xl sm:leading-9",
-  aboutBody: "max-w-2xl space-y-4 text-base leading-7 text-muted-foreground",
-  personalNote:
-    "inline-flex items-center gap-2 border-l border-accent pl-4 text-sm text-navigation",
-  skillGrid: "grid gap-4 sm:grid-cols-2",
-  skillCard: "min-w-0 border border-border-subtle bg-surface p-5 sm:p-6",
-  skillHeader: "mb-5 flex items-center gap-3",
-  skillIcon:
-    "grid size-10 shrink-0 place-items-center border border-control-border bg-control-surface text-accent",
-  skillTitle: "m-0 font-display text-lg font-semibold text-foreground",
-  skillList: "space-y-4",
-  skill: "border-t border-border-subtle pt-4 first:border-0 first:pt-0",
-  skillNameRow: "flex flex-wrap items-center justify-between gap-2",
-  skillName: "font-medium text-foreground",
-  evidence: "font-mono text-xs uppercase tracking-[0.08em] text-navigation",
-  skillContext: "mt-1.5 text-sm leading-6 text-muted-foreground",
-  timeline: "relative ml-2 space-y-8 border-l border-border-subtle pl-7",
-  timelineEntry:
-    "relative grid gap-2 md:grid-cols-[minmax(10rem,0.35fr)_minmax(0,1fr)] md:gap-8",
-  timelineMark:
-    "absolute -left-[2.05rem] top-1.5 size-3 border border-accent bg-background",
-  timelineKind: "font-mono text-xs uppercase tracking-[0.08em] text-accent",
-  timelineTitle: "m-0 text-lg font-semibold text-foreground",
-  timelineRole: "m-0 mt-1 text-sm leading-6 text-foreground",
-  timelinePeriod: "font-mono text-xs text-navigation",
-  timelineDescription: "m-0 text-sm leading-6 text-muted-foreground",
-  contactGrid:
-    "grid gap-10 lg:gap-12 lg:has-[form]:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]",
-  contactDirect: "flex max-w-2xl flex-col items-start gap-8",
-  contactLead: "m-0 max-w-lg text-lg leading-8 text-muted-foreground",
-  emailRow: "flex flex-wrap items-start gap-x-2 gap-y-3",
-  emailAction: "min-h-12 max-w-full !rounded-none px-5 text-base font-semibold",
-  cvAction: "min-h-11 !rounded-none px-4 text-sm font-semibold",
-  socialList: "flex flex-wrap gap-x-6 gap-y-1",
-  socialLink:
-    "inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-navigation underline-offset-4 transition-colors hover:text-accent hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent",
-  footer: "py-8",
-  footerInner:
-    "flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between",
-  footerName:
-    "m-0 font-mono text-xs uppercase tracking-[0.08em] text-navigation",
-  footerLinks: "flex flex-wrap gap-x-5 gap-y-3",
-  footerLink:
-    "inline-flex min-h-11 items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent",
-  copyright: "m-0 font-mono text-xs text-muted-foreground",
+  section: "py-[40px] md:py-[60px]",
+  page: "border border-page-edge bg-paper bg-[image:var(--paper-grid)] bg-size-[length:var(--grid-cell)_var(--grid-cell)] px-[20px] py-[40px] md:px-[60px] md:py-[60px]",
+  content: "max-w-[70ch] space-y-[20px]",
+  contactPage: "mx-auto max-w-[800px]",
+  timeline: "mt-[40px] max-w-[70ch] space-y-[40px]",
+  entry: "grid grid-cols-[30px_minmax(0,1fr)] gap-[10px]",
+  mark: "mt-[5px] size-[20px] text-ink",
+  status: "text-label text-ink",
+  entryTitle: "mt-[10px] text-h3 text-graphite",
+  detail: "mt-[10px] text-body text-graphite",
+  muted: "text-body text-graphite-soft",
+  stack: "mt-[40px] border-t border-ruled-line pt-[40px]",
+  stackTitle: "text-h3 text-graphite",
+  skills: "mt-[20px] grid gap-x-[40px] gap-y-[20px] md:grid-cols-2",
+  skill: "min-w-0 border-t border-grid-line pt-[10px]",
+  skillName: "text-label text-graphite",
+  contact: "mt-[20px] max-w-[70ch] space-y-[20px]",
+  actions: "flex flex-wrap items-center gap-[10px]",
+  primary:
+    "inline-flex min-h-12 items-center bg-ink px-[20px] py-[10px] text-label text-print transition-colors hover:bg-ink-deep active:translate-y-px motion-reduce:transition-none",
+  link: "inline-flex min-h-12 items-center text-label text-ink underline decoration-1 underline-offset-4 hover:text-ink-deep",
+  email: "max-w-full break-all text-body text-graphite",
+  footer: "py-[40px]",
+  footerInner: "flex flex-wrap items-center justify-between gap-[20px]",
+  footerLinks: "flex flex-wrap gap-[20px]",
 } as const;
 
-const groupIcons = {
-  backend: Braces,
-  frontend: Layers3,
-  data: Database,
-  tools: Wrench,
-} satisfies Record<SkillGroupId, typeof Braces>;
-
-type ProfileSectionsProps = {
-  locale: Locale;
-};
+type ProfileSectionsProps = { locale: Locale };
 
 export async function AboutSection({ locale }: ProfileSectionsProps) {
   const t = await getTranslations({ locale, namespace: "About" });
-
+  const stack = await getTranslations({ locale, namespace: "Stack" });
   return (
     <section
       id="sobre-mi"
       className={styles.section}
       aria-labelledby="about-heading"
     >
-      <Container className={styles.sectionInner}>
-        <SectionHeading
-          id="about-heading"
-          eyebrow={t("eyebrow")}
-          title={t("heading")}
-        />
-        <div className={styles.aboutGrid}>
-          <p className={styles.aboutLead}>{t("lead")}</p>
-          <div className={styles.aboutBody}>
+      <Container>
+        <div className={styles.page}>
+          <div className={styles.content}>
+            <SectionHeading id="about-heading" title={t("heading")} />
+            <p>{t("lead")}</p>
             <p>{t("paragraph")}</p>
-            <p className={styles.personalNote}>{t("personalNote")}</p>
+            <p>{t("personalNote")}</p>
+          </div>
+          <div id="stack" className={styles.stack}>
+            <h3 className={styles.stackTitle}>{stack("heading")}</h3>
+            <ul className={styles.skills}>
+              {skills
+                .filter((skill) => skill.evidence === "project")
+                .map((skill) => (
+                  <li className={styles.skill} key={getSkillName(skill, "es")}>
+                    <span className={styles.skillName}>
+                      {getSkillName(skill, locale)}
+                    </span>
+                    <p className={styles.muted}>{skill.context[locale]}</p>
+                  </li>
+                ))}
+            </ul>
+            <p className="mt-[40px] max-w-[70ch] text-body text-graphite">
+              {stack("declared")}
+            </p>
           </div>
         </div>
       </Container>
@@ -115,97 +84,60 @@ export async function AboutSection({ locale }: ProfileSectionsProps) {
   );
 }
 
-export async function StackSection({ locale }: ProfileSectionsProps) {
-  const t = await getTranslations({ locale, namespace: "Stack" });
-
-  return (
-    <section
-      id="stack"
-      className={styles.section}
-      aria-labelledby="stack-heading"
-    >
-      <Container className={styles.sectionInner}>
-        <SectionHeading
-          id="stack-heading"
-          eyebrow={t("eyebrow")}
-          title={t("heading")}
-        />
-        <div className={styles.skillGrid}>
-          {skillGroups.map((group) => {
-            const Icon = groupIcons[group];
-            const groupSkills = skills.filter((skill) => skill.group === group);
-            return (
-              <article className={styles.skillCard} key={group}>
-                <header className={styles.skillHeader}>
-                  <span className={styles.skillIcon} aria-hidden="true">
-                    <Icon size={20} />
-                  </span>
-                  <h3 className={styles.skillTitle}>{t(`groups.${group}`)}</h3>
-                </header>
-                <ul className={styles.skillList}>
-                  {groupSkills.map((skill) => (
-                    <li
-                      className={styles.skill}
-                      key={getSkillName(skill, "es")}
-                    >
-                      <div className={styles.skillNameRow}>
-                        <span className={styles.skillName}>
-                          {getSkillName(skill, locale)}
-                        </span>
-                        <span className={styles.evidence}>
-                          {t(`evidence.${skill.evidence}`)}
-                        </span>
-                      </div>
-                      <p className={styles.skillContext}>
-                        {skill.context[locale]}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            );
-          })}
-        </div>
-      </Container>
-    </section>
-  );
-}
-
 export async function ExperienceSection({ locale }: ProfileSectionsProps) {
-  if (!publishedExperienceEntries.length) return null;
-
   const t = await getTranslations({ locale, namespace: "Experience" });
-
+  const order = ["1degree-internship", "utt-tsu", "utt-engineering"];
+  const entries = order.flatMap((id) =>
+    publishedExperienceEntries.filter((entry) => entry.id === id),
+  );
+  if (!entries.length) return null;
   return (
     <section
       id="trayectoria"
       className={styles.section}
       aria-labelledby="experience-heading"
     >
-      <Container className={styles.sectionInner}>
-        <SectionHeading
-          id="experience-heading"
-          eyebrow={t("eyebrow")}
-          title={t("heading")}
-        />
-        <ol className={styles.timeline}>
-          {publishedExperienceEntries.map((entry) => (
-            <li className={styles.timelineEntry} key={entry.id}>
-              <span className={styles.timelineMark} aria-hidden="true" />
-              <div>
-                <p className={styles.timelineKind}>
-                  {t(`kinds.${entry.kind}`)}
-                </p>
-                <h3 className={styles.timelineTitle}>{entry.organization}</h3>
-                <p className={styles.timelineRole}>{entry.title[locale]}</p>
-                <p className={styles.timelinePeriod}>{entry.period[locale]}</p>
-              </div>
-              <p className={styles.timelineDescription}>
-                {entry.description[locale]}
-              </p>
-            </li>
-          ))}
-        </ol>
+      <Container>
+        <div className={styles.page}>
+          <SectionHeading id="experience-heading" title={t("heading")} />
+          <ol className={styles.timeline}>
+            {entries.map((entry) => {
+              const pending = entry.id === "utt-engineering";
+              return (
+                <li className={styles.entry} key={entry.id}>
+                  <svg
+                    className={styles.mark}
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    {pending ? (
+                      <path
+                        className={ink.mark}
+                        d="M10 2.4C5.6 2.2 2.5 5.7 2.7 10.2c.1 4.3 3.1 7.3 7.4 7.1 4.2-.1 7.4-3.2 7.2-7.5-.1-4.3-3.1-7.2-7.3-7.4Z"
+                      />
+                    ) : (
+                      <path
+                        className={ink.mark}
+                        d="M2.8 10.4 7.5 15.2 17.2 4.5"
+                      />
+                    )}
+                  </svg>
+                  <div>
+                    <p className={styles.status}>
+                      {t(pending ? "inProgress" : "completed")}
+                    </p>
+                    <h3 className={styles.entryTitle}>{entry.title[locale]}</h3>
+                    <p className={styles.detail}>
+                      {entry.organization} · {entry.period[locale]}
+                    </p>
+                    <p className={styles.detail}>{entry.description[locale]}</p>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
+        </div>
       </Container>
     </section>
   );
@@ -214,81 +146,65 @@ export async function ExperienceSection({ locale }: ProfileSectionsProps) {
 export async function ContactSection({ locale }: ProfileSectionsProps) {
   const t = await getTranslations({ locale, namespace: "Contact" });
   const cv = profile.cv;
-
   return (
     <section
       id="contacto"
       className={styles.section}
       aria-labelledby="contact-heading"
     >
-      <Container className={styles.sectionInner}>
-        <SectionHeading
-          id="contact-heading"
-          eyebrow={t("eyebrow")}
-          title={t("heading")}
-        />
-        <div className={styles.contactGrid}>
-          <div className={styles.contactDirect}>
-            <p className={styles.contactLead}>{t("intro")}</p>
-            {profile.email ? (
-              <div className={styles.emailRow}>
-                <Button
-                  className={styles.emailAction}
-                  disableRipple
-                  href={`mailto:${profile.email}`}
-                  icon={<Mail size={18} aria-hidden="true" />}
-                  size="lg"
-                >
-                  {profile.email}
-                </Button>
-                <CopyEmailButton
-                  email={profile.email}
-                  copy={{
-                    idle: t("copyEmail"),
-                    done: t("copyEmailDone"),
-                    failed: t("copyEmailFailed", { email: profile.email }),
-                  }}
-                />
-              </div>
-            ) : null}
-            {cv ? (
-              <Button
-                className={styles.cvAction}
-                disableRipple
-                download
-                href={cv.href}
-                icon={<Download size={16} aria-hidden="true" />}
-                size="lg"
-                variant="outline"
-              >
-                {t("cvLink", {
-                  language: t(`cvLanguages.${cv.locale}`),
-                  format: cv.format,
-                })}
-              </Button>
-            ) : null}
-            <nav className={styles.socialList} aria-label={t("socialLabel")}>
+      <Container>
+        <div className={cn(styles.page, styles.contactPage)}>
+          <SectionHeading id="contact-heading" title={t("heading")} />
+          <div className={styles.contact}>
+            <p>{t("intro")}</p>
+            {profile.email && (
+              <>
+                <div className={styles.actions}>
+                  <a
+                    className={styles.primary}
+                    href={`mailto:${profile.email}`}
+                  >
+                    {t("emailAction")}
+                  </a>
+                  <CopyEmailButton
+                    email={profile.email}
+                    copy={{
+                      idle: t("copyEmail"),
+                      done: t("copyEmailDone"),
+                      failed: t("copyEmailFailed", { email: profile.email }),
+                    }}
+                  />
+                </div>
+                <p className={styles.email}>{profile.email}</p>
+              </>
+            )}
+            <div className={styles.actions}>
+              {cv && (
+                <a className={styles.link} href={cv.href} download>
+                  {t("cvLink", {
+                    language: t(`cvLanguages.${cv.locale}`),
+                    format: cv.format,
+                  })}
+                </a>
+              )}
               <a
-                className={styles.socialLink}
+                className={styles.link}
                 href={profile.github}
                 target="_blank"
                 rel="noreferrer"
               >
                 GitHub
-                <ArrowUpRight size={14} aria-hidden="true" />
               </a>
               <a
-                className={styles.socialLink}
+                className={styles.link}
                 href={profile.linkedIn}
                 target="_blank"
                 rel="noreferrer"
               >
                 LinkedIn
-                <ArrowUpRight size={14} aria-hidden="true" />
               </a>
-            </nav>
+            </div>
           </div>
-
           <ContactForm
             copy={{
               formTitle: t("formTitle"),
@@ -302,6 +218,7 @@ export async function ContactSection({ locale }: ProfileSectionsProps) {
               errorGeneric: t("errorGeneric"),
               errorRateLimit: t("errorRateLimit"),
               verification: t("verification"),
+              verificationRequired: t("verificationRequired"),
               validation: {
                 required: t("validation.required"),
                 email: t("validation.email"),
@@ -318,15 +235,13 @@ export async function ContactSection({ locale }: ProfileSectionsProps) {
 
 export async function SiteFooter({ locale }: ProfileSectionsProps) {
   const t = await getTranslations({ locale, namespace: "Footer" });
-  const year = new Date().getFullYear();
-
   return (
     <footer className={styles.footer}>
       <Container className={styles.footerInner}>
-        <p className={styles.footerName}>{profile.name}</p>
+        <p className="text-label text-graphite">{profile.name}</p>
         <nav className={styles.footerLinks} aria-label={t("linksLabel")}>
           <a
-            className={styles.footerLink}
+            className={styles.link}
             href={profile.github}
             target="_blank"
             rel="noreferrer"
@@ -334,7 +249,7 @@ export async function SiteFooter({ locale }: ProfileSectionsProps) {
             GitHub
           </a>
           <a
-            className={styles.footerLink}
+            className={styles.link}
             href={profile.linkedIn}
             target="_blank"
             rel="noreferrer"
@@ -342,7 +257,9 @@ export async function SiteFooter({ locale }: ProfileSectionsProps) {
             LinkedIn
           </a>
         </nav>
-        <p className={styles.copyright}>{t("copyright", { year })}</p>
+        <p className="text-small text-graphite-soft">
+          {t("copyright", { year: new Date().getFullYear() })}
+        </p>
       </Container>
     </footer>
   );

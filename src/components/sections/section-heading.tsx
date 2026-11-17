@@ -1,26 +1,11 @@
-const styles = {
-  eyebrow: "mb-3 font-mono text-xs uppercase tracking-[0.1em] text-accent",
-  title:
-    "m-0 font-display text-[clamp(28px,4vw,44px)] font-semibold leading-[1.1] tracking-[-0.035em] text-foreground",
-} as const;
+const styles = { title: "m-0 text-h2 text-graphite" } as const;
 
-type SectionHeadingProps = {
-  id?: string;
-  eyebrow?: string;
-  title: string;
-};
+type SectionHeadingProps = { id?: string; title: string };
 
-export function SectionHeading({
-  id,
-  eyebrow = "// PORTAFOLIO",
-  title,
-}: SectionHeadingProps) {
+export function SectionHeading({ id, title }: SectionHeadingProps) {
   return (
-    <div>
-      <p className={styles.eyebrow}>{eyebrow}</p>
-      <h2 id={id} className={styles.title}>
-        {title}
-      </h2>
-    </div>
+    <h2 id={id} className={styles.title}>
+      {title}
+    </h2>
   );
 }

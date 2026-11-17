@@ -26,23 +26,19 @@ for (const locale of ["es", "en"] as const) {
       locale === "es"
         ? {
             about: "Sobre mí",
-            stack: "Stack",
             contact: "Contacto",
-            backend: "Backend",
             experience: "Trayectoria",
             copyEmail: "Copiar correo",
           }
         : {
             about: "About",
-            stack: "Stack",
             contact: "Contact",
-            backend: "Backend",
             experience: "Experience",
             copyEmail: "Copy email",
           };
 
     await expect(page.locator("#sobre-mi h2")).toBeVisible();
-    await expect(page.locator("#stack h2")).toBeVisible();
+    await expect(page.locator("#stack h3")).toBeVisible();
     await expect(page.locator("#contacto h2")).toBeVisible();
     await expect(page.locator("#trayectoria h2")).toBeVisible();
     await expect(page.locator("#trayectoria")).toContainText(
@@ -56,10 +52,6 @@ for (const locale of ["es", "en"] as const) {
       "href",
       `/${locale}#sobre-mi`,
     );
-    await expect(nav.getByRole("link", { name: copy.stack })).toHaveAttribute(
-      "href",
-      `/${locale}#stack`,
-    );
     await expect(nav.getByRole("link", { name: copy.contact })).toHaveAttribute(
       "href",
       `/${locale}#contacto`,
@@ -68,16 +60,25 @@ for (const locale of ["es", "en"] as const) {
       nav.getByRole("link", { name: copy.experience }),
     ).toHaveAttribute("href", `/${locale}#trayectoria`);
 
-    await expect(page.locator("#stack")).toContainText(copy.backend);
     await expect(page.locator("#stack")).toContainText(
-      locale === "es" ? "Herramientas cloud-native" : "Cloud-native tools",
+      locale === "es" ? "También conozco:" : "Also familiar with:",
     );
-    await expect(page.locator("#stack")).toContainText(
-      locale === "es" ? "Usado en un proyecto" : "Used in a project",
-    );
-    await expect(page.locator("#stack")).toContainText(
+    await expect(page.locator("#stack")).not.toContainText(
       locale === "es" ? "Sin caso publicado" : "No published case",
     );
+    const sectionOrder = await page
+      .locator("main > section[id]")
+      .evaluateAll((sections) => sections.map((section) => section.id));
+    expect(sectionOrder.indexOf("proyectos")).toBeLessThan(
+      sectionOrder.indexOf("trayectoria"),
+    );
+    expect(sectionOrder.indexOf("trayectoria")).toBeLessThan(
+      sectionOrder.indexOf("sobre-mi"),
+    );
+    expect(sectionOrder.indexOf("sobre-mi")).toBeLessThan(
+      sectionOrder.indexOf("contacto"),
+    );
+    await expect(page.locator("#trayectoria h3")).toHaveCount(3);
     // Without a configured provider the form is not offered; the direct
     // routes carry the section.
     await expect(page.locator("#contacto form")).toHaveCount(0);
@@ -119,6 +120,13 @@ for (const locale of ["es", "en"] as const) {
       "aria-describedby",
       "contact-name-error",
     );
+    await expect(
+      page.getByText(
+        locale === "es"
+          ? "Completa la verificación para enviar."
+          : "Complete the verification to send.",
+      ),
+    ).toBeVisible();
     await expect(page.locator("#contact-name-error")).toContainText(
       locale === "es" ? "Completa este campo" : "Complete this field",
     );
