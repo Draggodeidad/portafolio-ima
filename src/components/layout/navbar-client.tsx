@@ -240,6 +240,7 @@ export function NavbarClient({
               copy={copy}
               pathname={pathname}
               hash={languageHash}
+              ready={hash !== null}
             />
           </div>
 
@@ -249,6 +250,7 @@ export function NavbarClient({
               copy={copy}
               pathname={pathname}
               hash={languageHash}
+              ready={hash !== null}
             />
             <button
               className={cn(styles.menuToggle, "cursor-pointer")}
@@ -280,6 +282,17 @@ export function NavbarClient({
             className="absolute inset-x-0 top-[var(--nav-height)] flex flex-wrap gap-x-5 border-b border-page-edge bg-desk px-[var(--page-gutter)] max-[1023px]:flex min-[1024px]:hidden"
             aria-label={copy.navigationLabel}
           >
+            <a
+              className={styles.navLink}
+              href={
+                locale === "es"
+                  ? `/en${pathname === "/" ? "" : pathname}`
+                  : `/es${pathname === "/" ? "" : pathname}`
+              }
+              lang={locale === "es" ? "en" : "es"}
+            >
+              {locale === "es" ? "EN" : "ES"}
+            </a>
             {visibleSectionIds.map((id) => (
               <a className={styles.navLink} href={`/${locale}#${id}`} key={id}>
                 {copy.sections[id]}
@@ -323,6 +336,7 @@ type LanguageSwitchProps = {
   copy: NavbarCopy;
   pathname: string;
   hash: string;
+  ready: boolean;
 };
 
 function LanguageSwitch({ locale, copy, pathname, hash }: LanguageSwitchProps) {
@@ -344,6 +358,7 @@ function LanguageSwitch({ locale, copy, pathname, hash }: LanguageSwitchProps) {
       className={styles.languageSwitch}
       role="group"
       aria-label={copy.languageSelectorLabel}
+      inert={!ready}
     >
       <Link
         className={cn(
@@ -355,6 +370,7 @@ function LanguageSwitch({ locale, copy, pathname, hash }: LanguageSwitchProps) {
         lang="es"
         aria-label={copy.switchToSpanish}
         aria-current={locale === "es" ? "page" : undefined}
+        aria-disabled={!ready || undefined}
         onClick={(event) => switchLocale(event, "es")}
       >
         ES
@@ -370,6 +386,7 @@ function LanguageSwitch({ locale, copy, pathname, hash }: LanguageSwitchProps) {
         lang="en"
         aria-label={copy.switchToEnglish}
         aria-current={locale === "en" ? "page" : undefined}
+        aria-disabled={!ready || undefined}
         onClick={(event) => switchLocale(event, "en")}
       >
         EN
