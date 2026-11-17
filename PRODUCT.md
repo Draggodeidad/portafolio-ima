@@ -27,29 +27,29 @@ An entry-level candidate who proves criterion through verifiable, self-built bac
 
 ## Capabilities and Constraints
 
-- Existing implementation: Next.js App Router, TypeScript strict, Tailwind CSS 4, next-intl, typed local content (`src/content/`). Vercel is the deploy target; deploys only with authorization.
+- Existing implementation: Next.js App Router (built for Cloudflare Workers through vinext), TypeScript strict, Tailwind CSS 4, next-intl, typed local content (`src/content/`). Live at https://imanolantonio.dev, deployed by GitHub Actions from `main` to Cloudflare Workers (confirmed 2026-11-17). Vercel is no longer the deploy target. Deploys and infrastructure changes only with authorization.
 - Projects (all confirmed as individual work by the user, 2026-11-11, except where noted):
   - **PWA UTT** — academic lab-inspection app with offline persistence, sync, conflict resolution, and permissions. Main implementation and architecture by Imanol; team collaborated on testing/documentation. Demo: https://pwa-utt.vercel.app/ (verify availability before publishing). Code: https://github.com/Draggodeidad/pwa-utt
   - **Secure Transfer** — file-transfer backend with encryption and integrity verification. Individual project. No demo (database deleted). Code: https://github.com/Draggodeidad/secureTransferBack
   - **Classroom → GitHub** — n8n workflow turning Classroom assignments into GitHub issue plans. Individual project. Presented as an automation, not an app; not claimed to run in production. Code: https://github.com/Draggodeidad/automation-classrom
-- Contact form: server-side validation and real submission states; email provider not yet chosen, so submit stays disabled until one is configured. Never simulate success.
+- Contact form: implemented (server-side validation, Turnstile, real submission states, Resend delivery on Cloudflare) but **not visible in production**: on 2026-11-17 `https://imanolantonio.dev/api/contact/config` returned `{"siteKey":null}`, so the form renders nothing. The user believed it was live; enabling it is a configuration task outside design scope that needs explicit authorization. Provider acceptance is not guaranteed delivery; never simulate success or send real test emails without authorization.
 - No blog, CMS, database, auth, or separate backend in scope.
 - Public email (`antonioimanol7@gmail.com`), Spanish CV (`public/cv/CV_Imanol_Antonio.pdf`), and trajectory (1Degree Holdings internship 2025; UTT TSU 2023–2025 and engineering 2025–2027 expected) were supplied on 2026-11-11 and are published. The CV also lists CampusOps DMI, a team project not yet in the portfolio.
-- Still missing: **portrait photo** — use the IA monogram until provided; never generate or simulate a person.
+- Still missing: **portrait photo** (confirmed pending 2026-11-17). Omit the portrait slot until a real photo exists; never generate or simulate a person. The "IA" monogram was dropped in the 2026-11-17 redesign because Spanish readers take it as "Inteligencia Artificial".
 
 ## Brand Commitments
 
 - Name: Imanol Antonio De la Cruz; role: "Desarrollador full-stack con enfoque en backend" / "Full-stack developer focused on backend engineering".
 - Declared stack: JavaScript/TypeScript, NestJS, Hono, React, SvelteKit, cloud-native tools — shown without proficiency levels.
 - Personality: young, passionate, fresh, curious, with a confirmed love of video games expressed with restraint; professional discourse stays primary. No logos, characters, or UI from referenced games.
-- Visual direction is owned by `docs/DESIGN.md` and the Figma file referenced in `AGENTS.md`.
+- Visual direction: on 2026-11-17 the user opened a **free redesign**. The previous "Perfil HUD, graphite + electric lime" world (`docs/DESIGN.md`, the Figma file in `AGENTS.md`) is now evidence and anti-reference, not authority. The new direction is chosen with the user and recorded in root `DESIGN.md`; personality and content commitments above still apply.
 - Links: GitHub https://github.com/Draggodeidad · LinkedIn https://www.linkedin.com/in/imanol-antonio-de-la-cruz-1a1281370/
 
 ## Evidence on Hand
 
 - Three bilingual case studies in `src/content/projects.ts`, sourced from repositories at commits recorded in `docs/project-content-sources.md`.
 - Profile/stack sourcing and limits in `docs/profile-content-sources.md`.
-- No real product screenshots are used; project visuals are labelled explanatory diagrams.
+- Real PWA UTT screenshots: 8 desktop captures (1544×1076) in `pwa-img/`, supplied 2026-11-17, showing synthetic test data ("Laboratorio sintético", "Usuario de prueba"). Not yet optimized or placed in `public/`. Secure Transfer and Classroom → GitHub have no screenshots; their visuals stay labelled explanatory diagrams.
 - Absent and not to be fabricated: metrics, test coverage figures, security audit claims, clients, employers, dates, certifications, testimonials, response-time promises, availability indicators.
 
 ## Product Principles

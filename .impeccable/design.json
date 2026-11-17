@@ -1,0 +1,659 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-17T20:53:32+00:00",
+  "title": "Design System: Imanol Antonio De la Cruz — Portafolio",
+  "extensions": {
+    "colorMeta": {
+      "desk": {
+        "role": "neutral",
+        "displayName": "Desk",
+        "canonical": "#e6e3da",
+        "oklch": "oklch(91.6% 0.013 91.5)",
+        "tonalRamp": [
+          "#0c0b08",
+          "#282622",
+          "#47453f",
+          "#68665f",
+          "#8b8982",
+          "#b0aea7",
+          "#d3d1cb",
+          "#f0eeea"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Notebook Paper",
+        "canonical": "#f7f6f1",
+        "oklch": "oklch(97.3% 0.007 97.4)",
+        "tonalRamp": [
+          "#0b0b0a",
+          "#272624",
+          "#464542",
+          "#676662",
+          "#8a8985",
+          "#afaeaa",
+          "#d1d1ce",
+          "#efeeec"
+        ]
+      },
+      "print": {
+        "role": "neutral",
+        "displayName": "Print White",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#262626",
+          "#454545",
+          "#666666",
+          "#898989",
+          "#aeaeae",
+          "#d1d1d1",
+          "#eeeeee"
+        ]
+      },
+      "grid-line": {
+        "role": "neutral",
+        "displayName": "Quad Grid Blue",
+        "canonical": "#cfdce8",
+        "oklch": "oklch(88.8% 0.022 245.9)",
+        "tonalRamp": [
+          "#080c0f",
+          "#21272d",
+          "#3e464e",
+          "#5d6871",
+          "#808b95",
+          "#a6afb8",
+          "#cad2d9",
+          "#e9eff5"
+        ]
+      },
+      "margin-red": {
+        "role": "secondary",
+        "displayName": "Margin Red",
+        "canonical": "#d2453b",
+        "oklch": "oklch(58.9% 0.179 27.9)",
+        "tonalRamp": [
+          "#260000",
+          "#510000",
+          "#801512",
+          "#b32f28",
+          "#d95b4f",
+          "#f78b7e",
+          "#ffb6a9",
+          "#ffd9ce"
+        ]
+      },
+      "ink": {
+        "role": "primary",
+        "displayName": "Bic Ink",
+        "canonical": "#1f3a93",
+        "oklch": "oklch(38.7% 0.150 266.4)",
+        "tonalRamp": [
+          "#020629",
+          "#102155",
+          "#273f84",
+          "#4060b7",
+          "#6385da",
+          "#8dacf5",
+          "#b5d0ff",
+          "#d8eeff"
+        ]
+      },
+      "ink-deep": {
+        "role": "primary",
+        "displayName": "Pressed Ink",
+        "canonical": "#162a6e",
+        "oklch": "oklch(31.6% 0.121 266.7)",
+        "tonalRamp": [
+          "#030824",
+          "#15234c",
+          "#2d4278",
+          "#4862a7",
+          "#6b87cb",
+          "#94ade8",
+          "#bbd0ff",
+          "#dceeff"
+        ]
+      },
+      "graphite": {
+        "role": "neutral",
+        "displayName": "Graphite",
+        "canonical": "#232323",
+        "oklch": "oklch(25.6% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#262626",
+          "#454545",
+          "#666666",
+          "#898989",
+          "#aeaeae",
+          "#d1d1d1",
+          "#eeeeee"
+        ]
+      },
+      "graphite-soft": {
+        "role": "neutral",
+        "displayName": "Soft Graphite",
+        "canonical": "#56544d",
+        "oklch": "oklch(44.6% 0.011 93.7)",
+        "tonalRamp": [
+          "#0c0b09",
+          "#282622",
+          "#474540",
+          "#68665f",
+          "#8b8982",
+          "#b0aea8",
+          "#d2d1cc",
+          "#f0eeea"
+        ]
+      },
+      "highlighter": {
+        "role": "secondary",
+        "displayName": "Highlighter",
+        "canonical": "#e6f54a",
+        "oklch": "oklch(93.0% 0.186 114.4)",
+        "tonalRamp": [
+          "#0c0d00",
+          "#272a00",
+          "#464b00",
+          "#666e00",
+          "#899300",
+          "#acb744",
+          "#cfda82",
+          "#edf6af"
+        ]
+      },
+      "tape": {
+        "role": "neutral",
+        "displayName": "Tape",
+        "canonical": "rgba(222, 213, 187, 0.75)",
+        "oklch": "oklch(87.3% 0.036 91.1)",
+        "tonalRamp": [
+          "#0e0b04",
+          "#2b2619",
+          "#4b4533",
+          "#6d6650",
+          "#908973",
+          "#b4ae9b",
+          "#d6d1c1",
+          "#f3eee1"
+        ],
+        "note": "Ramp derived from the opaque base #ded5bb; the token itself is 75% alpha."
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Page Edge",
+        "canonical": "#aaa79f",
+        "oklch": "oklch(72.9% 0.012 89.8)",
+        "tonalRamp": [
+          "#0c0b08",
+          "#282622",
+          "#47453f",
+          "#68665f",
+          "#8c8982",
+          "#b0aea8",
+          "#d3d1cc",
+          "#f0eeea"
+        ]
+      },
+      "rule-strong": {
+        "role": "neutral",
+        "displayName": "Ruled Line",
+        "canonical": "#8a877e",
+        "oklch": "oklch(62.3% 0.014 91.6)",
+        "tonalRamp": [
+          "#0c0b08",
+          "#282622",
+          "#47453f",
+          "#69665e",
+          "#8c8981",
+          "#b0aea7",
+          "#d3d1cb",
+          "#f0eee9"
+        ]
+      },
+      "focus": {
+        "role": "primary",
+        "displayName": "Focus Ring",
+        "canonical": "#162a6e",
+        "oklch": "oklch(31.6% 0.121 266.7)",
+        "tonalRamp": [
+          "#030824",
+          "#15234c",
+          "#2d4278",
+          "#4862a7",
+          "#6b87cb",
+          "#94ade8",
+          "#bbd0ff",
+          "#dceeff"
+        ]
+      },
+      "error": {
+        "role": "status",
+        "displayName": "Correction Red",
+        "canonical": "#a3291f",
+        "oklch": "oklch(47.5% 0.160 29.2)",
+        "tonalRamp": [
+          "#230000",
+          "#4d0503",
+          "#7b1f17",
+          "#ac392e",
+          "#d26254",
+          "#f09082",
+          "#ffb9ac",
+          "#ffdbd0"
+        ]
+      },
+      "success": {
+        "role": "status",
+        "displayName": "Ledger Green",
+        "canonical": "#2b6a3a",
+        "oklch": "oklch(47.0% 0.100 148.9)",
+        "tonalRamp": [
+          "#001002",
+          "#092f14",
+          "#21512c",
+          "#3b7547",
+          "#61986b",
+          "#8dbc94",
+          "#b6ddbc",
+          "#d9f8dd"
+        ]
+      }
+    },
+    "contrast": [
+      {
+        "foreground": "graphite",
+        "background": "paper",
+        "ratio": 14.52,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "graphite",
+        "background": "desk",
+        "ratio": 12.25,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "graphite",
+        "background": "highlighter",
+        "ratio": 13.12,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "graphite",
+        "background": "print",
+        "ratio": 15.72,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "graphite-soft",
+        "background": "paper",
+        "ratio": 7.0,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "graphite-soft",
+        "background": "desk",
+        "ratio": 5.91,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "graphite-soft",
+        "background": "grid-line",
+        "ratio": 5.43,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "ink",
+        "background": "paper",
+        "ratio": 9.31,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "ink",
+        "background": "desk",
+        "ratio": 7.85,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "ink",
+        "background": "grid-line",
+        "ratio": 7.22,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "print",
+        "background": "ink",
+        "ratio": 10.07,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "print",
+        "background": "ink-deep",
+        "ratio": 12.2,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "ink-deep",
+        "background": "paper",
+        "ratio": 12.2,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "error",
+        "background": "paper",
+        "ratio": 6.71,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "error",
+        "background": "desk",
+        "ratio": 5.65,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "success",
+        "background": "paper",
+        "ratio": 6.02,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "success",
+        "background": "desk",
+        "ratio": 5.07,
+        "passes": "AA text"
+      },
+      {
+        "foreground": "rule-strong",
+        "background": "paper",
+        "ratio": 3.32,
+        "passes": "non-text 3:1 only"
+      },
+      {
+        "foreground": "margin-red",
+        "background": "paper",
+        "ratio": 4.17,
+        "passes": "non-text 3:1 only"
+      },
+      {
+        "foreground": "grid-line",
+        "background": "paper",
+        "ratio": 1.29,
+        "passes": "decorative only"
+      }
+    ],
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The name on the first page only."
+      },
+      "h2": {
+        "displayName": "Page title",
+        "purpose": "Page and section titles; 40 px line."
+      },
+      "h3": {
+        "displayName": "Sub-heading",
+        "purpose": "Role statement and in-page sub-headings; 30 px line."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Descriptions and case prose, max 60ch."
+      },
+      "small": {
+        "displayName": "Small",
+        "purpose": "Evidence lines, captions, sub-titles; 20 px line."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Buttons, nav links, inline actions; sentence case, never uppercase kickers."
+      },
+      "annotation": {
+        "displayName": "Ink annotation",
+        "purpose": "Short factual notes in Bic Ink beside drawn arrows."
+      }
+    },
+    "fontLoading": {
+      "family": "Schibsted Grotesk",
+      "weights": [
+        400,
+        600,
+        700,
+        800
+      ],
+      "source": "Google Fonts in the prototype; self-host via next/font in the build."
+    },
+    "shadows": [],
+    "depth": [
+      {
+        "name": "tape-over-print",
+        "value": "tape strips 84x24 px, rgba(222,213,187,.75), rotate(+/-6deg), top:-12px",
+        "purpose": "Holds prints to the page."
+      },
+      {
+        "name": "print-on-paper",
+        "value": "10 px white border, 1 px graphite edge, rotate(1deg)",
+        "purpose": "Separates a real screenshot from the page."
+      },
+      {
+        "name": "page-on-desk",
+        "value": "1 px page-edge border on desk background",
+        "purpose": "The notebook object."
+      },
+      {
+        "name": "spine-fold",
+        "value": "18 px linear-gradient(90deg, transparent, #d5d1c5 43%, #aaa79f 50%, #d5d1c5 57%, transparent)",
+        "purpose": "The one shaded crease; not elevation."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ink-draw",
+        "value": "stroke-dashoffset from path length to 0, 500ms cubic-bezier(0, 0, 0.2, 1) (ease-out), fill-mode both",
+        "purpose": "Every ink mark draws itself once when it first enters view. Never loops, never replays on hover."
+      },
+      {
+        "name": "ink-draw-stagger",
+        "value": "80ms per mark, max 4 marks per group (320ms)",
+        "purpose": "Sibling marks in one group (annotations, evidence ticks) draw in reading order."
+      },
+      {
+        "name": "highlighter-sweep",
+        "value": "background-size 0% 100% -> 100% 100%, left origin, 400ms cubic-bezier(0.2, 0, 0, 1), delayed until ink-draw of its group finishes",
+        "purpose": "The single highlighter swipe sweeps once on entry."
+      },
+      {
+        "name": "press",
+        "value": "transform scale(.97) composed with any existing rotation, 120ms ease-out in, 160ms ease-out out",
+        "purpose": "Tactile feedback on buttons and pen-underlined actions."
+      },
+      {
+        "name": "state-color",
+        "value": "150ms ease-out on color and background-color",
+        "purpose": "Hover and active colour shifts."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "@media (prefers-reduced-motion: reduce): marks render fully drawn, highlighter shown fully, press uses colour only, scroll-behavior auto",
+        "purpose": "No movement; all information still present."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile",
+        "value": "0-767px",
+        "note": "Design at 360 and 390. Single stacked page, margin rule at 20 px, content at 40 px, spine replaced by an 8 px double page-edge rule, nav links scroll horizontally."
+      },
+      {
+        "name": "tablet",
+        "value": "768px",
+        "note": "Two-page spread, page padding 40 px sides, margin rule at 30 px."
+      },
+      {
+        "name": "desktop",
+        "value": "1280px",
+        "note": "Full spread at max 1280 px, margin rule at 40 px, content at 80 px, padding 60/60/40."
+      }
+    ],
+    "strokeMarks": {
+      "color": "ink (#1f3a93) only; error marks may use error (#a3291f)",
+      "strokeWidth": "2px for marks in text (tick, circle, strike, underline); 2.5px for annotation arrows",
+      "caps": "round caps and joins; fill none",
+      "geometry": "Irregular, slightly unclosed paths drawn as SVG (circles overshoot their start, ticks have a curved long stroke, arrows have an open head). Never font glyphs.",
+      "vocabulary": {
+        "circle": "Around one key word per screen (e.g. \"backend\"); SVG absolutely positioned with -8 px inset, preserveAspectRatio none.",
+        "tick": "Verified evidence. 20x20 in the 30 px evidence gutter.",
+        "pending-circle": "Pending evidence, with the reason in words.",
+        "strike": "Unavailable item: one 2 px ink line through the text, reason stated in words.",
+        "arrow": "40x20 lead-in for annotations; 16x16 directional arrows in actions (external, download).",
+        "underline": "2 px pen underline for secondary actions and active nav."
+      },
+      "a11y": "Marks are aria-hidden; state is always also in text (or visually hidden text)."
+    },
+    "rotations": {
+      "button-primary": "-1deg",
+      "print": "1deg",
+      "tape": "+/-6deg",
+      "text": "never rotated"
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button (blue ink)",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one main action per view: Bic Ink fill, square, rotated -1 degree.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#proyectos\">Ver proyectos<svg class=\"ds-arrow\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M4 16 Q10 11 15 5 M9 4.5 L15.5 4.5 L15 11\"/></svg></a>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;min-height:48px;padding:0 20px;background:var(--color-ink, #1f3a93);color:var(--color-print, #ffffff);font-family:var(--font-sans, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif);font-size:14px;font-weight:700;line-height:20px;letter-spacing:.01em;text-decoration:none;border-radius:0;transform:rotate(-1deg);transition:background-color 150ms ease-out,transform 120ms ease-out}.ds-btn-primary:hover{background:var(--color-ink-deep, #162a6e)}.ds-btn-primary:focus-visible{outline:3px solid var(--color-focus, #162a6e);outline-offset:4px;}.ds-btn-primary:active{background:var(--color-ink-deep, #162a6e);transform:rotate(-1deg) scale(.97)}.ds-arrow{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-left:6px;flex:none}@media (prefers-reduced-motion:reduce){.ds-btn-primary{transition:background-color 150ms linear}.ds-btn-primary:active{transform:rotate(-1deg)}}"
+    },
+    {
+      "name": "Secondary Button (pen underline)",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Secondary actions such as the CV download: graphite label over a 2 px Bic Ink underline.",
+      "html": "<a class=\"ds-btn-secondary\" href=\"/cv/CV_Imanol_Antonio.pdf\" download>Descargar CV (PDF)<svg class=\"ds-arrow\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M10 3 Q10.5 9 10 16 M5 11 L10 16.5 L15 11\"/></svg></a>",
+      "css": ".ds-btn-secondary{display:inline-flex;align-items:center;min-height:48px;padding:0;background:transparent;color:var(--color-graphite, #232323);font-family:var(--font-sans, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif);font-size:14px;font-weight:700;line-height:20px;letter-spacing:.01em;text-decoration:none;border-bottom:2px solid var(--color-ink, #1f3a93);border-radius:0;transition:color 150ms ease-out}.ds-btn-secondary:hover{color:var(--color-ink, #1f3a93)}.ds-btn-secondary:focus-visible{outline:3px solid var(--color-focus, #162a6e);outline-offset:4px;}.ds-btn-secondary:active{color:var(--color-ink-deep, #162a6e)}.ds-arrow{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-left:6px;flex:none}"
+    },
+    {
+      "name": "Inline Link",
+      "kind": "custom",
+      "refersTo": "link",
+      "description": "Inline links in prose and project lists.",
+      "html": "<p class=\"ds-p\">Código en <a class=\"ds-link\" href=\"https://github.com/Draggodeidad/pwa-utt\">GitHub</a>.</p>",
+      "css": ".ds-p{font-family:var(--font-sans, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif);font-size:16px;line-height:1.5;color:var(--color-graphite, #232323)}.ds-link{color:var(--color-ink, #1f3a93);font-weight:700;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}.ds-link:hover{color:var(--color-ink-deep, #162a6e)}.ds-link:focus-visible{outline:3px solid var(--color-focus, #162a6e);outline-offset:4px;}"
+    },
+    {
+      "name": "Evidence List",
+      "kind": "custom",
+      "refersTo": "evidence-item",
+      "description": "Ledger of facts with drawn marks: check = verified, circle = pending, strike = unavailable; one highlighter swipe on the strongest item.",
+      "html": "<ul class=\"ds-evidence\"><li class=\"ds-ev\"><svg class=\"ds-mark\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M3 11 L8 16 Q12 8 18 3\"/></svg><span><mark class=\"ds-hl\">Estadía de desarrollo backend · 2025</mark> <span class=\"ds-sr\">(verificado)</span></span></li><li class=\"ds-ev ds-ev--pending\"><svg class=\"ds-mark\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M10 3 C4 3 3 8 3.5 11 C4 16 9 17.5 12 17 C16 16 17.5 12 17 8 C16.5 5 13.5 2.5 9 3.5\"/></svg><span>Ingeniería en TI · 2025–2027 (previsto)</span></li><li class=\"ds-ev ds-ev--unavailable\"><svg class=\"ds-mark\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M3 10.5 Q10 9 17 10\"/></svg><span><s>Demo de Secure Transfer</s> · no disponible: base de datos eliminada</span></li></ul>",
+      "css": ".ds-evidence{list-style:none;margin:0;padding:0;font-family:var(--font-sans, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif);font-size:14px;line-height:20px;color:var(--color-graphite, #232323)}.ds-ev{position:relative;padding-left:30px;margin:10px 0}.ds-mark{position:absolute;left:0;top:0;width:20px;height:20px;fill:none;stroke:var(--color-ink, #1f3a93);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:80;animation:ds-draw 500ms ease-out both}.ds-ev:nth-child(2) .ds-mark{animation-delay:80ms}.ds-ev:nth-child(3) .ds-mark{animation-delay:160ms}.ds-ev--pending,.ds-ev--unavailable{color:var(--color-graphite-soft, #56544d)}.ds-ev--unavailable s{text-decoration-color:var(--color-ink, #1f3a93);text-decoration-thickness:2px}.ds-hl{background:var(--color-highlighter, #e6f54a);color:var(--color-graphite, #232323);padding:2px 4px}.ds-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}@keyframes ds-draw{from{stroke-dashoffset:80}to{stroke-dashoffset:0}}@media (prefers-reduced-motion:reduce){.ds-mark{animation:none;stroke-dashoffset:0}}"
+    },
+    {
+      "name": "Taped Screenshot",
+      "kind": "card",
+      "refersTo": "taped-screenshot",
+      "description": "A real screenshot printed on white, taped at the corners, captioned (synthetic data labelled).",
+      "html": "<figure class=\"ds-print\"><div class=\"ds-print-img\" role=\"img\" aria-label=\"Captura de PWA UTT con datos sintéticos\"></div><figcaption>Captura con datos sintéticos</figcaption></figure>",
+      "css": ".ds-print{position:relative;margin:20px 10px;padding:10px;background:var(--color-print, #ffffff);border:1px solid var(--color-graphite, #232323);transform:rotate(1deg);font-family:var(--font-sans, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif);max-width:420px}.ds-print::before,.ds-print::after{content:\"\";position:absolute;top:-12px;width:84px;height:24px;background:var(--color-tape, rgba(222,213,187,.75));z-index:1}.ds-print::before{left:30px;transform:rotate(-6deg)}.ds-print::after{right:30px;transform:rotate(6deg)}.ds-print-img{height:200px;background:linear-gradient(var(--color-rule, #aaa79f) 1px,transparent 1px) 0 0/20px 20px,var(--color-desk, #e6e3da)}.ds-print figcaption{padding:10px 0 0;font-size:14px;line-height:20px;color:var(--color-graphite-soft, #56544d)}"
+    },
+    {
+      "name": "Ink Annotation",
+      "kind": "custom",
+      "refersTo": "ink-annotation",
+      "description": "Short factual notes in Bic Ink, each led by a drawn arrow pointing at what it explains.",
+      "html": "<div class=\"ds-notes\"><p><svg viewBox=\"0 0 40 20\" aria-hidden=\"true\"><path class=\"ds-ink\" d=\"M2 15 Q17 14 34 5 M27 3 L35 5 L31 12\"/></svg>Cola de sincronización</p><p><svg viewBox=\"0 0 40 20\" aria-hidden=\"true\"><path class=\"ds-ink\" d=\"M2 15 Q17 14 34 5 M27 3 L35 5 L31 12\"/></svg>Conflictos explícitos</p></div>",
+      "css": ".ds-notes{font-family:var(--font-sans, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif);color:var(--color-ink, #1f3a93);font-size:15px;font-weight:700;line-height:20px}.ds-notes p{display:flex;align-items:center;gap:10px;margin:10px 0}.ds-notes svg{width:40px;height:20px;flex:none;fill:none;stroke:var(--color-ink, #1f3a93);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}.ds-ink{stroke-dasharray:250;animation:ds-draw2 500ms ease-out both}.ds-notes p:nth-child(2) .ds-ink{animation-delay:80ms}@keyframes ds-draw2{from{stroke-dashoffset:250}to{stroke-dashoffset:0}}@media (prefers-reduced-motion:reduce){.ds-ink{animation:none}}"
+    },
+    {
+      "name": "Notebook Page",
+      "kind": "card",
+      "refersTo": "notebook-page",
+      "description": "A grid sheet with one red margin rule; the base surface of every section.",
+      "html": "<section class=\"ds-page\"><h2 class=\"ds-h2\">PWA UTT</h2><p class=\"ds-small\">Inspecciones de laboratorios</p></section>",
+      "css": ".ds-page{position:relative;padding:60px 60px 40px 80px;background-color:var(--color-paper, #f7f6f1);background-image:linear-gradient(var(--color-grid-line, #cfdce8) 1px,transparent 1px),linear-gradient(90deg,var(--color-grid-line, #cfdce8) 1px,transparent 1px);background-size:20px 20px;border:1px solid var(--color-rule, #aaa79f);font-family:var(--font-sans, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif);color:var(--color-graphite, #232323)}.ds-page::before{content:\"\";position:absolute;top:0;bottom:0;left:40px;border-left:2px solid var(--color-margin-red, #d2453b)}.ds-h2{font-size:28px;font-weight:700;line-height:40px;letter-spacing:-.01em;margin:0}.ds-small{font-size:14px;line-height:20px;margin:0}@media (max-width:767px){.ds-page{padding:40px 20px 40px 40px}.ds-page::before{left:20px}}"
+    },
+    {
+      "name": "Notebook Spread",
+      "kind": "card",
+      "refersTo": "notebook-spread",
+      "description": "Two pages joined by a sewn spine (fold plus blue stitches every 40 px); stacks below 768 px.",
+      "html": "<div class=\"ds-spread\"><div class=\"ds-stitches\" aria-hidden=\"true\"></div><div class=\"ds-leaf\"></div><div class=\"ds-leaf\"></div></div>",
+      "css": ".ds-spread{position:relative;display:grid;grid-template-columns:1fr 1fr;max-width:1280px;border:1px solid var(--color-rule, #aaa79f);background:var(--color-paper, #f7f6f1)}.ds-spread::after{content:\"\";position:absolute;left:50%;top:0;bottom:0;width:18px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,#d5d1c5 43%,var(--color-rule, #aaa79f) 50%,#d5d1c5 57%,transparent);pointer-events:none}.ds-stitches{position:absolute;left:50%;top:40px;bottom:40px;width:4px;transform:translateX(-50%);z-index:2;background:repeating-linear-gradient(to bottom,var(--color-ink, #1f3a93) 0 2px,transparent 2px 40px)}.ds-leaf{min-height:200px;background-image:linear-gradient(var(--color-grid-line, #cfdce8) 1px,transparent 1px),linear-gradient(90deg,var(--color-grid-line, #cfdce8) 1px,transparent 1px);background-size:20px 20px}@media (max-width:767px){.ds-spread{grid-template-columns:1fr}.ds-spread::after,.ds-stitches{display:none}.ds-leaf+.ds-leaf{border-top:8px double var(--color-rule, #aaa79f)}}"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "Name and anchor links on the desk above the notebook; active section gets a pen underline.",
+      "html": "<header class=\"ds-nav\"><a class=\"ds-brand\" href=\"#inicio\">Imanol De la Cruz</a><nav aria-label=\"Principal\"><a href=\"#proyectos\" aria-current=\"true\">Proyectos</a><a href=\"#sobre-mi\">Sobre mí</a><a href=\"#trayectoria\">Trayectoria</a><a href=\"#contacto\">Contacto</a><a href=\"/en\" lang=\"en\">EN</a></nav></header>",
+      "css": ".ds-nav{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:80px;padding:0 20px;background:var(--color-desk, #e6e3da);color:var(--color-graphite, #232323);font-family:var(--font-sans, 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif)}.ds-brand{font-weight:800;font-size:16px;color:inherit;text-decoration:none}.ds-nav nav{display:flex;gap:40px}.ds-nav nav a{display:inline-flex;align-items:center;min-height:44px;font-size:14px;font-weight:700;line-height:20px;color:inherit;text-decoration:none;border-bottom:2px solid transparent}.ds-nav nav a:hover,.ds-nav nav a[aria-current]{border-bottom-color:var(--color-ink, #1f3a93)}.ds-nav a:focus-visible{outline:3px solid var(--color-focus, #162a6e);outline-offset:4px;}@media (max-width:767px){.ds-nav{flex-direction:column;align-items:flex-start;padding:20px}.ds-nav nav{gap:20px;overflow-x:auto;max-width:100%}.ds-nav nav a{white-space:nowrap}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Open Engineering Notebook",
+    "overview": "The site is a quad-ruled notebook lying open on a desk. Warm paper carries a 5 mm (20 px) blue grid and one red margin rule; the author writes over it in Bic-blue ink: circles around the words that matter, ticks beside verified facts, arrows from a screenshot to what it proves, a pen underline under a secondary action. Real screenshots are printed and taped in, never floated in glass. Set text is graphite in one sturdy grotesk; the hand shows only in strokes, never in a handwriting font.\n\nDensity is a working notebook, not a magazine: content sits on the grid, margins are generous but measured in cells, and every mark carries information. State is written, not lit: ✓ verified, ○ pending, struck through = unavailable. Depth comes only from overlap: tape over a print, a print over the page, a page over the desk. The world refuses the dark-neon developer portfolio entirely: no graphite-and-lime HUD, no mono kicker labels, no glass, no glow.\n\nThe notebook is professional first. Personality lives in the precision of the marks and the honesty of the annotations (synthetic data labelled as synthetic, pending dates marked pending), not in decoration.",
+    "keyCharacteristics": [
+      "Warm paper on a slightly darker desk, a 20 px blue quad grid, one red margin rule per page.",
+      "Bic-blue ink is the only accent that acts: buttons, links, marks, annotations.",
+      "One highlighter swipe per screen, on the strongest single piece of evidence.",
+      "Square everything: paper, prints, tape, buttons. Slight hand-placed rotation (±1°) on prints and the primary button.",
+      "Depth by overlap only; no blurred shadows.",
+      "Irregular SVG ink strokes that draw themselves once, and are simply present under reduced motion."
+    ],
+    "rules": [
+      {
+        "name": "The One Pen Rule",
+        "body": "Blue ink is the only colour that marks or acts. Red belongs to the margin and to errors; it never circles, ticks or underlines.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Swipe Rule",
+        "body": "At most one highlighter swipe is visible per screen, on the single strongest piece of evidence. A second highlight means neither is the strongest.",
+        "section": "colors"
+      },
+      {
+        "name": "The Set Type Rule",
+        "body": "Text is always set in Schibsted Grotesk. No handwriting, script or \"marker\" fonts, ever; the hand is the strokes.",
+        "section": "typography"
+      },
+      {
+        "name": "The Grid Line Rule",
+        "body": "Headings, small text, labels and component heights snap to the 20 px grid (40 px, 30 px half-steps, 20 px). Body prose keeps 1.5 for readability and does not chase grid lines; blocks re-align through their margins.",
+        "section": "typography"
+      },
+      {
+        "name": "The Cell Rule",
+        "body": "If a measurement is not a multiple of 10 px, it is wrong unless it is a 1–2 px stroke or a 48 px touch target.",
+        "section": "layout"
+      },
+      {
+        "name": "The Overlap Rule",
+        "body": "If something must look raised, put it on top of something else. Never add box-shadow, glow, blur or backdrop-filter.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep every measurement on the 20 px cell (10 px half-steps), except 1–2 px strokes and 48 px touch targets.",
+      "Do draw every mark (circle, tick, ○, arrow, strike, underline) as an irregular SVG stroke in Bic Ink (#1f3a93).",
+      "Do let ink marks draw once on entry (500 ms ease-out, 80 ms stagger) and render them fully drawn under reduced motion.",
+      "Do mark state with ✓ verified, ○ pending, struck = unavailable, always with words beside the mark.",
+      "Do label synthetic data as synthetic on every taped screenshot.",
+      "Do create depth by overlap: tape over print over paper over desk."
+    ],
+    "donts": [
+      "Don't use handwriting, script or marker fonts.",
+      "Don't use gradient text, glass, backdrop blur, glow or blurred drop shadows.",
+      "Don't use a dark or neon theme, or any part of the old graphite + lime HUD (Space Grotesk, JetBrains Mono, #101214, #C2F362).",
+      "Don't use more than one highlighter swipe per screen.",
+      "Don't use an \"IA\" monogram or any generated or simulated portrait; omit the portrait slot until a real photo exists.",
+      "Don't show availability indicators, response-time promises or status dots.",
+      "Don't invent metrics, proficiency bars, percentages or counts.",
+      "Don't use red ink for marks or emphasis; red is the margin and errors only.",
+      "Don't use mono or uppercase kicker/eyebrow labels above headings.",
+      "Don't use font glyph icons (↗, ↓, ✓ as text) in place of drawn strokes."
+    ]
+  }
+}
