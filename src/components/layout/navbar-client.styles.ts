@@ -25,8 +25,8 @@ export const styles = {
   menuIconLineFirstOpen: "translate-y-[3.5px] rotate-45",
   menuIconLineLastOpen: "-translate-y-[3.5px] -rotate-45",
   mobileNav:
-    "absolute inset-x-0 top-[var(--nav-height)] hidden max-h-[calc(100dvh-var(--nav-height))] flex-col items-start overflow-y-auto border-b border-graphite bg-desk px-[var(--page-gutter)] pb-5 pointer-events-none invisible -translate-y-2 opacity-0 [transition:opacity_150ms_var(--ease-out-ui),transform_150ms_var(--ease-out-ui),visibility_0s_150ms] motion-reduce:translate-y-0 motion-reduce:[transition:opacity_150ms_var(--ease-out-ui),visibility_0s_150ms] max-[1023px]:flex",
+    "absolute inset-x-0 top-[var(--nav-height)] hidden max-h-[calc(100dvh-var(--nav-height))] flex-col items-start overflow-y-auto border-b border-graphite bg-desk px-[var(--page-gutter)] pb-5 pointer-events-none invisible [transform:translateY(-8px)] opacity-0 [transition:opacity_150ms_var(--ease-out-ui),transform_150ms_var(--ease-out-ui),visibility_0s_150ms] motion-reduce:[transform:none] motion-reduce:[transition:opacity_150ms_var(--ease-out-ui),visibility_0s_150ms] max-[1023px]:flex",
   mobileNavOpen:
-    "pointer-events-auto visible translate-y-0 opacity-100 [transition:opacity_200ms_var(--ease-out-ui),transform_200ms_var(--ease-out-ui),visibility_0s] motion-reduce:[transition:opacity_150ms_var(--ease-out-ui),visibility_0s]",
+    "pointer-events-auto visible [transform:translateY(0)] opacity-100 [transition:opacity_200ms_var(--ease-out-ui),transform_200ms_var(--ease-out-ui),visibility_0s] motion-reduce:[transition:opacity_150ms_var(--ease-out-ui),visibility_0s]",
   mobileNavLink: "min-h-11",
 } as const;

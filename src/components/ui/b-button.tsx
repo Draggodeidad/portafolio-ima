@@ -1093,7 +1093,13 @@ const ButtonInner = forwardRef<
           useLinkMotionUnderline,
           canHover,
         }),
-      [isPressed, motionAnimate, reduceMotion, useLinkMotionUnderline],
+      [
+        isPressed,
+        motionAnimate,
+        reduceMotion,
+        useLinkMotionUnderline,
+        canHover,
+      ],
     );
 
     const sharedRootProps = {
