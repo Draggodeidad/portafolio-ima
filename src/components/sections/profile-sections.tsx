@@ -17,7 +17,7 @@ import ink from "./profile-sections.module.css";
 const styles = {
   section: "py-[40px]",
   page: "relative border border-page-edge bg-paper bg-[image:var(--paper-grid)] bg-size-[length:var(--grid-cell)_var(--grid-cell)] py-[40px] pl-12 pr-5 before:absolute before:inset-y-0 before:left-5 before:w-0.5 before:bg-margin-red sm:pl-16 sm:pr-10 sm:before:left-8",
-  content: "max-w-[70ch] space-y-[20px]",
+  content: "max-w-[70ch] space-y-[20px] [&>h2+p]:pt-[10px]",
   timeline: "mt-[40px] max-w-[70ch] space-y-[40px]",
   entry: "grid grid-cols-[30px_minmax(0,1fr)] gap-[10px]",
   mark: "mt-[5px] size-[20px] text-ink",

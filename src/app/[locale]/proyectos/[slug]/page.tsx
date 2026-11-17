@@ -29,8 +29,7 @@ const styles = {
   button: "min-h-12",
   spread:
     "relative grid gap-10 xl:grid-cols-2 xl:gap-20 xl:before:absolute xl:before:inset-y-0 xl:before:left-1/2 xl:before:w-px xl:before:bg-page-edge",
-  evidence: "grid content-start gap-10 xl:sticky xl:top-24 xl:self-start",
-  content: "min-w-0",
+  evidence: "grid content-start gap-10 xl:self-start",
   block: "border-t border-page-edge py-8",
   blockTitle: "mb-4 text-h2",
   paragraph:
@@ -165,26 +164,22 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
           </header>
           <StudySection block={project.study.problem} locale={language} />
           <div className={styles.spread}>
-            <article className={styles.content}>
-              {[
-                project.study.architecture,
-                project.study.decisions,
-                project.study.validation,
-                project.study.limitations,
-              ].map((block) => (
-                <StudySection
-                  key={block.title[language]}
-                  block={block}
-                  locale={language}
-                />
-              ))}
-            </article>
+            <StudySection
+              block={project.study.architecture}
+              locale={language}
+            />
             <div className={styles.evidence}>
               <ProjectVisual project={project} locale={language} />
+            </div>
+            <StudySection block={project.study.decisions} locale={language} />
+            <div className={styles.evidence}>
               {project.id === "pwa-utt" && (
                 <ProjectScreenshots locale={language} />
               )}
             </div>
+            <StudySection block={project.study.validation} locale={language} />
+            <div aria-hidden="true" className="hidden xl:block" />
+            <StudySection block={project.study.limitations} locale={language} />
           </div>
           <nav className={styles.related} aria-label={t("moreProjects")}>
             {[

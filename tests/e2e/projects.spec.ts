@@ -13,7 +13,7 @@ for (const locale of ["es", "en"] as const) {
     }) => {
       await page.goto(`/${locale}/proyectos/${project.slug}`);
       await expect(page.locator("main h1")).toContainText(project.title);
-      await expect(page.locator("main h2")).toHaveCount(8);
+      await expect(page.locator("main h2")).toHaveCount(6);
       const contribution = page.getByRole("complementary", {
         name: locale === "es" ? "Mi aportación" : "My contribution",
       });
@@ -202,7 +202,7 @@ test("project diagrams are visible without motion on the home and with reduced m
   }
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/es/proyectos/pwa-utt");
-  const caseStrokes = page.locator('[data-ink-draw] path[pathLength="1"]');
+  const caseStrokes = page.locator('main figure path[pathLength="1"]');
   expect(await caseStrokes.count()).toBeGreaterThan(0);
   for (const stroke of await caseStrokes.all()) {
     await expect(stroke).toHaveCSS("animation-name", "none");
