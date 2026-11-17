@@ -22,12 +22,14 @@ const styles = {
   contribution: "mt-8 max-w-[65ch]",
   label: "mb-2 text-label text-graphite",
   text: "max-w-[65ch] text-body text-graphite-soft [overflow-wrap:anywhere]",
-  technologies: "mt-6 flex flex-wrap gap-2",
-  technology: "border border-page-edge px-3 py-1 text-small text-graphite",
+  technologies: "mt-2 flex flex-wrap gap-x-2 text-body text-graphite-soft",
+  technology: "not-last:after:ml-2 not-last:after:content-['·']",
   actions: "mt-7 flex flex-wrap gap-3",
   button: "min-h-12",
-  evidence: "my-10 grid gap-10",
-  content: "max-w-[70ch]",
+  spread:
+    "relative grid gap-10 xl:grid-cols-2 xl:gap-20 xl:before:absolute xl:before:inset-y-0 xl:before:left-1/2 xl:before:w-px xl:before:bg-page-edge",
+  evidence: "grid content-start gap-10 xl:sticky xl:top-24 xl:self-start",
+  content: "min-w-0",
   block: "border-t border-page-edge py-8",
   blockTitle: "mb-4 text-h2",
   paragraph:
@@ -155,27 +157,29 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
               </Button>
             </div>
           </header>
-          <div className={styles.evidence} data-ink-draw>
-            <ProjectVisual project={project} locale={language} />
-            {project.id === "pwa-utt" && (
-              <ProjectScreenshots locale={language} />
-            )}
+          <StudySection block={project.study.problem} locale={language} />
+          <div className={styles.spread}>
+            <article className={styles.content}>
+              {[
+                project.study.architecture,
+                project.study.decisions,
+                project.study.validation,
+                project.study.limitations,
+              ].map((block) => (
+                <StudySection
+                  key={block.title[language]}
+                  block={block}
+                  locale={language}
+                />
+              ))}
+            </article>
+            <div className={styles.evidence}>
+              <ProjectVisual project={project} locale={language} />
+              {project.id === "pwa-utt" && (
+                <ProjectScreenshots locale={language} />
+              )}
+            </div>
           </div>
-          <article className={styles.content}>
-            {[
-              project.study.problem,
-              project.study.architecture,
-              project.study.decisions,
-              project.study.validation,
-              project.study.limitations,
-            ].map((block) => (
-              <StudySection
-                key={block.title[language]}
-                block={block}
-                locale={language}
-              />
-            ))}
-          </article>
           <nav className={styles.related} aria-label={t("moreProjects")}>
             {[
               { project: previous, label: t("previous") },
