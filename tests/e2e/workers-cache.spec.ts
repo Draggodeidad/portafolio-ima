@@ -69,11 +69,11 @@ test.describe("Workers build-time response snapshots", () => {
         expect(body).toContain(
           path.includes("/proyectos/")
             ? path.startsWith("/es")
-              ? "Caso de estudio"
-              : "Case study"
+              ? "Mi aportación"
+              : "My contribution"
             : path.startsWith("/es")
-              ? "Perfil de desarrollador"
-              : "Developer profile",
+              ? "Proyectos y decisiones"
+              : "Projects and decisions",
         );
       }
     }

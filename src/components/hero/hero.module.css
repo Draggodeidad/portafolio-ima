@@ -62,7 +62,7 @@
 }
 .noteDraw {
   stroke-dasharray: 1;
-  animation: note-draw var(--motion-ink-draw) var(--ease-ink) both;
+  animation: note-stroke var(--motion-ink-draw) var(--ease-ink) both;
 }
 .notes li:nth-child(2) .noteDraw {
   animation-delay: var(--motion-ink-stagger);
@@ -70,7 +70,7 @@
 .notes li:nth-child(3) .noteDraw {
   animation-delay: calc(var(--motion-ink-stagger) * 2);
 }
-@keyframes note-draw {
+@keyframes note-stroke {
   from {
     stroke-dashoffset: 1;
   }
