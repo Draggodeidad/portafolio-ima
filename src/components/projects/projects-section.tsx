@@ -7,8 +7,7 @@ import { ProjectVisual } from "./project-visual";
 import { ProjectScreenshots } from "./project-screenshots";
 
 const styles = {
-  section:
-    "scroll-mt-[calc(var(--nav-height)+20px)] bg-paper py-20 text-graphite",
+  section: "bg-paper py-20 text-graphite",
   title: "mb-10 text-h2",
   feature:
     "grid min-w-0 gap-8 border-y border-ruled-line py-10 lg:grid-cols-2 lg:items-center",
