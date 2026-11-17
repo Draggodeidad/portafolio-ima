@@ -4,7 +4,7 @@ export const styles = {
   header:
     "fixed inset-x-0 top-0 z-50 h-[var(--nav-height)] bg-desk text-graphite",
   headerInner:
-    "mx-auto flex h-full w-full max-w-[1440px] items-center justify-between gap-5 px-[var(--page-gutter)]",
+    "mx-auto flex h-full w-full max-w-[var(--content-width)] items-center justify-between gap-5 px-[var(--page-gutter)]",
   brand: "inline-flex min-h-11 shrink-0 items-center text-lg font-extrabold",
   desktopNav: "flex items-center gap-10 max-[1023px]:hidden",
   navLink:
