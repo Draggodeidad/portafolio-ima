@@ -14,6 +14,7 @@ Completar cada etapa autorizada y verificarla. Detenerse en los puntos de revisi
 - Contrato de dirección: `.impeccable/surfaces/`. Orquestación, fases y gates: `.orchestration/STATUS.md`.
 - `PRODUCT.md` manda en contenido y verdad del producto.
 - `docs/DESIGN.md` y el Figma son historial y anti-referencia: no implementar desde ellos.
+- **Copy con aprobación (regla del usuario, 2026-11-17):** todo copy nuevo o reescrito se propone como texto ES/EN antes de implementarlo y solo se publica con la aprobación del usuario. Nunca se inventan logros, métricas, fechas ni tecnologías que no estén ya en el sitio o en su CV. Por qué: el usuario lo pidió como condición del rediseño; cada afirmación debe ser trazable y suya.
 - Queda sin efecto todo lo de este archivo que choque con DESIGN.md: HUD, liquid glass, Canvas UI Glass Object, Bencho (Action node, Tilt card), monograma IA, Space Grotesk/JetBrains Mono. Iconiq Button se conserva, reestilizado con los tokens del cuaderno.
 
 ## Fuentes de verdad
