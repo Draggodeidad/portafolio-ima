@@ -133,21 +133,17 @@ export const projects = [
         title: { es: "Validación documentada", en: "Documented validation" },
         paragraphs: [
           {
-            es: "El repositorio describe pruebas automatizadas con IndexedDB en memoria y transporte simulado para persistencia, pérdida de ACK, reintentos, aislamiento por cuenta y resolución de conflictos.",
-            en: "The repository documents automated tests using in-memory IndexedDB and simulated transport for persistence, lost acknowledgements, retries, account isolation, and conflict resolution.",
-          },
-          {
-            es: "La URL de demo responde y redirige a `/login`. Eso confirma que la ruta está disponible, no el funcionamiento de flujos autenticados; la última documentación tampoco acredita validación contra Supabase remoto.",
-            en: "The demo URL responds and redirects to `/login`. That confirms the route is available, not that authenticated flows work; the latest project documentation also does not claim validation against remote Supabase.",
+            es: "Para la PWA documentamos pruebas automatizadas con IndexedDB en memoria y transporte simulado: persistencia, pérdida de confirmación, reintentos, aislamiento por cuenta y resolución de conflictos. La demo se documentó con redirección a `/login`; eso no valida los flujos autenticados, y la documentación tampoco acredita pruebas contra Supabase remoto.",
+            en: "For the PWA, we documented automated tests using in-memory IndexedDB and simulated transport: persistence, lost acknowledgements, retries, account isolation, and conflict resolution. The demo was documented redirecting to `/login`; that does not validate authenticated flows, and the documentation does not establish testing against remote Supabase.",
           },
         ],
       },
       limitations: {
-        title: { es: "Límites conocidos", en: "Known limits" },
+        title: { es: "Límites y siguiente paso", en: "Limits and next step" },
         paragraphs: [
           {
-            es: "Los tests simulados no reproducen la red física, concurrencia real entre navegadores ni políticas remotas. Esas validaciones y una sesión de demo con acceso autorizado siguen pendientes.",
-            en: "Simulated tests do not reproduce physical network conditions, real cross-browser concurrency, or remote policies. Those checks and an authorized demo session remain pending.",
+            es: "Las pruebas simuladas no cubren condiciones de red reales, concurrencia entre navegadores ni políticas remotas. Lo siguiente que probaría sería esos escenarios y los flujos de la demo con acceso autorizado.",
+            en: "Simulated tests do not cover real network conditions, cross-browser concurrency, or remote policies. Next, I would test those scenarios and the demo flows with authorized access.",
           },
         ],
       },
@@ -223,17 +219,17 @@ export const projects = [
         title: { es: "Validación documentada", en: "Documented validation" },
         paragraphs: [
           {
-            es: "Hay utilidades y pruebas manuales locales para las primitivas criptográficas, además de una demo de flujo en el repositorio. No se ejecutaron aquí; la demo pública no está disponible.",
-            en: "The repository includes local utilities and manual checks for cryptographic primitives, plus a flow demo. They were not run here; the public demo is unavailable.",
+            es: "Incluí utilidades y pruebas manuales locales para las primitivas criptográficas, además de una demo del flujo en el repositorio. La demo pública no está disponible; estas herramientas no acreditan por sí solas una revisión de seguridad.",
+            en: "I included local utilities and manual checks for the cryptographic primitives, plus a flow demo in the repository. The public demo is unavailable; these tools alone do not establish a security review.",
           },
         ],
       },
       limitations: {
-        title: { es: "Límites conocidos", en: "Known limits" },
+        title: { es: "Límites y siguiente paso", en: "Limits and next step" },
         paragraphs: [
           {
-            es: "La función de extracción completa del ZIP declara que aún no está implementada y lanza un error. La base de datos fue eliminada, no hay demo disponible y no se confirma una revisión de seguridad.",
-            en: "The complete ZIP extraction function is explicitly unimplemented and throws an error. The database was deleted, no demo is available, and no security review is confirmed.",
+            es: "La extracción completa del ZIP aún no está implementada; la base de datos fue eliminada, no hay demo disponible y no hay una revisión de seguridad confirmada. Para avanzar, implementaría y probaría la extracción, prepararía un entorno de prueba y buscaría una revisión de seguridad independiente.",
+            en: "Complete ZIP extraction is not yet implemented; the database was deleted, no demo is available, and no security review is confirmed. To move forward, I would implement and test extraction, prepare a test environment, and seek an independent security review.",
           },
         ],
       },
@@ -319,17 +315,17 @@ export const projects = [
         title: { es: "Validación documentada", en: "Documented validation" },
         paragraphs: [
           {
-            es: "El repositorio contiene pruebas de artefactos, selección, asignación, validación de ZIP y escenarios dry-run. La documentación indica que el workflow importado permanece inactivo y la configuración recomendada conserva dry-run.",
-            en: "The repository contains artifact, selection, assignment, ZIP validation, and dry-run scenario tests. Its documentation states that the imported workflow remains inactive and the recommended configuration keeps dry-run enabled.",
+            es: "Incluí pruebas de artefactos, selección, asignación, validación de ZIP y escenarios de simulación (dry-run). Documenté que el workflow importado permanece inactivo y recomiendo mantener la simulación para revisarlo.",
+            en: "I included tests for artifacts, selection, assignment, ZIP validation, and dry-run scenarios. I documented that the imported workflow remains inactive and recommend keeping dry-run enabled for review.",
           },
         ],
       },
       limitations: {
-        title: { es: "Límites conocidos", en: "Known limits" },
+        title: { es: "Límites y siguiente paso", en: "Limits and next step" },
         paragraphs: [
           {
-            es: "No se confirma ejecución actual en producción ni credenciales reales. Pasar a operaciones que escriben en GitHub requiere configuración y revisión en la instancia n8n.",
-            en: "No current production run or real credentials are confirmed. Enabling GitHub write operations requires configuration and review in the n8n instance.",
+            es: "No he confirmado una ejecución actual en producción ni el uso de credenciales reales. Antes de permitir escrituras en GitHub, revisaría la configuración en n8n y probaría el flujo en modo de simulación.",
+            en: "I have not confirmed a current production run or the use of real credentials. Before allowing writes to GitHub, I would review the n8n configuration and test the workflow in dry-run mode.",
           },
         ],
       },

@@ -46,19 +46,14 @@
     ]
   },
   "Projects": {
-    "eyebrow": "Projects",
-    "heading": "Software engineering and applied architecture",
-    "index": "{count, plural, one {# project} other {# projects}}",
-    "featuredLabel": "Featured project",
-    "contribution": "My contribution",
-    "technologyList": "Project technologies",
+    "heading": "Projects and decisions",
     "exploreCase": "View case study",
-    "openApp": "Open application",
-    "viewCode": "View code"
+    "contribution": "My contribution",
+    "queue": "A queue sends changes when connectivity returns",
+    "conflicts": "Explicit version conflicts"
   },
   "Studies": {
     "back": "Back to projects",
-    "caseLabel": "Case study",
     "technologies": "Technologies",
     "contribution": "My contribution",
     "repository": "View code",
@@ -66,7 +61,6 @@
     "previous": "Previous project",
     "next": "Next project",
     "moreProjects": "Browse projects",
-    "notSpecified": "Not specified",
     "contactTitle": "Want to talk about this project?",
     "contactText": "If you'd like to dig into the decisions behind this case or discuss an opportunity, email me.",
     "contactEmail": "Email me",
