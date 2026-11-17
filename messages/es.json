@@ -57,19 +57,11 @@
     }
   },
   "Projects": {
-    "eyebrow": "Proyectos",
-    "heading": "Ingeniería de software y arquitectura aplicada",
-    "index": "{count, plural, one {# proyecto} other {# proyectos}}",
-    "featuredLabel": "Proyecto principal",
-    "contribution": "Mi aportación",
-    "technologyList": "Tecnologías del proyecto",
-    "exploreCase": "Ver caso",
-    "openApp": "Abrir aplicación",
-    "viewCode": "Ver código"
+    "heading": "Proyectos y decisiones",
+    "exploreCase": "Ver caso"
   },
   "Studies": {
     "back": "Volver a proyectos",
-    "caseLabel": "Caso de estudio",
     "technologies": "Tecnologías",
     "contribution": "Mi aportación",
     "repository": "Ver código",
@@ -77,7 +69,6 @@
     "previous": "Proyecto anterior",
     "next": "Siguiente proyecto",
     "moreProjects": "Recorrer proyectos",
-    "notSpecified": "No especificado",
     "contactTitle": "¿Quieres hablar de este proyecto?",
     "contactText": "Si quieres profundizar en las decisiones de este caso o conversar sobre una oportunidad, escríbeme.",
     "contactEmail": "Escríbeme",

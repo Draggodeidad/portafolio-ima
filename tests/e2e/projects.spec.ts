@@ -13,7 +13,32 @@ for (const locale of ["es", "en"] as const) {
     }) => {
       await page.goto(`/${locale}/proyectos/${project.slug}`);
       await expect(page.locator("main h1")).toContainText(project.title);
-      await expect(page.locator("main h2")).toHaveCount(7);
+      await expect(page.locator("main h2")).toHaveCount(8);
+      const contribution = page.getByRole("complementary", {
+        name: locale === "es" ? "Mi aportación" : "My contribution",
+      });
+      const diagram = page
+        .locator("main figure")
+        .filter({ hasText: locale === "es" ? "Diagrama" : "Diagram" });
+      expect(
+        await contribution.evaluate(
+          (element) => element.getBoundingClientRect().top,
+        ),
+      ).toBeLessThan(
+        await diagram.evaluate(
+          (element) => element.getBoundingClientRect().top,
+        ),
+      );
+      if (project.hasDemo) {
+        await expect(
+          page.locator("main figure").filter({
+            hasText:
+              locale === "es"
+                ? "Captura con datos sintéticos"
+                : "Screenshot with synthetic data",
+          }),
+        ).toHaveCount(3);
+      }
       await expect(page.locator("main")).toContainText(
         locale === "es" ? "Tecnologías" : "Technologies",
       );
