@@ -6,21 +6,22 @@ Prompt maestro: pegado en la sesión del 2026-11-17 (no guardado en el repo)
 
 ## Tareas
 
-| ID  | Título                                                                                      | Fase | Estado           | Rama                | Terminal hc | Notas                                                                            |
-| --- | ------------------------------------------------------------------------------------------- | ---- | ---------------- | ------------------- | ----------- | -------------------------------------------------------------------------------- |
-| F0  | Setup y contexto                                                                            | 0    | aprobado         | main                | —           | PRODUCT.md actualizado; Impeccable v4.9.1                                        |
-| F1  | Auditoría (critique, audit, motion, break-ui, capturas)                                     | 1    | aprobado         | main                | —           | AUDIT.md: 20 hallazgos; critique 21/32, audit 14/20                              |
-| F2  | Dirección visual                                                                            | 2    | aprobado         | main                | —           | A "Cuaderno profesional"; DESIGN.md aprobado; commit d7b94a5                     |
-| P01 | Prototipos del hero (3 direcciones, HTML en .impeccable/mocks/decision)                     | 2    | terminado        | — (sin commits)     | —           | 1 ronda de correcciones                                                          |
-| T01 | Fundaciones (tokens, fuentes, base, assets PWA)                                             | 3    | merged (c0dbe15) | —                   | —           | 1 ronda de correcciones; checks verdes                                           |
-| C01 | Propuesta de copy ES/EN                                                                     | 4    | aprobada         | main                | —           | Aprobada con las 3 frases de siguiente paso                                      |
-| T02 | Navbar del cuaderno                                                                         | 4    | merged (f4be7e2) | —                   | —           | 1 ronda (alineación al ancho del spread)                                         |
-| T03 | Hero cuaderno abierto + b-button + retiro de three/HUD                                      | 4    | merged           | —                   | —           | 1 ronda (flecha, acciones en una fila); main: lint/typecheck/format/build verdes |
-| T04 | Proyectos y casos                                                                           | 4    | merged           | —                   | —           | 1 ronda (mundo cuaderno, galería, flechas a tinta)                               |
-| T05 | Trayectoria, Sobre mí + stack, contacto, footer, orden de la home                           | 4    | merged           | —                   | —           | Sin rondas; integración: 2 tests ajustados en main                               |
-| M01 | Pasada de motion                                                                            | 5    | merged           | —                   | —           | review-animations: aprobado; traza sin layout/paint por frame                    |
-| P02 | QA final + polish                                                                           | 7    | merged           | —                   | —           | 1 ronda (styling.md, overflow-wrap, noscript)                                    |
-| F01 | Correcciones del finish review (casos y proyectos como spread, diagramas a tinta, acciones) | 7    | en curso         | ux/F01-finish-fixes | f01-fixes   | Finish reviewer: fix; critique 24/32                                             |
+| ID  | Título                                                                  | Fase | Estado           | Rama            | Terminal hc | Notas                                                                            |
+| --- | ----------------------------------------------------------------------- | ---- | ---------------- | --------------- | ----------- | -------------------------------------------------------------------------------- |
+| F0  | Setup y contexto                                                        | 0    | aprobado         | main            | —           | PRODUCT.md actualizado; Impeccable v4.9.1                                        |
+| F1  | Auditoría (critique, audit, motion, break-ui, capturas)                 | 1    | aprobado         | main            | —           | AUDIT.md: 20 hallazgos; critique 21/32, audit 14/20                              |
+| F2  | Dirección visual                                                        | 2    | aprobado         | main            | —           | A "Cuaderno profesional"; DESIGN.md aprobado; commit d7b94a5                     |
+| P01 | Prototipos del hero (3 direcciones, HTML en .impeccable/mocks/decision) | 2    | terminado        | — (sin commits) | —           | 1 ronda de correcciones                                                          |
+| T01 | Fundaciones (tokens, fuentes, base, assets PWA)                         | 3    | merged (c0dbe15) | —               | —           | 1 ronda de correcciones; checks verdes                                           |
+| C01 | Propuesta de copy ES/EN                                                 | 4    | aprobada         | main            | —           | Aprobada con las 3 frases de siguiente paso                                      |
+| T02 | Navbar del cuaderno                                                     | 4    | merged (f4be7e2) | —               | —           | 1 ronda (alineación al ancho del spread)                                         |
+| T03 | Hero cuaderno abierto + b-button + retiro de three/HUD                  | 4    | merged           | —               | —           | 1 ronda (flecha, acciones en una fila); main: lint/typecheck/format/build verdes |
+| T04 | Proyectos y casos                                                       | 4    | merged           | —               | —           | 1 ronda (mundo cuaderno, galería, flechas a tinta)                               |
+| T05 | Trayectoria, Sobre mí + stack, contacto, footer, orden de la home       | 4    | merged           | —               | —           | Sin rondas; integración: 2 tests ajustados en main                               |
+| M01 | Pasada de motion                                                        | 5    | merged           | —               | —           | review-animations: aprobado; traza sin layout/paint por frame                    |
+| P02 | QA final + polish                                                       | 7    | merged           | —               | —           | 1 ronda (styling.md, overflow-wrap, noscript)                                    |
+| F01 | Correcciones del finish review (ronda 1)                                | 7    | merged           | —               | —           | Spreads, diagramas a tinta, acciones, estados                                    |
+| F02 | Correcciones del finish review (ronda 2)                                | 7    | merged           | —               | —           | Resaltado móvil, acciones, cierre del spread del caso                            |
 
 ## Decisiones
 
@@ -40,6 +41,8 @@ Prompt maestro: pegado en la sesión del 2026-11-17 (no guardado en el repo)
 - 2026-11-17 — Fase 4 integrada en main: lint, typecheck, format, test:contact, build y e2e (43 passed, 10 skipped) en verde. Pendiente de polish: margen rojo en las páginas de Trayectoria, Sobre mí y Contacto.
 
 - 2026-11-17 — e2e: `deployment.spec.ts` › «locale switching waits for the initial anchor at 390px» es intermitente bajo la suite en paralelo (falló 1 vez y pasó 3/3 aislado y en la siguiente corrida completa).
+
+- 2026-11-17 — Finish review, 2 rondas. Resueltos: fixes 1, 2, 4, 6, 7, 8 y regresiones 1–3. Abiertos para el usuario: fix 3 (flecha decisión→evidencia; columna derecha vacía en Trayectoria, Cómo trabajo y Contacto) y fix 5 (resaltado por pantalla vs. por página).
 
 ## Sustituciones de herramientas
 
