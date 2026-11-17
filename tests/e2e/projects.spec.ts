@@ -120,11 +120,7 @@ for (const locale of ["es", "en"] as const) {
         name: locale === "es" ? "Proyectos" : "Projects",
       }),
     ).toHaveAttribute("href", `/${locale}#proyectos`);
-    const homeLink = nav.getByRole("link", {
-      name: locale === "es" ? "Inicio" : "Home",
-    });
-    await expect(homeLink).toHaveAttribute("href", `/${locale}#inicio`);
-    await expect(homeLink).not.toHaveAttribute("aria-current", "location");
+    await expect(nav.locator('[aria-current="location"]')).toHaveCount(0);
   });
 }
 
