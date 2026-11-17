@@ -6,13 +6,14 @@ Prompt maestro: pegado en la sesión del 2026-11-17 (no guardado en el repo)
 
 ## Tareas
 
-| ID  | Título                                                                  | Fase | Estado                 | Rama               | Terminal hc | Notas                                                               |
-| --- | ----------------------------------------------------------------------- | ---- | ---------------------- | ------------------ | ----------- | ------------------------------------------------------------------- |
-| F0  | Setup y contexto                                                        | 0    | aprobado               | main               | —           | PRODUCT.md actualizado; Impeccable v4.9.1                           |
-| F1  | Auditoría (critique, audit, motion, break-ui, capturas)                 | 1    | aprobado               | main               | —           | AUDIT.md: 20 hallazgos; critique 21/32, audit 14/20                 |
-| F2  | Dirección visual                                                        | 2    | DESIGN.md en redacción | —                  | —           | Elegida A "Cuaderno profesional"; contrato en .impeccable/surfaces/ |
-| P01 | Prototipos del hero (3 direcciones, HTML en .impeccable/mocks/decision) | 2    | terminado              | — (sin commits)    | —           | 1 ronda de correcciones                                             |
-| T01 | Fundaciones (tokens y estilos base)                                     | 3    | pendiente              | ux/T01-foundations | —           | En serie                                                            |
+| ID  | Título                                                                  | Fase | Estado           | Rama            | Terminal hc    | Notas                                                        |
+| --- | ----------------------------------------------------------------------- | ---- | ---------------- | --------------- | -------------- | ------------------------------------------------------------ |
+| F0  | Setup y contexto                                                        | 0    | aprobado         | main            | —              | PRODUCT.md actualizado; Impeccable v4.9.1                    |
+| F1  | Auditoría (critique, audit, motion, break-ui, capturas)                 | 1    | aprobado         | main            | —              | AUDIT.md: 20 hallazgos; critique 21/32, audit 14/20          |
+| F2  | Dirección visual                                                        | 2    | aprobado         | main            | —              | A "Cuaderno profesional"; DESIGN.md aprobado; commit d7b94a5 |
+| P01 | Prototipos del hero (3 direcciones, HTML en .impeccable/mocks/decision) | 2    | terminado        | — (sin commits) | —              | 1 ronda de correcciones                                      |
+| T01 | Fundaciones (tokens, fuentes, base, assets PWA)                         | 3    | merged (c0dbe15) | —               | —              | 1 ronda de correcciones; checks verdes                       |
+| C01 | Propuesta de copy ES/EN (aprobación del usuario)                        | 4    | en curso         | — (sin commits) | c01-copy (t15) | Solo lectura                                                 |
 
 ## Decisiones
 
@@ -25,6 +26,9 @@ Prompt maestro: pegado en la sesión del 2026-11-17 (no guardado en el repo)
 - 2026-11-17 — Se borró `.gemini/` (creado por la actualización de Impeccable; no se usa Gemini CLI).
 
 - 2026-11-17 — Dirección elegida: A "Cuaderno profesional" (seed:744984c2da4ede9a).
+
+- 2026-11-17 — GATE 2 aprobado. Se retiran Glass Object, el vidrio de la navbar y Bencho (Tilt/Action node); Iconiq Button se queda, reestilizado. Actualizar `docs/component-sources.md` cuando se elimine el código.
+- Nunca hacer push a `main` sin autorización: el push despliega a producción.
 
 ## Sustituciones de herramientas
 
