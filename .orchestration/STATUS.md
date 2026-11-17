@@ -6,14 +6,18 @@ Prompt maestro: pegado en la sesión del 2026-11-17 (no guardado en el repo)
 
 ## Tareas
 
-| ID  | Título                                                                  | Fase | Estado           | Rama            | Terminal hc    | Notas                                                        |
-| --- | ----------------------------------------------------------------------- | ---- | ---------------- | --------------- | -------------- | ------------------------------------------------------------ |
-| F0  | Setup y contexto                                                        | 0    | aprobado         | main            | —              | PRODUCT.md actualizado; Impeccable v4.9.1                    |
-| F1  | Auditoría (critique, audit, motion, break-ui, capturas)                 | 1    | aprobado         | main            | —              | AUDIT.md: 20 hallazgos; critique 21/32, audit 14/20          |
-| F2  | Dirección visual                                                        | 2    | aprobado         | main            | —              | A "Cuaderno profesional"; DESIGN.md aprobado; commit d7b94a5 |
-| P01 | Prototipos del hero (3 direcciones, HTML en .impeccable/mocks/decision) | 2    | terminado        | — (sin commits) | —              | 1 ronda de correcciones                                      |
-| T01 | Fundaciones (tokens, fuentes, base, assets PWA)                         | 3    | merged (c0dbe15) | —               | —              | 1 ronda de correcciones; checks verdes                       |
-| C01 | Propuesta de copy ES/EN (aprobación del usuario)                        | 4    | en curso         | — (sin commits) | c01-copy (t15) | Solo lectura                                                 |
+| ID  | Título                                                                  | Fase | Estado           | Rama            | Terminal hc  | Notas                                                        |
+| --- | ----------------------------------------------------------------------- | ---- | ---------------- | --------------- | ------------ | ------------------------------------------------------------ |
+| F0  | Setup y contexto                                                        | 0    | aprobado         | main            | —            | PRODUCT.md actualizado; Impeccable v4.9.1                    |
+| F1  | Auditoría (critique, audit, motion, break-ui, capturas)                 | 1    | aprobado         | main            | —            | AUDIT.md: 20 hallazgos; critique 21/32, audit 14/20          |
+| F2  | Dirección visual                                                        | 2    | aprobado         | main            | —            | A "Cuaderno profesional"; DESIGN.md aprobado; commit d7b94a5 |
+| P01 | Prototipos del hero (3 direcciones, HTML en .impeccable/mocks/decision) | 2    | terminado        | — (sin commits) | —            | 1 ronda de correcciones                                      |
+| T01 | Fundaciones (tokens, fuentes, base, assets PWA)                         | 3    | merged (c0dbe15) | —               | —            | 1 ronda de correcciones; checks verdes                       |
+| C01 | Propuesta de copy ES/EN                                                 | 4    | aprobada         | main            | —            | Aprobada con las 3 frases de siguiente paso                  |
+| T02 | Navbar del cuaderno                                                     | 4    | en curso         | ux/T02-navbar   | t02-navbar   | dev 3202 / e2e 3212                                          |
+| T03 | Hero cuaderno abierto + b-button + retiro de three/HUD                  | 4    | en curso         | ux/T03-hero     | t03-hero     | dev 3203 / e2e 3213                                          |
+| T04 | Proyectos y casos                                                       | 4    | en curso         | ux/T04-projects | t04-projects | dev 3204 / e2e 3214                                          |
+| T05 | Sobre mí, stack, trayectoria, contacto, footer, orden de la home        | 4    | pendiente        | —               | —            | Tras el merge de T02–T04                                     |
 
 ## Decisiones
 
