@@ -1,34 +1,30 @@
 import type { Project } from "@/content/projects";
 import type { Locale } from "@/i18n/routing";
 import type { ReactNode } from "react";
+import { cn } from "@/lib/cn";
 
 const styles = {
   frame:
-    "relative flex min-h-64 flex-col justify-between overflow-hidden border border-border-subtle bg-background p-5 font-mono text-[11px] text-navigation sm:p-6",
+    "relative flex min-h-64 flex-col justify-between overflow-hidden border border-border-subtle bg-background p-5 font-mono text-xs text-navigation sm:p-6",
   topLine:
-    "flex items-center justify-between gap-3 border-b border-border-subtle pb-3 text-[10px] uppercase tracking-[0.12em]",
+    "flex items-center justify-between gap-3 border-b border-border-subtle pb-3 text-xs uppercase tracking-[0.12em]",
   node: "flex min-h-16 flex-col justify-center gap-1 border border-control-border bg-control-surface px-2 py-3",
   nodeAccent: "border-accent/60 text-accent",
   arrow: "text-accent",
   footer:
-    "flex flex-wrap items-center justify-between gap-2 border-t border-border-subtle pt-3 text-[10px] uppercase tracking-[0.1em]",
+    "flex flex-wrap items-center justify-between gap-2 border-t border-border-subtle pt-3 text-xs uppercase tracking-[0.1em]",
   secureLanes: "my-6 grid gap-3 sm:grid-cols-2",
   lane: "flex min-h-36 flex-col gap-3 border border-control-border bg-control-surface p-3",
-  laneTitle: "text-[10px] uppercase tracking-[0.12em] text-accent",
+  laneTitle: "text-xs uppercase tracking-[0.12em] text-accent",
   flow: "my-8 grid grid-cols-2 gap-2 sm:grid-cols-4",
 } as const;
 
 type ProjectVisualProps = {
   project: Project;
   locale: Locale;
-  compact?: boolean;
 };
 
-export function ProjectVisual({
-  project,
-  locale,
-  compact = false,
-}: ProjectVisualProps) {
+export function ProjectVisual({ project, locale }: ProjectVisualProps) {
   const alt = project.visual.alt[locale];
   const label = project.visual.label[locale];
   const kind = project.visual.kind;
@@ -37,9 +33,6 @@ export function ProjectVisual({
     <figure className={styles.frame} aria-label={`${label}: ${alt}`}>
       <div className={styles.topLine}>
         <span>{label}</span>
-        <span className="text-accent" aria-hidden="true">
-          {compact ? "// 01–03" : locale === "es" ? "// FLUJO" : "// FLOW"}
-        </span>
       </div>
       {kind === "offline-sync" && <OfflineDiagram locale={locale} />}
       {kind === "secure-transfer" && <TransferDiagram locale={locale} />}
@@ -59,7 +52,9 @@ export function ProjectVisual({
                 : "INPUT → VALIDATION → PLAN"}
         </span>
         <span className="text-muted-foreground">
-          {locale === "es" ? "Esquema explicativo" : "Explanatory diagram"}
+          {locale === "es"
+            ? "Diagrama, no captura"
+            : "Diagram, not a screenshot"}
         </span>
       </figcaption>
     </figure>
@@ -88,7 +83,7 @@ function OfflineDiagram({ locale }: { locale: Locale }) {
 
   return (
     <div
-      className="my-8 grid gap-3 sm:grid-cols-[1fr_auto_1fr] sm:items-center"
+      className="my-8 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:gap-3"
       role="group"
       aria-label={
         locale === "es"
@@ -144,8 +139,10 @@ function TransferDiagram({ locale }: { locale: Locale }) {
       <div className={styles.lane}>
         <span className={styles.laneTitle}>{labels.client}</span>
         <DiagramNode>{labels.send}</DiagramNode>
+        {/* Points at the server lane: below it when stacked, beside it from sm. */}
         <span className={styles.arrow} aria-hidden="true">
-          ↓
+          <span className="sm:hidden">↓</span>
+          <span className="hidden sm:block sm:text-right">→</span>
         </span>
       </div>
       <div className={styles.lane}>
@@ -189,13 +186,16 @@ function ClassroomDiagram({ locale }: { locale: Locale }) {
       {labels.map((label, index) => (
         <div className="flex min-w-0 items-center gap-2" key={label}>
           <DiagramNode accent={index === 1 || index === 3}>
-            <span className="text-[9px] text-muted-foreground">
-              0{index + 1}
-            </span>
+            <span className="text-xs text-muted-foreground">0{index + 1}</span>
             {label}
           </DiagramNode>
           {index < labels.length - 1 && (
-            <span className={styles.arrow} aria-hidden="true">
+            // In the two-column layout the second step ends its row, so its
+            // arrow would point at nothing; the step numbers carry the order.
+            <span
+              className={cn(styles.arrow, index === 1 && "hidden sm:inline")}
+              aria-hidden="true"
+            >
               →
             </span>
           )}

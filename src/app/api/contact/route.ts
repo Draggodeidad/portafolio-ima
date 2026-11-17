@@ -1,26 +1,14 @@
 import { CloudflareEmailAdapter } from "@/lib/contact/adapters/cloudflare";
+import { readContactProvider } from "@/lib/contact/provider";
 import { validateContact } from "@/lib/contact/validation";
 
 const MAX_BYTES = 16 * 1024;
 
 export async function POST(request: Request) {
-  const {
-    CF_WORKER_URL: url,
-    CF_WORKER_AUTH_SECRET: secret,
-    CONTACT_IP_HEADER: ipHeader,
-  } = process.env;
-  if (
-    !url ||
-    !secret ||
-    !ipHeader ||
-    !["cf-connecting-ip", "x-vercel-forwarded-for"].includes(ipHeader)
-  )
+  const provider = readContactProvider();
+  if (!provider)
     return Response.json({ error: "unavailable" }, { status: 503 });
-  try {
-    if (new URL(url).protocol !== "https:") throw new Error();
-  } catch {
-    return Response.json({ error: "unavailable" }, { status: 503 });
-  }
+  const { workerUrl: url, authSecret: secret, ipHeader } = provider;
   const ip = request.headers.get(ipHeader)?.trim();
   if (!ip || ip.length > 64 || !/^[0-9a-fA-F:.]+$/.test(ip))
     return Response.json({ error: "unavailable" }, { status: 503 });

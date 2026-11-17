@@ -1,10 +1,21 @@
-import { Braces, Database, Layers3, Wrench } from "lucide-react";
+import {
+  ArrowUpRight,
+  Braces,
+  Database,
+  Download,
+  Layers3,
+  Mail,
+  Wrench,
+} from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/layout/container";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { ContactForm } from "@/components/sections/contact-form";
+import { CopyEmailButton } from "@/components/contact/copy-email-button";
+import { Button } from "@/components/ui/b-button";
 import type { Locale } from "@/i18n/routing";
 import {
+  getSkillName,
   profile,
   publishedExperienceEntries,
   skillGroups,
@@ -22,7 +33,7 @@ const styles = {
     "max-w-xl text-xl font-medium leading-8 text-foreground sm:text-2xl sm:leading-9",
   aboutBody: "max-w-2xl space-y-4 text-base leading-7 text-muted-foreground",
   personalNote:
-    "inline-flex items-center gap-2 border-l-2 border-accent pl-4 text-sm text-navigation",
+    "inline-flex items-center gap-2 border-l border-accent pl-4 text-sm text-navigation",
   skillGrid: "grid gap-4 sm:grid-cols-2",
   skillCard: "min-w-0 border border-border-subtle bg-surface p-5 sm:p-6",
   skillHeader: "mb-5 flex items-center gap-3",
@@ -33,7 +44,7 @@ const styles = {
   skill: "border-t border-border-subtle pt-4 first:border-0 first:pt-0",
   skillNameRow: "flex flex-wrap items-center justify-between gap-2",
   skillName: "font-medium text-foreground",
-  evidence: "font-mono text-[10px] uppercase tracking-[0.08em] text-navigation",
+  evidence: "font-mono text-xs uppercase tracking-[0.08em] text-navigation",
   skillContext: "mt-1.5 text-sm leading-6 text-muted-foreground",
   timeline: "relative ml-2 space-y-8 border-l border-border-subtle pl-7",
   timelineEntry:
@@ -46,12 +57,15 @@ const styles = {
   timelinePeriod: "font-mono text-xs text-navigation",
   timelineDescription: "m-0 text-sm leading-6 text-muted-foreground",
   contactGrid:
-    "grid gap-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-12",
-  contactCopy: "space-y-6",
+    "grid gap-10 lg:gap-12 lg:has-[form]:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]",
+  contactDirect: "flex max-w-2xl flex-col items-start gap-8",
   contactLead: "m-0 max-w-lg text-lg leading-8 text-muted-foreground",
-  socialList: "flex flex-wrap gap-3",
+  emailRow: "flex flex-wrap items-start gap-x-2 gap-y-3",
+  emailAction: "min-h-12 max-w-full !rounded-none px-5 text-base font-semibold",
+  cvAction: "min-h-11 !rounded-none px-4 text-sm font-semibold",
+  socialList: "flex flex-wrap gap-x-6 gap-y-1",
   socialLink:
-    "inline-flex min-h-11 items-center gap-2 border border-border-subtle bg-surface px-4 text-sm font-medium text-foreground transition-colors hover:border-accent/60 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+    "inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-navigation underline-offset-4 transition-colors hover:text-accent hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent",
   footer: "py-8",
   footerInner:
     "flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between",
@@ -130,9 +144,14 @@ export async function StackSection({ locale }: ProfileSectionsProps) {
                 </header>
                 <ul className={styles.skillList}>
                   {groupSkills.map((skill) => (
-                    <li className={styles.skill} key={skill.name}>
+                    <li
+                      className={styles.skill}
+                      key={getSkillName(skill, "es")}
+                    >
                       <div className={styles.skillNameRow}>
-                        <span className={styles.skillName}>{skill.name}</span>
+                        <span className={styles.skillName}>
+                          {getSkillName(skill, locale)}
+                        </span>
                         <span className={styles.evidence}>
                           {t(`evidence.${skill.evidence}`)}
                         </span>
@@ -209,17 +228,44 @@ export async function ContactSection({ locale }: ProfileSectionsProps) {
           title={t("heading")}
         />
         <div className={styles.contactGrid}>
-          <div className={styles.contactCopy}>
+          <div className={styles.contactDirect}>
             <p className={styles.contactLead}>{t("intro")}</p>
             {profile.email ? (
-              <p>
-                <a
-                  className={styles.footerLink}
+              <div className={styles.emailRow}>
+                <Button
+                  className={styles.emailAction}
+                  disableRipple
                   href={`mailto:${profile.email}`}
+                  icon={<Mail size={18} aria-hidden="true" />}
+                  size="lg"
                 >
                   {profile.email}
-                </a>
-              </p>
+                </Button>
+                <CopyEmailButton
+                  email={profile.email}
+                  copy={{
+                    idle: t("copyEmail"),
+                    done: t("copyEmailDone"),
+                    failed: t("copyEmailFailed", { email: profile.email }),
+                  }}
+                />
+              </div>
+            ) : null}
+            {cv ? (
+              <Button
+                className={styles.cvAction}
+                disableRipple
+                download
+                href={cv.href}
+                icon={<Download size={16} aria-hidden="true" />}
+                size="lg"
+                variant="outline"
+              >
+                {t("cvLink", {
+                  language: t(`cvLanguages.${cv.locale}`),
+                  format: cv.format,
+                })}
+              </Button>
             ) : null}
             <nav className={styles.socialList} aria-label={t("socialLabel")}>
               <a
@@ -229,6 +275,7 @@ export async function ContactSection({ locale }: ProfileSectionsProps) {
                 rel="noreferrer"
               >
                 GitHub
+                <ArrowUpRight size={14} aria-hidden="true" />
               </a>
               <a
                 className={styles.socialLink}
@@ -237,15 +284,8 @@ export async function ContactSection({ locale }: ProfileSectionsProps) {
                 rel="noreferrer"
               >
                 LinkedIn
+                <ArrowUpRight size={14} aria-hidden="true" />
               </a>
-              {cv ? (
-                <a className={styles.socialLink} href={cv.href} download>
-                  {t("cvLink", {
-                    language: t(`cvLanguages.${cv.locale}`),
-                    format: cv.format,
-                  })}
-                </a>
-              ) : null}
             </nav>
           </div>
 
@@ -257,7 +297,6 @@ export async function ContactSection({ locale }: ProfileSectionsProps) {
               emailLabel: t("emailLabel"),
               messageLabel: t("messageLabel"),
               submit: t("submit"),
-              providerPending: t("providerPending"),
               submitting: t("submitting"),
               success: t("success"),
               errorGeneric: t("errorGeneric"),

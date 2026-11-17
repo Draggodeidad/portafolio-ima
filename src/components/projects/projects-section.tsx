@@ -1,9 +1,4 @@
-import {
-  ArrowDownRight,
-  ArrowUpRight,
-  Code2,
-  ExternalLink,
-} from "lucide-react";
+import { ArrowRight, Code2, ExternalLink } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/layout/container";
 import { Link } from "@/i18n/navigation";
@@ -18,26 +13,28 @@ const styles = {
     "scroll-mt-[calc(var(--nav-height)+16px)] border-y border-border-subtle bg-project-canvas py-16 sm:py-20 lg:py-24",
   headingRow:
     "mb-9 flex flex-col gap-5 border-b border-border-subtle pb-6 lg:mb-8 lg:flex-row lg:items-end lg:justify-between",
-  eyebrow: "mb-2 font-mono text-[11px] uppercase tracking-[0.11em] text-accent",
+  eyebrow: "mb-2 font-mono text-xs uppercase tracking-[0.11em] text-accent",
   title:
     "font-display text-[clamp(1.8rem,4vw,2.5rem)] font-bold leading-tight tracking-[-0.035em] text-foreground",
   index:
-    "flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.1em] text-navigation",
+    "flex items-center gap-2 font-mono text-xs uppercase tracking-[0.1em] text-navigation",
   feature:
     "relative grid gap-7 border border-border-subtle bg-surface p-5 shadow-[0_20px_25px_-5px_rgb(0_0_0/0.1)] sm:p-7 lg:grid-cols-12 lg:gap-8 lg:p-8",
   featureCopy: "flex min-w-0 flex-col items-start lg:col-span-7",
   badge:
-    "mb-4 inline-flex items-center gap-2 border border-border-subtle bg-control-surface px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.09em] text-accent",
+    "mb-4 inline-flex items-center gap-2 border border-border-subtle bg-control-surface px-3 py-1.5 font-mono text-xs uppercase tracking-[0.09em] text-accent",
   dot: "size-1.5 rounded-full bg-accent",
+  featureStatus:
+    "mt-5 flex items-start gap-2 font-mono text-xs uppercase leading-4 tracking-[0.08em] text-navigation",
   projectTitle:
     "mb-3 font-display text-[clamp(1.75rem,4vw,2.55rem)] font-bold leading-tight tracking-[-0.035em] text-foreground",
   body: "max-w-2xl text-[15px] leading-7 text-muted-foreground",
   contribution:
-    "mt-5 border-l-2 border-accent bg-background/40 px-4 py-3 text-[13px] leading-6 text-navigation",
+    "mt-5 border-l border-accent bg-background/40 px-4 py-3 text-[13px] leading-6 text-navigation",
   contributionLabel:
-    "mb-1 block font-mono text-[10px] uppercase tracking-[0.1em] text-foreground",
+    "mb-1 block font-mono text-xs uppercase tracking-[0.1em] text-foreground",
   tags: "mt-5 flex flex-wrap gap-2",
-  tag: "border border-border-subtle bg-control-surface px-2 py-1 font-mono text-[10px] text-foreground",
+  tag: "border border-border-subtle bg-control-surface px-2 py-1 font-mono text-xs text-foreground",
   visual: "min-w-0 lg:col-span-5",
   featureActions:
     "mt-6 flex w-full flex-wrap items-center gap-3 border-t border-border-subtle pt-5",
@@ -49,7 +46,7 @@ const styles = {
   smallCard:
     "flex min-w-0 flex-col border border-border-subtle bg-surface p-5 sm:p-6",
   smallMeta:
-    "mb-3 flex items-center justify-between gap-3 font-mono text-[10px] uppercase tracking-[0.09em] text-navigation",
+    "mb-3 flex items-center justify-between gap-3 font-mono text-xs uppercase tracking-[0.09em] text-navigation",
   smallTitle:
     "mb-2 font-display text-[1.6rem] font-bold tracking-[-0.03em] text-foreground",
   smallBody: "mb-5 text-sm leading-6 text-muted-foreground",
@@ -84,7 +81,7 @@ export async function ProjectsSection({ locale }: ProjectsSectionProps) {
             </h2>
           </div>
           <p className={styles.index}>
-            <span>{t("index")}</span>
+            <span>{t("index", { count: projects.length })}</span>
             <span aria-hidden="true" className="text-accent">
               {"///"}
             </span>
@@ -101,7 +98,7 @@ export async function ProjectsSection({ locale }: ProjectsSectionProps) {
               {t("featuredLabel")} · {featured.type[locale]}
             </span>
             <h3 className={styles.projectTitle} id={`project-${featured.id}`}>
-              {featured.name}
+              {featured.name[locale]}
             </h3>
             <p className={styles.body}>{featured.summary[locale]}</p>
             <p className={styles.contribution}>
@@ -109,6 +106,13 @@ export async function ProjectsSection({ locale }: ProjectsSectionProps) {
                 {t("contribution")}
               </span>
               {featured.contribution?.[locale]}
+            </p>
+            <p className={styles.featureStatus}>
+              <span
+                className={cn(styles.dot, "mt-[5px] shrink-0")}
+                aria-hidden="true"
+              />
+              {featured.status[locale]}
             </p>
             <ul className={styles.tags} aria-label={t("technologyList")}>
               {featured.technologies.map((technology) => (
@@ -122,8 +126,7 @@ export async function ProjectsSection({ locale }: ProjectsSectionProps) {
                 className={styles.internalLink}
                 href={`/proyectos/${featured.slug}`}
               >
-                {t("exploreCase")}{" "}
-                <ArrowDownRight size={16} aria-hidden="true" />
+                {t("exploreCase")} <ArrowRight size={16} aria-hidden="true" />
               </Link>
               {featured.demo && (
                 <Button
@@ -159,10 +162,6 @@ export async function ProjectsSection({ locale }: ProjectsSectionProps) {
               >
                 {t("viewCode")}
               </Button>
-              <span className="ml-auto flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.08em] text-navigation">
-                <span className={styles.dot} aria-hidden="true" />
-                {featured.status[locale]}
-              </span>
             </div>
           </div>
           <div className={styles.visual}>
@@ -171,7 +170,7 @@ export async function ProjectsSection({ locale }: ProjectsSectionProps) {
         </article>
 
         <div className={styles.smallGrid}>
-          {secondary.map((project, index) => (
+          {secondary.map((project) => (
             <article
               className={styles.smallCard}
               aria-labelledby={`project-${project.id}`}
@@ -179,18 +178,15 @@ export async function ProjectsSection({ locale }: ProjectsSectionProps) {
             >
               <div className={styles.smallMeta}>
                 <span className="text-accent">{project.type[locale]}</span>
-                <span>
-                  {t("record", { number: String(index + 2).padStart(2, "0") })}
-                </span>
               </div>
               <h3 className={styles.smallTitle} id={`project-${project.id}`}>
-                {project.name}
+                {project.name[locale]}
               </h3>
               <p className={styles.smallBody}>{project.summary[locale]}</p>
               <div className={styles.smallVisual}>
-                <ProjectVisual project={project} locale={locale} compact />
+                <ProjectVisual project={project} locale={locale} />
               </div>
-              <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.08em] text-navigation">
+              <p className="mb-4 font-mono text-xs uppercase tracking-[0.08em] text-navigation">
                 {project.status[locale]}
               </p>
               <ul className={styles.tags} aria-label={t("technologyList")}>
@@ -205,8 +201,7 @@ export async function ProjectsSection({ locale }: ProjectsSectionProps) {
                   className={cn(styles.smallExplore, "mr-auto")}
                   href={`/proyectos/${project.slug}`}
                 >
-                  {t("exploreCase")}{" "}
-                  <ArrowUpRight size={16} aria-hidden="true" />
+                  {t("exploreCase")} <ArrowRight size={16} aria-hidden="true" />
                 </Link>
                 <Button
                   className={styles.secondaryButton}

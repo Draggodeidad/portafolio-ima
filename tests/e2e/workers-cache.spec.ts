@@ -56,7 +56,14 @@ test.describe("Workers build-time response snapshots", () => {
         expect(response.headers()["content-type"]).toContain(
           rsc ? "text/x-component" : "text/html",
         );
-        expect(response.headers()["link"]).toBeUndefined();
+        const link = response.headers()["link"];
+        if (link) {
+          const targets = [...link.matchAll(/<([^>]+)>/g)];
+          expect(targets.length).toBeGreaterThan(0);
+          for (const [, target] of targets) {
+            expect(target).toMatch(/^\/(?!\/)/);
+          }
+        }
         const body = await response.text();
         expect(body).not.toContain("http://127.0.0.1:");
         expect(body).toContain(

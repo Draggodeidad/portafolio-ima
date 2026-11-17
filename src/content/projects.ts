@@ -16,7 +16,9 @@ export type Project = {
   slug: string;
   order: number;
   featured: boolean;
-  name: string;
+  name: LocalizedCopy;
+  /** Compact name for tight UI such as the hero area selector. */
+  shortName: string;
   summary: LocalizedCopy;
   type: LocalizedCopy;
   status: LocalizedCopy;
@@ -45,7 +47,11 @@ export const projects = [
     slug: "pwa-utt",
     order: 1,
     featured: true,
-    name: "PWA UTT — Inspecciones de laboratorios",
+    name: {
+      es: "PWA UTT — Inspecciones de laboratorios",
+      en: "PWA UTT — Lab inspections",
+    },
+    shortName: "PWA UTT",
     summary: {
       es: "Aplicación académica para registrar inspecciones de laboratorio, conservar cambios sin conexión y sincronizarlos cuando vuelve la red.",
       en: "An academic application for recording lab inspections, keeping changes while offline, and syncing them when the network returns.",
@@ -55,8 +61,8 @@ export const projects = [
       en: "Progressive web application",
     },
     status: {
-      es: "Proyecto académico · la demo abre en acceso",
-      en: "Academic project · the demo opens at sign-in",
+      es: "Proyecto académico · la demo requiere iniciar sesión",
+      en: "Academic project · the demo requires sign-in",
     },
     technologies: ["Next.js", "TypeScript", "Supabase", "IndexedDB"],
     repository: "https://github.com/Draggodeidad/pwa-utt",
@@ -152,7 +158,8 @@ export const projects = [
     slug: "secure-transfer",
     order: 2,
     featured: false,
-    name: "Secure Transfer",
+    name: { es: "Secure Transfer", en: "Secure Transfer" },
+    shortName: "Secure Transfer",
     summary: {
       es: "Backend para empaquetar transferencias de archivos con cifrado de contenido y comprobaciones criptográficas descritas en el código.",
       en: "A backend for packaging file transfers with encrypted content and cryptographic checks described in the code.",
@@ -237,15 +244,16 @@ export const projects = [
     slug: "classroom-github",
     order: 3,
     featured: false,
-    name: "Classroom → GitHub",
+    name: { es: "Classroom → GitHub", en: "Classroom → GitHub" },
+    shortName: "Classroom → GitHub",
     summary: {
       es: "Workflow n8n que convierte actividades de Classroom y materiales de Drive en un plan validado de GitHub Issues.",
       en: "An n8n workflow that turns Classroom assignments and Drive materials into a validated GitHub Issues plan.",
     },
     type: { es: "Automatización n8n", en: "n8n automation" },
     status: {
-      es: "Workflow importable · inactivo y orientado a dry-run",
-      en: "Importable workflow · inactive and designed for dry runs",
+      es: "Workflow importable · inactivo, configurado para simular sin escribir en GitHub",
+      en: "Importable workflow · inactive, set to simulate without writing to GitHub",
     },
     technologies: ["n8n", "Google Classroom API", "Google Drive", "GitHub API"],
     repository: "https://github.com/Draggodeidad/automation-classrom",

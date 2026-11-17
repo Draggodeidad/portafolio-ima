@@ -1,4 +1,20 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
+
+// Simulates a configured provider so the form renders; the Turnstile stub
+// never issues a token, so nothing can be submitted.
+async function offerContactForm(page: Page) {
+  await page.route("**/api/contact/config", (route) =>
+    route.fulfill({ json: { siteKey: "local-test" } }),
+  );
+  await page.route(
+    "https://challenges.cloudflare.com/turnstile/v0/api.js?**",
+    (route) =>
+      route.fulfill({
+        contentType: "application/javascript",
+        body: "window.turnstile = { render: () => 'widget', reset: () => {}, remove: () => {} };",
+      }),
+  );
+}
 
 for (const locale of ["es", "en"] as const) {
   test(`${locale}: profile sections, stack, footer, and navigation are localized`, async ({
@@ -14,7 +30,7 @@ for (const locale of ["es", "en"] as const) {
             contact: "Contacto",
             backend: "Backend",
             experience: "Trayectoria",
-            pending: "El envío está deshabilitado",
+            copyEmail: "Copiar correo",
           }
         : {
             about: "About",
@@ -22,7 +38,7 @@ for (const locale of ["es", "en"] as const) {
             contact: "Contact",
             backend: "Backend",
             experience: "Experience",
-            pending: "Sending is disabled",
+            copyEmail: "Copy email",
           };
 
     await expect(page.locator("#sobre-mi h2")).toBeVisible();
@@ -54,19 +70,20 @@ for (const locale of ["es", "en"] as const) {
 
     await expect(page.locator("#stack")).toContainText(copy.backend);
     await expect(page.locator("#stack")).toContainText(
-      locale === "es" ? "En proyecto" : "In a project",
+      locale === "es" ? "Herramientas cloud-native" : "Cloud-native tools",
     );
     await expect(page.locator("#stack")).toContainText(
-      locale === "es" ? "Declarado" : "Declared",
+      locale === "es" ? "Usado en un proyecto" : "Used in a project",
     );
-    await expect(page.locator("#contacto [role=status]")).toContainText(
-      copy.pending,
+    await expect(page.locator("#stack")).toContainText(
+      locale === "es" ? "Sin caso publicado" : "No published case",
     );
+    // Without a configured provider the form is not offered; the direct
+    // routes carry the section.
+    await expect(page.locator("#contacto form")).toHaveCount(0);
     await expect(
-      page.getByRole("button", {
-        name: locale === "es" ? "Enviar mensaje" : "Send message",
-      }),
-    ).toBeDisabled();
+      page.locator("#contacto").getByRole("button", { name: copy.copyEmail }),
+    ).toBeVisible();
     await expect(
       page.locator("#contacto a[href='mailto:antonioimanol7@gmail.com']"),
     ).toBeVisible();
@@ -77,19 +94,17 @@ for (const locale of ["es", "en"] as const) {
     await expect(page.locator("footer")).toContainText(
       "Imanol Antonio De la Cruz",
     );
-
-    const fields =
-      locale === "es"
-        ? ["Nombre", "Correo electrónico", "Mensaje"]
-        : ["Name", "Email address", "Message"];
-    for (const label of fields)
-      await expect(page.getByLabel(label, { exact: true })).toBeVisible();
   });
 
   test(`${locale}: invalid fields expose localized accessible errors`, async ({
     page,
   }) => {
+    await offerContactForm(page);
     await page.goto(`/${locale}#contacto`);
+    for (const label of locale === "es"
+      ? ["Nombre", "Correo electrónico", "Mensaje"]
+      : ["Name", "Email address", "Message"])
+      await expect(page.getByLabel(label, { exact: true })).toBeVisible();
     const name = page.getByLabel(locale === "es" ? "Nombre" : "Name", {
       exact: true,
     });
@@ -142,28 +157,16 @@ test("published CV is served as a PDF", async ({ request }) => {
   expect(response.headers()["content-type"]).toContain("application/pdf");
 });
 
-test("contact form does not submit until a service is configured", async ({
+test("contact form stays hidden until a service is configured", async ({
   page,
 }) => {
+  const config = page.waitForResponse("**/api/contact/config");
   await page.goto("/en#contacto");
-  await page.getByLabel("Name", { exact: true }).fill("Recruiter");
-  await page
-    .getByLabel("Email address", { exact: true })
-    .fill("recruiter@example.com");
-  await page
-    .getByLabel("Message", { exact: true })
-    .fill("A valid message body.");
-
-  const submissionWasCanceled = await page
-    .locator("#contacto form")
-    .evaluate(
-      (form) =>
-        !form.dispatchEvent(
-          new SubmitEvent("submit", { bubbles: true, cancelable: true }),
-        ),
-    );
-  expect(submissionWasCanceled).toBe(true);
-  await expect(page).toHaveURL(/\/en#contacto$/);
+  expect(await (await config).json()).toEqual({ siteKey: null });
+  await expect(page.locator("#contacto form")).toHaveCount(0);
+  await expect(
+    page.locator("#contacto a[href='mailto:antonioimanol7@gmail.com']"),
+  ).toBeVisible();
 });
 
 test("profile sections have no horizontal overflow and honor reduced motion", async ({
