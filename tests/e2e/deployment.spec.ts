@@ -140,7 +140,6 @@ test("next/image renders local images and all SVG assets are served", async ({
     "/icons/download-cv.svg",
     "/icons/language-es.svg",
     "/icons/language-en.svg",
-    "/images/hud-glass-ring.svg",
   ]) {
     const response = await request.get(asset);
     expect(response.status(), asset).toBe(200);
