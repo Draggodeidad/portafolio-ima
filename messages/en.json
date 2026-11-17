@@ -58,7 +58,10 @@
   },
   "Projects": {
     "heading": "Projects and decisions",
-    "exploreCase": "View case study"
+    "exploreCase": "View case study",
+    "contribution": "My contribution",
+    "queue": "A queue sends changes when connectivity returns",
+    "conflicts": "Explicit version conflicts"
   },
   "Studies": {
     "back": "Back to projects",

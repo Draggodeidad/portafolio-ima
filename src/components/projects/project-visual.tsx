@@ -47,10 +47,22 @@ export function ProjectVisual({
               "Registry and GitHub",
               "Issue plan",
             ];
+  const direction =
+    project.visual.kind === "offline-sync"
+      ? locale === "es"
+        ? "Local a servidor"
+        : "Local to server"
+      : project.visual.kind === "secure-transfer"
+        ? locale === "es"
+          ? "Cliente a almacenamiento"
+          : "Client to storage"
+        : locale === "es"
+          ? "Entrada a plan de issues"
+          : "Input to issue plan";
   return (
     <figure className={styles.figure} aria-label={project.visual.alt[locale]}>
       <figcaption className={styles.caption}>
-        {locale === "es" ? "Diagrama" : "Diagram"}
+        {locale === "es" ? "Diagrama" : "Diagram"} · {direction}
       </figcaption>
       <div className={`${styles.flow} ${ink.flow}`}>
         {labels.map((label, index) => (
@@ -65,7 +77,7 @@ export function ProjectVisual({
                 <path
                   className={ink.inkStroke}
                   pathLength={1}
-                  d="M12 2c-.5 6 .4 12 0 19m-6-6 6 6 6-6"
+                  d="M11.2 2.5c1.1 5.7-.7 10.6.8 18M6 15.2c2.1 1.1 4.2 3.5 6 5.3 2-2.1 4-4.2 6.2-5.9"
                   stroke="currentColor"
                   strokeWidth="2.2"
                   strokeLinecap="round"

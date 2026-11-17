@@ -7,15 +7,16 @@ import { ProjectVisual } from "./project-visual";
 import { ProjectScreenshots } from "./project-screenshots";
 
 const styles = {
-  section: "bg-paper py-20 text-graphite",
+  section: "bg-desk py-20 text-graphite",
   title: "mb-10 text-h2",
   feature:
-    "grid min-w-0 gap-8 border-y border-ruled-line py-10 lg:grid-cols-2 lg:items-center",
+    "relative grid min-w-0 gap-8 border border-page-edge bg-paper py-10 pl-12 pr-5 [background-image:var(--paper-grid)] [background-size:var(--grid-cell)_var(--grid-cell)] before:absolute before:inset-y-0 before:left-5 before:w-0.5 before:bg-margin-red sm:pl-16 sm:pr-10 sm:before:left-8 lg:grid-cols-2 lg:items-center",
   heading: "mb-4 text-h3 [overflow-wrap:anywhere]",
   body: "max-w-[65ch] text-body text-graphite-soft",
-  action: "mt-5 min-h-12 text-ink",
+  action:
+    "mt-5 min-h-12 underline decoration-ink decoration-2 underline-offset-4",
   secondary: "grid gap-10 pt-10 md:grid-cols-2",
-  card: "flex min-w-0 flex-col gap-5 border-b border-page-edge pb-8",
+  card: "relative flex min-w-0 flex-col gap-5 border border-page-edge bg-paper py-8 pl-12 pr-5 [background-image:var(--paper-grid)] [background-size:var(--grid-cell)_var(--grid-cell)] before:absolute before:inset-y-0 before:left-5 before:w-0.5 before:bg-margin-red sm:pl-16 sm:pr-8 sm:before:left-8",
 } as const;
 
 export async function ProjectsSection({ locale }: { locale: Locale }) {
@@ -42,9 +43,52 @@ export async function ProjectsSection({ locale }: { locale: Locale }) {
               {featured.name[locale]}
             </h3>
             <p className={styles.body}>{featured.summary[locale]}</p>
+            {featured.contribution && (
+              <div className="mt-6 flex max-w-[55ch] items-start gap-3 text-body">
+                <svg
+                  className="mt-1 size-5 shrink-0 text-ink"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M3 12.5c2 1.4 3.4 3.1 5.5 5C12 12.8 16.2 8.3 21 4.5"
+                    stroke="currentColor"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                <p>
+                  <strong>{t("contribution")}: </strong>
+                  {featured.contribution[locale]}
+                </p>
+              </div>
+            )}
+            <ul className="mt-6 grid gap-3 text-label text-ink">
+              {[t("queue"), t("conflicts")].map((annotation) => (
+                <li className="flex items-start gap-2" key={annotation}>
+                  <svg
+                    className="mt-0.5 h-5 w-8 shrink-0"
+                    viewBox="0 0 32 20"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M2 15C10 14 18 12 28 5M21 5c3-.4 5-.6 7 0-.2 2.5-.8 4.5-1.8 6.6"
+                      stroke="currentColor"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  {annotation}
+                </li>
+              ))}
+            </ul>
             <Button
               className={styles.action}
-              variant="link"
+              variant="outline"
               href={`/${locale}/proyectos/${featured.slug}`}
               disableRipple
             >
@@ -72,7 +116,7 @@ export async function ProjectsSection({ locale }: { locale: Locale }) {
                 <div className="mt-auto">
                   <Button
                     className={styles.action}
-                    variant="link"
+                    variant="outline"
                     href={`/${locale}/proyectos/${project.slug}`}
                     disableRipple
                   >

@@ -58,7 +58,10 @@
   },
   "Projects": {
     "heading": "Proyectos y decisiones",
-    "exploreCase": "Ver caso"
+    "exploreCase": "Ver caso",
+    "contribution": "Mi aportación",
+    "queue": "Una cola envía cambios al volver la conexión",
+    "conflicts": "Conflictos de versión explícitos"
   },
   "Studies": {
     "back": "Volver a proyectos",

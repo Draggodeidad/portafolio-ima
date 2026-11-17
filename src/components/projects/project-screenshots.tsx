@@ -38,7 +38,10 @@ export function ProjectScreenshots({
   return (
     <div className={featured ? "" : styles.gallery}>
       {(featured ? screenshots.slice(0, 1) : screenshots).map((shot) => (
-        <figure className={styles.figure} key={shot.file}>
+        <figure
+          className={`${styles.figure} ${!featured && shot.file === "sincronizacion" ? "sm:col-span-2" : ""}`}
+          key={shot.file}
+        >
           <span className={styles.tape} aria-hidden="true" />
           <Image
             className={styles.image}
@@ -49,7 +52,9 @@ export function ProjectScreenshots({
             sizes={
               featured
                 ? "(min-width: 1024px) 45vw, 90vw"
-                : "(min-width: 640px) 40vw, 90vw"
+                : shot.file === "sincronizacion"
+                  ? "(min-width: 1280px) 1100px, 90vw"
+                  : "(min-width: 640px) 45vw, 90vw"
             }
           />
           <figcaption className={styles.caption}>
