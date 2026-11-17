@@ -1,0 +1,142 @@
+[
+  {
+    "foreground": "graphite",
+    "background": "paper",
+    "ratio": 14.52,
+    "passes": "AA text",
+    "computed": 14.52
+  },
+  {
+    "foreground": "graphite",
+    "background": "desk",
+    "ratio": 12.25,
+    "passes": "AA text",
+    "computed": 12.25
+  },
+  {
+    "foreground": "graphite",
+    "background": "highlighter",
+    "ratio": 13.12,
+    "passes": "AA text",
+    "computed": 13.12
+  },
+  {
+    "foreground": "graphite",
+    "background": "print",
+    "ratio": 15.72,
+    "passes": "AA text",
+    "computed": 15.72
+  },
+  {
+    "foreground": "graphite-soft",
+    "background": "paper",
+    "ratio": 7,
+    "passes": "AA text",
+    "computed": 7
+  },
+  {
+    "foreground": "graphite-soft",
+    "background": "desk",
+    "ratio": 5.91,
+    "passes": "AA text",
+    "computed": 5.91
+  },
+  {
+    "foreground": "graphite-soft",
+    "background": "grid-line",
+    "ratio": 5.43,
+    "passes": "AA text",
+    "computed": 5.43
+  },
+  {
+    "foreground": "ink",
+    "background": "paper",
+    "ratio": 9.31,
+    "passes": "AA text",
+    "computed": 9.31
+  },
+  {
+    "foreground": "ink",
+    "background": "desk",
+    "ratio": 7.85,
+    "passes": "AA text",
+    "computed": 7.85
+  },
+  {
+    "foreground": "ink",
+    "background": "grid-line",
+    "ratio": 7.22,
+    "passes": "AA text",
+    "computed": 7.22
+  },
+  {
+    "foreground": "print",
+    "background": "ink",
+    "ratio": 10.07,
+    "passes": "AA text",
+    "computed": 10.07
+  },
+  {
+    "foreground": "print",
+    "background": "ink-deep",
+    "ratio": 12.2,
+    "passes": "AA text",
+    "computed": 13.2
+  },
+  {
+    "foreground": "ink-deep",
+    "background": "paper",
+    "ratio": 12.2,
+    "passes": "AA text",
+    "computed": 12.2
+  },
+  {
+    "foreground": "error",
+    "background": "paper",
+    "ratio": 6.71,
+    "passes": "AA text",
+    "computed": 6.71
+  },
+  {
+    "foreground": "error",
+    "background": "desk",
+    "ratio": 5.65,
+    "passes": "AA text",
+    "computed": 5.65
+  },
+  {
+    "foreground": "success",
+    "background": "paper",
+    "ratio": 6.02,
+    "passes": "AA text",
+    "computed": 6.02
+  },
+  {
+    "foreground": "success",
+    "background": "desk",
+    "ratio": 5.07,
+    "passes": "AA text",
+    "computed": 5.07
+  },
+  {
+    "foreground": "rule-strong",
+    "background": "paper",
+    "ratio": 3.32,
+    "passes": "non-text 3:1 only",
+    "computed": 3.32
+  },
+  {
+    "foreground": "margin-red",
+    "background": "paper",
+    "ratio": 4.17,
+    "passes": "non-text 3:1 only",
+    "computed": 4.17
+  },
+  {
+    "foreground": "grid-line",
+    "background": "paper",
+    "ratio": 1.29,
+    "passes": "decorative only",
+    "computed": 1.29
+  }
+]

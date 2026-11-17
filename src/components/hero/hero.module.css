@@ -219,7 +219,7 @@
 @supports (backdrop-filter: blur(1px)) {
   @media (min-width: 768px) {
     .glass {
-      background: rgb(26 28 30 / 90%);
+      background: var(--portfolio-header-glass);
       backdrop-filter: blur(var(--glass-blur));
     }
   }

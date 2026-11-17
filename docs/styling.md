@@ -24,7 +24,7 @@ Use CVA only for a reusable component that has meaningful variants. Keep the bas
 
 ## CSS Modules
 
-Use a component CSS Module for effects that are clearer as scoped CSS, including pseudo-elements, HUD signal effects, glass surfaces, `@supports` rules, and effect-specific fallbacks. Keep structural layout and responsive utilities in Tailwind. The navbar's liquid glass surface is isolated in `navbar-glass.module.css`, with an opaque fallback and blur enhancement under `@supports`.
+Use a component CSS Module for effects that are clearer as scoped CSS, including pseudo-elements, HUD signal effects, glass surfaces, `@supports` rules, and effect-specific fallbacks. Keep structural layout and responsive utilities in Tailwind. Legacy glass surfaces remain isolated in CSS Modules, but their shared tokens are opaque and flat during migration.
 
 Preserve keyboard focus, reduced-motion behavior, readable contrast, and functionality when decorative effects are unavailable. Do not add client boundaries solely to organize styles.
 
@@ -36,7 +36,7 @@ Stage 4 project content stays in server-rendered components and a typed local da
 
 Stage 5 profile sections remain Server Components backed by typed local profile/skill/experience data and localized messages. Their layout and form controls use semantic local `styles` objects with existing Tailwind theme tokens. The experience timeline is rendered only when a complete confirmed entry exists. Lucide icons already present through Iconiq are used for skill groups and social links; no icon package was added. The unavailable contact form does not add a client boundary because it has no interactive submission behavior.
 
-Global element resets (`a`, `button`, `:focus-visible`) live in `@layer base` in `src/app/globals.css`. Unlayered rules outrank every Tailwind layer, so a reset outside a layer silently discards text-colour, font, and outline utilities. The Iconiq Button maps its `--ic-*` and `--button-*` variables to portfolio tokens inside `b-button.tsx`; there are no OS-dependent `dark:` variants because the site has a single dark theme.
+Global element resets (`a`, `button`, `:focus-visible`) live in `@layer base` in `src/app/globals.css`. Unlayered rules outrank every Tailwind layer, so a reset outside a layer silently discards text-colour, font, and outline utilities. The Iconiq Button maps its `--ic-*` and `--button-*` variables to portfolio tokens inside `b-button.tsx`; there are no OS-dependent `dark:` variants because the site has a single light theme.
 
 Glass surfaces declare only the unprefixed `backdrop-filter` inside `@supports (backdrop-filter: …)`. When a rule pairs `-webkit-backdrop-filter` with `backdrop-filter` and the value uses `var()`, the CSS compiler drops both declarations, which left the navbar translucent but unblurred. The compiler already adds the `-webkit-` alternative to the `@supports` condition. The translucent background belongs inside the same `@supports` block so browsers without blur keep the opaque fallback.
 
@@ -44,4 +44,12 @@ The hero area selector (`node-selector.tsx`) is a size container (`@container`);
 
 Typography floor: functional text (labels, metadata, tags, navigation, diagram labels) uses Tailwind's `text-xs` (12px) as the minimum; no `text-[9px]`, `text-[10px]`, or `text-[11px]` remain. Use the built-in scale rather than a custom `--text-*` token: `tailwind-merge` cannot tell a custom `text-label` from a colour, so `cn()` would drop the neighbouring `text-{colour}` class. Headings get `text-wrap: balance` and running text (`p`, `li`, `dd`, `figcaption`, `blockquote`) gets `text-wrap: pretty` from `@layer base` in `globals.css`. Case-study prose is capped at `max-w-prose`.
 
-Fonts load through `next/font/google` in `src/app/[locale]/layout.tsx`, which exposes `--font-space-grotesk` and `--font-jetbrains-mono`; `tokens.css` builds the `--portfolio-font-*` stacks from them. Both Next and the vinext Workers build self-host the files with metric-matched fallbacks, so no request goes to Google at runtime.
+## Notebook foundations
+
+`DESIGN.md` defines the notebook palette and typography. `tokens.css` exposes semantic colors to Tailwind with `@theme inline`; use `desk`, `paper`, `print`, `ink`, `graphite`, and the other named roles instead of copying values. The explicitly marked legacy aliases temporarily map existing components to the light palette; remove them as those components migrate. Glass and shadow aliases are flat and opaque.
+
+Schibsted Grotesk is loaded with `next/font/google` for weights 400, 600, 700, and 800. The `--type-*` role tokens encode the fluid display, h2, h3, body, small, label, and annotation scales, including their weights, leading, and tracking. Legacy display, sans, and mono font aliases all use this family. Avoid custom Tailwind `text-*` role utilities because `tailwind-merge` can confuse them with colors.
+
+The notebook grid uses `--grid-cell` (20px) and `--paper-grid` as a decorative background; size it with `background-size: var(--grid-cell) var(--grid-cell)`. Spacing tokens use 10px half-cells and 20px multiples. The spread is capped at `--content-width` (1280px); mobile desk gutters are 10px, increasing to 20px at 768px. Named tablet and desktop breakpoints are 768px and 1280px. The navigation height is 80px. Motion tokens describe ink, highlighter, press, and color transitions; reduced motion must leave information visible.
+
+All controls share a 3px ink-deep `:focus-visible` outline with 4px offset. The unlayered focus rule temporarily takes precedence over legacy component utilities until those components migrate. The page uses the desk background and graphite text; surfaces can opt into paper and the grid when their sections are rebuilt.

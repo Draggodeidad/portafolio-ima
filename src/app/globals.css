@@ -7,24 +7,18 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--nav-height) + 24px);
+  scroll-padding-top: var(--nav-height);
   background: var(--portfolio-background);
 }
 
 body {
   min-width: 320px;
   margin: 0;
-  background:
-    radial-gradient(
-      ellipse at 50% -45%,
-      var(--portfolio-background-glow),
-      transparent 54%
-    ),
-    var(--portfolio-background);
-  color: var(--portfolio-foreground);
+  background: var(--desk);
+  color: var(--graphite);
   font-family: var(--portfolio-font-body);
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: var(--type-body);
+  line-height: var(--type-body-leading);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -51,7 +45,7 @@ body {
   }
 
   :focus-visible {
-    outline: 2px solid var(--portfolio-accent);
+    outline: 3px solid var(--focus);
     outline-offset: 4px;
   }
 
@@ -81,4 +75,10 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Shared focus wins over legacy component outline utilities during migration. */
+:focus-visible {
+  outline: 3px solid var(--focus) !important;
+  outline-offset: 4px !important;
 }
