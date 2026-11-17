@@ -56,7 +56,7 @@ body {
   h3,
   h4 {
     text-wrap: balance;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
 
   p,
@@ -65,7 +65,7 @@ body {
   figcaption,
   blockquote {
     text-wrap: pretty;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
 }
 
