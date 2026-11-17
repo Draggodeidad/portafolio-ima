@@ -174,7 +174,9 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
               locale={language}
             />
             <div className={styles.evidence}>
-              <ProjectVisual project={project} locale={language} />
+              {project.id === "pwa-utt" && (
+                <ProjectVisual project={project} locale={language} />
+              )}
             </div>
             <div className="relative">
               <StudySection block={project.study.decisions} locale={language} />
@@ -190,8 +192,10 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
               </svg>
             </div>
             <div className={styles.evidence}>
-              {project.id === "pwa-utt" && (
+              {project.id === "pwa-utt" ? (
                 <ProjectScreenshots locale={language} />
+              ) : (
+                <ProjectVisual project={project} locale={language} />
               )}
             </div>
             <StudySection block={project.study.validation} locale={language} />
