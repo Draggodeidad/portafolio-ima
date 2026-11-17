@@ -3,10 +3,10 @@ import type { Project } from "@/content/projects";
 import type { Locale } from "@/i18n/routing";
 
 const styles = {
-  figure: "border border-page-edge bg-paper p-5 sm:p-6",
+  figure: "min-w-0",
   caption: "mb-5 text-label text-graphite-soft",
   flow: "flex flex-col items-stretch gap-2",
-  node: "min-w-0 border border-ruled-line bg-print px-4 py-3 text-body text-graphite [overflow-wrap:anywhere]",
+  node: "relative min-w-0 px-5 py-4 text-body text-graphite [overflow-wrap:anywhere]",
   arrow: "ml-5 h-6 w-6 text-ink",
 } as const;
 
@@ -85,7 +85,21 @@ export function ProjectVisual({
                 />
               </svg>
             )}
-            <div className={styles.node}>{label}</div>
+            <div className={styles.node}>
+              <svg
+                className={ink.frame}
+                viewBox="0 0 300 60"
+                preserveAspectRatio="none"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  pathLength={1}
+                  d="M4 5 Q75 2 150 4 T296 5 L295 55 Q220 58 150 56 T5 55 Z"
+                />
+              </svg>
+              {label}
+            </div>
           </div>
         ))}
       </div>

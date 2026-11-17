@@ -37,7 +37,7 @@ export function ProjectScreenshots({
 }) {
   return (
     <div className={featured ? "" : styles.gallery}>
-      {(featured ? screenshots.slice(0, 1) : screenshots).map((shot) => (
+      {(featured ? screenshots.slice(1, 2) : screenshots).map((shot) => (
         <figure
           className={`${styles.figure} ${!featured && shot.file === "sincronizacion" ? "sm:col-span-2" : ""}`}
           key={shot.file}
@@ -46,7 +46,11 @@ export function ProjectScreenshots({
           <Image
             className={styles.image}
             src={`/images/projects/pwa-utt/${shot.file}-1544.webp`}
-            alt={shot[locale]}
+            alt={
+              locale === "es"
+                ? `Pantalla de ${shot.es.toLowerCase()} de PWA UTT`
+                : `PWA UTT ${shot.en.toLowerCase()} screen`
+            }
             width={1544}
             height={shot.height}
             sizes={

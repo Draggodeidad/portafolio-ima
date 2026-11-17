@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
+import { ActionArrow } from "@/components/ui/action-arrow";
 import { Button } from "@/components/ui/b-button";
 import { InlineCode } from "@/components/ui/inline-code";
 import { Container } from "@/components/layout/container";
+import notebook from "@/components/hero/hero.module.css";
 import { ProjectVisual } from "@/components/projects/project-visual";
 import { ProjectScreenshots } from "@/components/projects/project-screenshots";
 import { profile } from "@/content/profile";
@@ -22,12 +24,13 @@ const styles = {
   contribution: "mt-8 max-w-[65ch]",
   label: "mb-2 text-label text-graphite",
   text: "max-w-[65ch] text-body text-graphite-soft [overflow-wrap:anywhere]",
-  technologies: "mt-6 flex flex-wrap gap-2",
-  technology: "border border-page-edge px-3 py-1 text-small text-graphite",
+  technologies: "mt-2 flex flex-wrap gap-x-2 text-body text-graphite-soft",
+  technology: "not-last:after:ml-2 not-last:after:content-['·']",
   actions: "mt-7 flex flex-wrap gap-3",
   button: "min-h-12",
-  evidence: "my-10 grid gap-10",
-  content: "max-w-[70ch]",
+  spread:
+    "relative grid gap-10 xl:grid-cols-2 xl:gap-20 xl:before:absolute xl:before:inset-y-0 xl:before:left-1/2 xl:before:w-px xl:before:bg-page-edge",
+  evidence: "grid content-start gap-10 xl:self-start",
   block: "border-t border-page-edge py-8",
   blockTitle: "mb-4 text-h2",
   paragraph:
@@ -116,12 +119,16 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
                 className={styles.contribution}
                 aria-label={t("contribution")}
               >
-                <h2 className={styles.label}>{t("contribution")}</h2>
-                <p className={styles.text}>{project.contribution[language]}</p>
+                <p className={styles.label}>{t("contribution")}</p>
+                <p className={styles.text}>
+                  <strong className="bg-highlighter px-1 py-0.5 text-graphite [box-decoration-break:clone]">
+                    {project.contribution[language]}
+                  </strong>
+                </p>
               </aside>
             )}
             <div className="mt-6">
-              <h2 className={styles.label}>{t("technologies")}</h2>
+              <p className={styles.label}>{t("technologies")}</p>
               <ul className={styles.technologies}>
                 {project.technologies.map((technology) => (
                   <li className={styles.technology} key={technology}>
@@ -132,16 +139,20 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
             </div>
             <div className={styles.actions}>
               {project.demo && (
-                <Button
-                  className={styles.button}
-                  href={project.demo}
-                  target="_blank"
-                  rel="noreferrer"
-                  variant="default"
-                  disableRipple
-                >
-                  {t("demo")}
-                </Button>
+                <div>
+                  <Button
+                    className={styles.button}
+                    href={project.demo}
+                    target="_blank"
+                    rel="noreferrer"
+                    variant="outline"
+                    disableRipple
+                  >
+                    {t("demo")}
+                    <ActionArrow />
+                  </Button>
+                  <p className={styles.text}>{project.status[language]}</p>
+                </div>
               )}
               <Button
                 className={styles.button}
@@ -152,30 +163,49 @@ export default async function ProjectStudyPage({ params }: ProjectPageProps) {
                 disableRipple
               >
                 {t("repository")}
+                <ActionArrow />
               </Button>
             </div>
           </header>
-          <div className={styles.evidence} data-ink-draw>
-            <ProjectVisual project={project} locale={language} />
-            {project.id === "pwa-utt" && (
-              <ProjectScreenshots locale={language} />
-            )}
+          <StudySection block={project.study.problem} locale={language} />
+          <div className={styles.spread}>
+            <span
+              className={`hidden xl:block ${notebook.spine}`}
+              aria-hidden="true"
+            />
+            <StudySection
+              block={project.study.architecture}
+              locale={language}
+            />
+            <div className={styles.evidence}>
+              {project.id === "pwa-utt" && (
+                <ProjectVisual project={project} locale={language} />
+              )}
+            </div>
+            <div className="relative">
+              <StudySection block={project.study.decisions} locale={language} />
+              <svg
+                aria-hidden="true"
+                className="absolute -right-14 top-12 hidden h-8 w-12 fill-none stroke-ink xl:block"
+                viewBox="0 0 48 32"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M2 25 Q22 23 42 8 M33 7 L43 8 L39 17" />
+              </svg>
+            </div>
+            <div className={styles.evidence}>
+              {project.id === "pwa-utt" ? (
+                <ProjectScreenshots locale={language} />
+              ) : (
+                <ProjectVisual project={project} locale={language} />
+              )}
+            </div>
+            <StudySection block={project.study.validation} locale={language} />
+            <div aria-hidden="true" className="hidden xl:block" />
+            <StudySection block={project.study.limitations} locale={language} />
           </div>
-          <article className={styles.content}>
-            {[
-              project.study.problem,
-              project.study.architecture,
-              project.study.decisions,
-              project.study.validation,
-              project.study.limitations,
-            ].map((block) => (
-              <StudySection
-                key={block.title[language]}
-                block={block}
-                locale={language}
-              />
-            ))}
-          </article>
           <nav className={styles.related} aria-label={t("moreProjects")}>
             {[
               { project: previous, label: t("previous") },

@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { ActionArrow } from "@/components/ui/action-arrow";
 import { Button } from "@/components/ui/b-button";
 import { Container } from "@/components/layout/container";
 import { SectionHeading } from "@/components/sections/section-heading";
@@ -16,12 +17,12 @@ import ink from "./profile-sections.module.css";
 const styles = {
   section: "py-[40px]",
   page: "relative border border-page-edge bg-paper bg-[image:var(--paper-grid)] bg-size-[length:var(--grid-cell)_var(--grid-cell)] py-[40px] pl-12 pr-5 before:absolute before:inset-y-0 before:left-5 before:w-0.5 before:bg-margin-red sm:pl-16 sm:pr-10 sm:before:left-8",
-  content: "max-w-[70ch] space-y-[20px]",
+  content: "max-w-[70ch] space-y-[20px] [&>h2+p]:pt-[10px]",
   timeline: "mt-[40px] max-w-[70ch] space-y-[40px]",
   entry: "grid grid-cols-[30px_minmax(0,1fr)] gap-[10px]",
   mark: "mt-[5px] size-[20px] text-ink",
-  status: "text-label text-ink",
-  entryTitle: "mt-[10px] text-h3 text-graphite",
+  status: "sr-only",
+  entryTitle: "text-h3 text-graphite",
   detail: "mt-[10px] text-body text-graphite",
   muted: "text-body text-graphite-soft",
   stack: "mt-[40px] border-t border-ruled-line pt-[40px]",
@@ -178,12 +179,13 @@ export async function ContactSection({ locale }: ProfileSectionsProps) {
             )}
             <div className={styles.actions}>
               {cv && (
-                <a className={styles.link} href={cv.href} download>
+                <Button href={cv.href} download variant="outline">
                   {t("cvLink", {
                     language: t(`cvLanguages.${cv.locale}`),
                     format: cv.format,
                   })}
-                </a>
+                  <ActionArrow download />
+                </Button>
               )}
               <a
                 className={styles.link}
@@ -192,6 +194,7 @@ export async function ContactSection({ locale }: ProfileSectionsProps) {
                 rel="noreferrer"
               >
                 GitHub
+                <ActionArrow />
               </a>
               <a
                 className={styles.link}
@@ -200,6 +203,7 @@ export async function ContactSection({ locale }: ProfileSectionsProps) {
                 rel="noreferrer"
               >
                 LinkedIn
+                <ActionArrow />
               </a>
             </div>
           </div>
@@ -245,6 +249,7 @@ export async function SiteFooter({ locale }: ProfileSectionsProps) {
             rel="noreferrer"
           >
             GitHub
+            <ActionArrow />
           </a>
           <a
             className={styles.link}
@@ -253,6 +258,7 @@ export async function SiteFooter({ locale }: ProfileSectionsProps) {
             rel="noreferrer"
           >
             LinkedIn
+            <ActionArrow />
           </a>
         </nav>
         <p className="text-small text-graphite-soft">

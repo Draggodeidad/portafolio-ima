@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
+import { ActionArrow } from "@/components/ui/action-arrow";
 import { Button } from "@/components/ui/b-button";
 import { profile } from "@/content/profile";
 import type { Locale } from "@/i18n/routing";
@@ -52,6 +53,7 @@ function Arrow({ animated }: { animated: boolean }) {
     >
       <path
         className={animated ? styles.noteDraw : undefined}
+        pathLength={1}
         d="M2 15 Q17 14 34 5 M27 3 L35 5 L31 12"
       />
     </svg>
@@ -86,6 +88,7 @@ export async function Hero({ locale }: { locale: Locale }) {
               >
                 <path
                   className={styles.draw}
+                  pathLength={1}
                   d="M4 21 C3 5 30 2 54 3 C85 2 98 10 96 20 C94 33 72 37 47 37 C20 37 5 32 4 21Z"
                 />
               </svg>
@@ -103,7 +106,7 @@ export async function Hero({ locale }: { locale: Locale }) {
               <svg
                 aria-hidden="true"
                 viewBox="0 0 20 20"
-                className="size-4 fill-none stroke-current"
+                className="ml-[10px] size-4 fill-none stroke-current"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -117,6 +120,7 @@ export async function Hero({ locale }: { locale: Locale }) {
                   language: t(`cvLanguages.${profile.cv.locale}`),
                   format: profile.cv.format,
                 })}
+                <ActionArrow download />
               </Button>
             )}
             <Button href="#contacto" variant="outline">
@@ -128,15 +132,21 @@ export async function Hero({ locale }: { locale: Locale }) {
               <li className={classes.evidenceItem} key={item}>
                 <Mark pending={index === 1} />
                 <span
-                  className={
-                    index === 0
-                      ? styles.highlight
-                      : index === 1
-                        ? "text-graphite-soft"
-                        : undefined
-                  }
+                  className={index === 1 ? "text-graphite-soft" : undefined}
                 >
-                  {item}
+                  <span className="sr-only">
+                    {item.slice(0, item.indexOf(":") + 2)}
+                  </span>
+                  {index === 0 ? (
+                    <>
+                      <strong className={styles.highlight}>
+                        {item.slice(item.indexOf(":") + 2, item.indexOf(" · "))}
+                      </strong>
+                      {item.slice(item.indexOf(" · "))}
+                    </>
+                  ) : (
+                    item.slice(item.indexOf(":") + 2)
+                  )}
                 </span>
               </li>
             ))}

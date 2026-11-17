@@ -57,11 +57,11 @@
   stroke-linecap: round;
 }
 .draw {
-  stroke-dasharray: 250;
+  stroke-dasharray: 1;
   animation: draw var(--motion-ink-draw) var(--ease-ink) both;
 }
 .noteDraw {
-  stroke-dasharray: 80;
+  stroke-dasharray: 1;
   animation: note-draw var(--motion-ink-draw) var(--ease-ink) both;
 }
 .notes li:nth-child(2) .noteDraw {
@@ -72,7 +72,7 @@
 }
 @keyframes note-draw {
   from {
-    stroke-dashoffset: 80;
+    stroke-dashoffset: 1;
   }
   to {
     stroke-dashoffset: 0;
@@ -80,6 +80,8 @@
 }
 .highlight {
   background: var(--highlighter);
+  padding: 3px 4px;
+  box-decoration-break: clone;
   animation: highlight var(--motion-highlighter) var(--ease-highlighter) both;
 }
 .print {
@@ -117,7 +119,7 @@
 }
 @keyframes draw {
   from {
-    stroke-dashoffset: 250;
+    stroke-dashoffset: 1;
   }
   to {
     stroke-dashoffset: 0;
