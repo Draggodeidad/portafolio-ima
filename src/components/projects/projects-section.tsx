@@ -59,7 +59,7 @@ export async function ProjectsSection({ locale }: { locale: Locale }) {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <p>
+                <p className="min-w-0">
                   <strong>{t("contribution")}: </strong>
                   {featured.contribution[locale]}
                 </p>
