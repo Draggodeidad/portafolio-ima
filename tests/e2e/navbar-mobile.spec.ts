@@ -118,3 +118,34 @@ test("mobile menu hydrates on the local network address", async ({
   await expect(page.locator("#mobile-navigation")).toBeVisible();
   await context.close();
 });
+
+test("navigation has four accessible targets and preserves anchors across languages", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.goto("/es#proyectos");
+  const header = page.getByRole("banner");
+  const menu = page.locator("#mobile-navigation");
+  await header.getByRole("button", { name: "Abrir menú" }).click();
+  await expect(menu.getByRole("link")).toHaveText([
+    "Proyectos",
+    "Trayectoria",
+    "Sobre mí",
+    "Contacto",
+  ]);
+  await expect(menu.getByRole("link", { name: "Proyectos" })).toHaveAttribute(
+    "aria-current",
+    "location",
+  );
+  for (const control of await header
+    .locator("a:visible, button:visible")
+    .all()) {
+    const box = await control.boundingBox();
+    expect(box?.height).toBeGreaterThanOrEqual(44);
+    expect(box?.width).toBeGreaterThanOrEqual(44);
+  }
+  await header
+    .getByRole("link", { name: "Switch language to English" })
+    .click();
+  await expect(page).toHaveURL(/\/en#proyectos$/);
+});

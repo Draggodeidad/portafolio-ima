@@ -10,16 +10,12 @@
     "closeMenuLabel": "Close menu",
     "switchToSpanish": "Switch language to Spanish",
     "switchToEnglish": "Switch language to English",
-    "contactAction": "Contact",
-    "githubContext": ": Imanol's profile, opens in a new tab",
     "skipToContent": "Skip to content",
     "brandLabel": "Imanol Antonio De la Cruz — home",
     "sections": {
-      "inicio": "Home",
       "proyectos": "Projects",
-      "sobre-mi": "About",
-      "stack": "Stack",
       "trayectoria": "Experience",
+      "sobre-mi": "About",
       "contacto": "Contact"
     }
   },
