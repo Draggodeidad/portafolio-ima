@@ -18,7 +18,7 @@ const styles = {
 </section>;
 ```
 
-`cn()` in `src/lib/cn.ts` combines `clsx` with `tailwind-merge`. Keep utility names literal; do not construct class names dynamically. Check compositions involving semantic `text-*` roles: `tailwind-merge` can confuse custom text sizes with colours and remove a needed class.
+`cn()` in `src/lib/cn.ts` combines `clsx` with `tailwind-merge`. Keep utility names literal; do not construct class names dynamically. `cn()` registers the semantic typography roles (`text-display`, `text-h2`, `text-h3`, `text-body`, `text-small`, `text-label`, `text-annotation`) as font sizes, so they merge alongside text colours instead of replacing them. Add any new typography role to that list.
 
 ## Variants and effects
 
