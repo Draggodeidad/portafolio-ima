@@ -182,6 +182,40 @@ test("published CV is served as a PDF", async ({ request }) => {
   expect(response.headers()["content-type"]).toContain("application/pdf");
 });
 
+test("copy email confirms without changing the button width", async ({
+  page,
+  context,
+}) => {
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.goto("/es#contacto");
+  const button = page
+    .locator("#contacto")
+    .getByRole("button", { name: "Copiar correo" });
+  const before = await button.boundingBox();
+  await button.click();
+  const done = page
+    .locator("#contacto")
+    .getByRole("button", { name: "Copiado" });
+  await expect(done).toBeVisible();
+  expect((await done.boundingBox())?.width).toBe(before?.width);
+  await expect(
+    page.locator("#contacto").getByRole("button", { name: "Copiar correo" }),
+  ).toBeVisible({ timeout: 4000 });
+});
+
+test("contact card links share one style", async ({ page }) => {
+  await page.goto("/es#contacto");
+  const links = page.locator("#contacto aside li a");
+  await expect(links).toHaveCount(3);
+  const looks = await links.evaluateAll((anchors) =>
+    anchors.map((anchor) => {
+      const style = getComputedStyle(anchor);
+      return [style.color, style.fontSize, style.fontWeight].join(" ");
+    }),
+  );
+  expect(new Set(looks).size).toBe(1);
+});
+
 test("contact form stays hidden until a service is configured", async ({
   page,
 }) => {
