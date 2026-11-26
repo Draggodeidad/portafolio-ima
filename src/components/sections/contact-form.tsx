@@ -59,6 +59,7 @@ type FormCopy = {
 };
 
 const FIELD_NAMES: readonly FieldName[] = ["name", "email", "message"];
+const TURNSTILE_FLEXIBLE_MIN_WIDTH = 300;
 
 function getFieldError(
   field: HTMLInputElement | HTMLTextAreaElement,
@@ -244,14 +245,44 @@ export function ContactForm({
   const [scriptReady, setScriptReady] = useState(false);
   const sending = state.phase === "sending";
 
+  // Turnstile's flexible size needs at least 300px; narrower columns (a
+  // phone) get the compact widget instead of overflowing the sheet.
+  const [widgetSize, setWidgetSize] = useState<"flexible" | "compact" | null>(
+    null,
+  );
   useEffect(() => {
-    if (!scriptReady || !siteKey || !container.current || !window.turnstile)
+    const element = container.current;
+    if (!element) return;
+    const observer = new ResizeObserver(([entry]) => {
+      if (!entry) return;
+      setWidgetSize(
+        entry.contentRect.width >= TURNSTILE_FLEXIBLE_MIN_WIDTH
+          ? "flexible"
+          : "compact",
+      );
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [siteKey]);
+
+  useEffect(() => {
+    if (
+      !scriptReady ||
+      !siteKey ||
+      !widgetSize ||
+      !container.current ||
+      !window.turnstile
+    )
       return;
     const turnstile = window.turnstile;
     const id = turnstile.render(container.current, {
       sitekey: siteKey,
-      size: "compact",
       action: "contact",
+      // Fixed, so the widget matches the paper page instead of following
+      // the system's dark mode or the browser's language.
+      theme: "light",
+      language: locale,
+      size: widgetSize,
       callback: (token: string) => dispatch({ type: "token", token }),
       "expired-callback": () => dispatch({ type: "token-expired" }),
       "error-callback": () =>
@@ -261,8 +292,10 @@ export function ContactForm({
     return () => {
       turnstile.remove(id);
       widget.current = null;
+      // The removed widget's token cannot be used any more.
+      dispatch({ type: "token-expired" });
     };
-  }, [scriptReady, siteKey, copy.verification]);
+  }, [scriptReady, siteKey, widgetSize, locale, copy.verification]);
 
   function validateField(field: HTMLInputElement | HTMLTextAreaElement) {
     const name = field.name as FieldName;

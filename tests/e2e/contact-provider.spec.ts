@@ -302,3 +302,39 @@ test("both primary buttons print white on ink", async ({ page }) => {
     expect(colours).toEqual(["rgb(255, 255, 255)", "rgb(31, 58, 147)"]);
   }
 });
+
+for (const locale of ["es", "en"] as const) {
+  test(`${locale}: Turnstile is light, localized and as wide as the fields`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ colorScheme: "dark" });
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto(`/${locale}#contacto`);
+    const form = page.locator("#contacto form");
+    const widget = form.getByTitle("Turnstile mock");
+    await expect(widget).toBeVisible();
+    const options = await page.evaluate(() => {
+      const { options } = (
+        window as unknown as {
+          __turnstile: { options: Record<string, unknown> };
+        }
+      ).__turnstile;
+      return {
+        theme: options.theme,
+        language: options.language,
+        size: options.size,
+      };
+    });
+    expect(options).toEqual({
+      theme: "light",
+      language: locale,
+      size: "flexible",
+    });
+    const [frame, field] = await Promise.all([
+      widget.boundingBox(),
+      form.locator("#contact-message").boundingBox(),
+    ]);
+    expect(frame?.x).toBe(field?.x);
+    expect(frame?.width).toBe(field?.width);
+  });
+}
