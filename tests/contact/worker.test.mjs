@@ -101,6 +101,47 @@ test("failed Turnstile validation never calls Resend", async () => {
   assert.equal((await worker.fetch(f.request(), f.env)).status, 403);
   assert.equal(f.requests.length, 0);
 });
+test("TURNSTILE_HOSTNAME accepts a comma-separated list of sites", async () => {
+  const hostnames =
+    " imanolantonio.dev, itsdraggodeidad-portfolio.vercel.app ,";
+  for (const hostname of [
+    "imanolantonio.dev",
+    "itsdraggodeidad-portfolio.vercel.app",
+  ]) {
+    const f = fixture({
+      verification: { success: true, hostname, action: "contact" },
+    });
+    const env = { ...f.env, TURNSTILE_HOSTNAME: hostnames };
+    assert.equal((await worker.fetch(f.request(), env)).status, 200);
+    assert.equal(f.requests.length, 1);
+  }
+  const other = fixture({
+    verification: {
+      success: true,
+      hostname: "evil.example",
+      action: "contact",
+    },
+  });
+  assert.equal(
+    (
+      await worker.fetch(other.request(), {
+        ...other.env,
+        TURNSTILE_HOSTNAME: hostnames,
+      })
+    ).status,
+    403,
+  );
+  assert.equal(other.requests.length, 0);
+});
+test("an empty hostname list fails closed", async () => {
+  const f = fixture();
+  assert.equal(
+    (await worker.fetch(f.request(), { ...f.env, TURNSTILE_HOSTNAME: " , " }))
+      .status,
+    503,
+  );
+  assert.equal(f.requests.length, 0);
+});
 test("invalid Turnstile attempts are limited per IP without calling Resend", async () => {
   const f = fixture({ verification: { success: false } });
   for (let i = 0; i < 5; i++)

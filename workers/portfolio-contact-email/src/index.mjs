@@ -37,6 +37,15 @@ export class ContactRateLimit {
   }
 }
 
+// TURNSTILE_HOSTNAME lists every site that may submit, separated by commas
+// (for example the Workers domain and the Vercel fallback).
+function allowedHostnames(value) {
+  return (value ?? "")
+    .split(",")
+    .map((hostname) => hostname.trim().toLowerCase())
+    .filter(Boolean);
+}
+
 async function authorized(header, secret) {
   if (!secret) return false;
   const encoder = new TextEncoder();
@@ -56,9 +65,10 @@ const worker = {
       !(await authorized(request.headers.get("authorization"), env.AUTH_SECRET))
     )
       return new Response(null, { status: 401 });
+    const hostnames = allowedHostnames(env.TURNSTILE_HOSTNAME);
     if (
       !env.TURNSTILE_SECRET ||
-      !env.TURNSTILE_HOSTNAME ||
+      !hostnames.length ||
       !env.CONTACT_FROM ||
       !env.CONTACT_TO ||
       !env.RESEND_API_KEY ||
@@ -134,7 +144,8 @@ const worker = {
       const result = await verify.json();
       if (
         result.success !== true ||
-        result.hostname !== env.TURNSTILE_HOSTNAME ||
+        typeof result.hostname !== "string" ||
+        !hostnames.includes(result.hostname.toLowerCase()) ||
         result.action !== "contact"
       )
         return new Response(null, { status: 403 });
