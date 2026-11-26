@@ -14,7 +14,26 @@ test.beforeEach(async ({ page }) => {
     (route) =>
       route.fulfill({
         contentType: "application/javascript",
-        body: `window.turnstile = { render: (el, options) => { const frame = document.createElement('iframe'); frame.title = 'Turnstile mock'; frame.style.width = options.size === 'compact' ? '150px' : '300px'; frame.style.height = options.size === 'compact' ? '140px' : '65px'; frame.style.border = '0'; el.appendChild(frame); setTimeout(() => options.callback('local-token'), 0); return 'widget'; }, reset: () => {}, remove: () => {} };`,
+        body: `window.__turnstile = { options: null, resets: 0 };
+window.turnstile = {
+  render: (el, options) => {
+    window.__turnstile.options = options;
+    const frame = document.createElement('iframe');
+    frame.title = 'Turnstile mock';
+    frame.style.display = 'block';
+    frame.style.width = options.size === 'compact' ? '150px' : options.size === 'flexible' ? '100%' : '300px';
+    frame.style.height = options.size === 'compact' ? '140px' : '65px';
+    frame.style.border = '0';
+    el.appendChild(frame);
+    setTimeout(() => options.callback('local-token'), 0);
+    return 'widget';
+  },
+  reset: () => {
+    window.__turnstile.resets++;
+    setTimeout(() => window.__turnstile.options.callback('local-token-2'), 0);
+  },
+  remove: () => {},
+};`,
       }),
   );
 });
@@ -95,8 +114,13 @@ test("pending request disables the form and prevents duplicate submission", asyn
   await page
     .getByLabel("Message", { exact: true })
     .fill("A valid message for testing.");
-  await page.getByRole("button", { name: "Send message" }).click();
+  const submit = page.locator("#contacto form button[type=submit]");
+  const idleWidth = (await submit.boundingBox())?.width;
+  await submit.click();
   await expect(page.getByLabel("Name", { exact: true })).toBeDisabled();
+  await expect(submit).toHaveAttribute("aria-busy", "true");
+  await expect(submit).toHaveAccessibleName("Sending…");
+  expect((await submit.boundingBox())?.width).toBe(idleWidth);
   await page
     .locator("#contacto form")
     .evaluate((form) =>
@@ -154,5 +178,163 @@ for (const locale of ["es", "en"] as const) {
     expect(geometry.right).toBeLessThanOrEqual(geometry.formRight);
     expect(geometry.width).toBe(150);
     expect(geometry.height).toBe(140);
+  });
+}
+
+test("a sent message clears the form and the confirmation stays alone", async ({
+  page,
+}) => {
+  await page.route("**/api/contact", (route) =>
+    route.fulfill({ status: 200, json: { ok: true } }),
+  );
+  await page.goto("/en#contacto");
+  const name = page.getByLabel("Name", { exact: true });
+  await name.fill("Visitor");
+  await page
+    .getByLabel("Email address", { exact: true })
+    .fill("visitor@example.org");
+  await page
+    .getByLabel("Message", { exact: true })
+    .fill("A valid message for testing.");
+  await page.getByRole("button", { name: "Send message" }).click();
+  const status = page.locator("#contacto form [role=status]");
+  await expect(status).toHaveText(
+    "Message accepted for sending. Thanks for reaching out.",
+  );
+  await expect(name).toHaveValue("");
+  expect(
+    await page.evaluate(
+      () =>
+        (window as unknown as { __turnstile: { resets: number } }).__turnstile
+          .resets,
+    ),
+  ).toBe(1);
+  // The widget's next token must not bring the verification hint back.
+  await page.waitForTimeout(100);
+  await expect(page.getByText("Complete the verification")).toHaveCount(0);
+  await expect(page.locator("#contacto form [role=status] > *")).toHaveCount(1);
+  // Writing a new message clears the confirmation.
+  await name.pressSequentially("A");
+  await expect(status).toHaveText("");
+});
+
+test("sending without verification asks for it and sends nothing", async ({
+  page,
+}) => {
+  let posts = 0;
+  await page.route("**/api/contact", (route) => {
+    posts++;
+    return route.fulfill({ status: 200, json: { ok: true } });
+  });
+  await page.route(
+    "https://challenges.cloudflare.com/turnstile/v0/api.js?**",
+    (route) =>
+      route.fulfill({
+        contentType: "application/javascript",
+        body: "window.turnstile = { render: () => 'widget', reset: () => {}, remove: () => {} };",
+      }),
+  );
+  await page.goto("/en#contacto");
+  await page.getByLabel("Name", { exact: true }).fill("Visitor");
+  await page
+    .getByLabel("Email address", { exact: true })
+    .fill("visitor@example.org");
+  await page
+    .getByLabel("Message", { exact: true })
+    .fill("A valid message for testing.");
+  await page.getByRole("button", { name: "Send message" }).click();
+  await expect(page.locator("#contacto form [role=status]")).toHaveText(
+    "Complete the verification to send.",
+  );
+  expect(posts).toBe(0);
+});
+
+test("a network failure is reported once", async ({ page }) => {
+  await page.route("**/api/contact", (route) => route.abort("failed"));
+  await page.goto("/en#contacto");
+  await page.getByLabel("Name", { exact: true }).fill("Visitor");
+  await page
+    .getByLabel("Email address", { exact: true })
+    .fill("visitor@example.org");
+  const message = page.getByLabel("Message", { exact: true });
+  await message.fill("A valid message for testing.");
+  await page.getByRole("button", { name: "Send message" }).click();
+  await expect(page.locator("#contacto form [role=status]")).toHaveText(
+    "Could not send message. Please try again.",
+  );
+  await expect(message).toHaveValue("A valid message for testing.");
+});
+
+test("submitting empty fields marks each field and focuses the first", async ({
+  page,
+}) => {
+  let posts = 0;
+  await page.route("**/api/contact", (route) => {
+    posts++;
+    return route.fulfill({ status: 200, json: { ok: true } });
+  });
+  await page.goto("/en#contacto");
+  await page.getByRole("button", { name: "Send message" }).click();
+  const name = page.getByLabel("Name", { exact: true });
+  await expect(name).toBeFocused();
+  for (const field of ["name", "email", "message"]) {
+    const control = page.locator(`#contact-${field}`);
+    await expect(control).toHaveAttribute("aria-invalid", "true");
+    await expect(control).toHaveAttribute(
+      "aria-describedby",
+      `contact-${field}-error`,
+    );
+  }
+  await expect(page.locator("#contacto form [role=status]")).toHaveText("");
+  expect(posts).toBe(0);
+});
+
+test("both primary buttons print white on ink", async ({ page }) => {
+  await page.goto("/en#contacto");
+  for (const button of [
+    page.locator("#contacto a[href^='mailto:']"),
+    page.locator("#contacto form button[type=submit]"),
+  ]) {
+    const colours = await button.evaluate((element) => {
+      const style = getComputedStyle(element);
+      return [style.color, style.backgroundColor];
+    });
+    expect(colours).toEqual(["rgb(255, 255, 255)", "rgb(31, 58, 147)"]);
+  }
+});
+
+for (const locale of ["es", "en"] as const) {
+  test(`${locale}: Turnstile is light, localized and as wide as the fields`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ colorScheme: "dark" });
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto(`/${locale}#contacto`);
+    const form = page.locator("#contacto form");
+    const widget = form.getByTitle("Turnstile mock");
+    await expect(widget).toBeVisible();
+    const options = await page.evaluate(() => {
+      const { options } = (
+        window as unknown as {
+          __turnstile: { options: Record<string, unknown> };
+        }
+      ).__turnstile;
+      return {
+        theme: options.theme,
+        language: options.language,
+        size: options.size,
+      };
+    });
+    expect(options).toEqual({
+      theme: "light",
+      language: locale,
+      size: "flexible",
+    });
+    const [frame, field] = await Promise.all([
+      widget.boundingBox(),
+      form.locator("#contact-message").boundingBox(),
+    ]);
+    expect(frame?.x).toBe(field?.x);
+    expect(frame?.width).toBe(field?.width);
   });
 }

@@ -120,13 +120,13 @@ for (const locale of ["es", "en"] as const) {
       "aria-describedby",
       "contact-name-error",
     );
-    await expect(
-      page.getByText(
-        locale === "es"
-          ? "Completa la verificación para enviar."
-          : "Complete the verification to send.",
-      ),
-    ).toBeVisible();
+    // The verification hint is only for a visitor who tries to send.
+    const hint = page.getByText(
+      locale === "es"
+        ? "Completa la verificación para enviar."
+        : "Complete the verification to send.",
+    );
+    await expect(hint).toHaveCount(0);
     await expect(page.locator("#contact-name-error")).toContainText(
       locale === "es" ? "Completa este campo" : "Complete this field",
     );
@@ -142,6 +142,23 @@ for (const locale of ["es", "en"] as const) {
     await expect(email).toHaveAttribute("aria-invalid", "true");
     await expect(page.locator("#contact-email-error")).toContainText(
       locale === "es" ? "dirección de correo válida" : "valid email address",
+    );
+
+    // Valid fields but no token: the one status line asks for verification.
+    await name.fill("Visitor");
+    await email.fill("visitor@example.org");
+    await page
+      .getByLabel(locale === "es" ? "Mensaje" : "Message", { exact: true })
+      .fill("A valid message for testing.");
+    await page
+      .getByRole("button", {
+        name: locale === "es" ? "Enviar mensaje" : "Send message",
+      })
+      .click();
+    await expect(page.locator("#contacto form [role=status]")).toHaveText(
+      locale === "es"
+        ? "Completa la verificación para enviar."
+        : "Complete the verification to send.",
     );
   });
 }
@@ -163,6 +180,40 @@ test("published CV is served as a PDF", async ({ request }) => {
   const response = await request.get("/cv/CV_Imanol_Antonio.pdf");
   expect(response.ok()).toBe(true);
   expect(response.headers()["content-type"]).toContain("application/pdf");
+});
+
+test("copy email confirms without changing the button width", async ({
+  page,
+  context,
+}) => {
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.goto("/es#contacto");
+  const button = page
+    .locator("#contacto")
+    .getByRole("button", { name: "Copiar correo" });
+  const before = await button.boundingBox();
+  await button.click();
+  const done = page
+    .locator("#contacto")
+    .getByRole("button", { name: "Copiado" });
+  await expect(done).toBeVisible();
+  expect((await done.boundingBox())?.width).toBe(before?.width);
+  await expect(
+    page.locator("#contacto").getByRole("button", { name: "Copiar correo" }),
+  ).toBeVisible({ timeout: 4000 });
+});
+
+test("contact card links share one style", async ({ page }) => {
+  await page.goto("/es#contacto");
+  const links = page.locator("#contacto aside li a");
+  await expect(links).toHaveCount(3);
+  const looks = await links.evaluateAll((anchors) =>
+    anchors.map((anchor) => {
+      const style = getComputedStyle(anchor);
+      return [style.color, style.fontSize, style.fontWeight].join(" ");
+    }),
+  );
+  expect(new Set(looks).size).toBe(1);
 });
 
 test("contact form stays hidden until a service is configured", async ({

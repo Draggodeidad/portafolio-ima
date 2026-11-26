@@ -18,7 +18,7 @@ const styles = {
 </section>;
 ```
 
-`cn()` in `src/lib/cn.ts` combines `clsx` with `tailwind-merge`. Keep utility names literal; do not construct class names dynamically. Check compositions involving semantic `text-*` roles: `tailwind-merge` can confuse custom text sizes with colours and remove a needed class.
+`cn()` in `src/lib/cn.ts` combines `clsx` with `tailwind-merge`. Keep utility names literal; do not construct class names dynamically. `cn()` registers the semantic typography roles (`text-display`, `text-h2`, `text-h3`, `text-body`, `text-small`, `text-label`, `text-annotation`) as font sizes, so they merge alongside text colours instead of replacing them. Add any new typography role to that list.
 
 ## Variants and effects
 
@@ -37,3 +37,7 @@ Each component owns its `prefers-reduced-motion` alternative: information and st
 ## Notebook layout
 
 Notebook pages share paper, the 20 px grid and a red margin. Content starts to the right of that rule, and home sections use 40 px vertical padding to produce an 80 px interval between sections. The spread is capped at `--content-width`, with shared page gutters and navigation height defined in the tokens.
+
+## Contact sheet geometry
+
+The contact section (`src/components/sections/contact.module.css`) keeps its blocks on the paper's 20 px grid. Spacing and field heights are whole cells (`--c1` to `--c8`); a box with a border on both sides is one pixel longer than its cells so both borders land on grid lines. `GridSnap` (`src/components/contact/grid-snap.tsx`) moves each `[data-grid-snap]` block that follows free text onto the next line through `--grid-snap`, and shifts the sheet's grid with `--grid-x` so its vertical lines meet the content edge. Both custom properties are registered as non-inheriting: a block must never take its parent's offset.

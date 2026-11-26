@@ -1,30 +1,41 @@
 "use client";
 
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import {
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+  type FormEvent,
+  type InputHTMLAttributes,
+  type TextareaHTMLAttributes,
+} from "react";
 import Script from "next/script";
-import { Button } from "@/components/ui/b-button";
+import {
+  ButtonSpinner,
+  NotebookButton,
+  SwapLabel,
+} from "@/components/ui/notebook-button";
 import { cn } from "@/lib/cn";
+import sheet from "./contact.module.css";
 
 const styles = {
-  form: "mt-[40px] max-w-[70ch] space-y-[20px] border-t border-ruled-line pt-[40px]",
-  title: "text-h3 text-graphite",
-  intro: "text-body text-graphite-soft",
-  fields: "grid gap-[20px] sm:grid-cols-2",
-  field: "min-w-0 space-y-[10px]",
-  fieldWide: "min-w-0 space-y-[10px] sm:col-span-2",
-  label: "block text-label text-graphite",
-  input:
-    "min-h-12 w-full border border-ruled-line bg-print px-[10px] py-[10px] text-body text-graphite aria-invalid:border-error",
-  textarea:
-    "min-h-40 w-full resize-y border border-ruled-line bg-print px-[10px] py-[10px] text-body text-graphite aria-invalid:border-error",
-  error: "text-small text-error",
-  status: "text-small text-graphite empty:sr-only",
-  statusSuccess: "text-success",
-  statusError: "text-error",
-  submit: "min-h-12 !rounded-none px-[20px] text-label",
+  form: cn(sheet.form, sheet.snap),
+  title: cn("text-h3 text-graphite", sheet.formTitle),
+  intro: cn("text-body text-graphite-soft", sheet.formIntro),
+  fields: cn(sheet.fields, sheet.snap, "[--snap-base:var(--c1)]"),
+  field: "min-w-0",
+  fieldWide: cn("min-w-0", sheet.wide),
+  label: cn("text-label text-graphite", sheet.label),
+  control: sheet.control,
+  error: sheet.fieldError,
+  verification: sheet.verification,
+  submitRow: sheet.submitRow,
+  status: sheet.status,
+  statusMessage: sheet.statusMessage,
 } as const;
 
 type FieldName = "name" | "email" | "message";
+type FieldErrors = Partial<Record<FieldName, string>>;
 type FormCopy = {
   formTitle: string;
   formIntro: string;
@@ -32,6 +43,7 @@ type FormCopy = {
   emailLabel: string;
   messageLabel: string;
   submit: string;
+  submitPending: string;
   submitting: string;
   success: string;
   errorGeneric: string;
@@ -46,15 +58,100 @@ type FormCopy = {
   };
 };
 
+const FIELD_NAMES: readonly FieldName[] = ["name", "email", "message"];
+const TURNSTILE_FLEXIBLE_MIN_WIDTH = 300;
+
 function getFieldError(
   field: HTMLInputElement | HTMLTextAreaElement,
   copy: FormCopy["validation"],
 ) {
-  if (field.validity.valueMissing) return copy.required;
+  const value = field.value.trim();
+  if (field.required && !value) return copy.required;
   if (field.validity.typeMismatch) return copy.email;
-  if (field.validity.tooShort) return copy.tooShort;
-  if (field.validity.tooLong) return copy.tooLong;
+  // Checked by hand: `validity.tooShort` ignores values set by script.
+  if (field.minLength > 0 && value.length < field.minLength)
+    return copy.tooShort;
+  if (field.maxLength > 0 && field.value.length > field.maxLength)
+    return copy.tooLong;
   return "";
+}
+
+/*
+ * Form state machine. One phase at a time, so one message at a time:
+ *
+ *   idle ──token──▶ ready ──submit──▶ sending ──▶ sent | error
+ *     │                                              │
+ *     └─submit without token─▶ needs-verification ───┘ (token → ready)
+ *
+ * The Turnstile token is tracked beside the phase: after a send the widget
+ * resets and may hand over a new token while "sent" is still on screen.
+ */
+type Phase =
+  "idle" | "needs-verification" | "ready" | "sending" | "sent" | "error";
+
+type FormState = { phase: Phase; token: string; error: string };
+
+type FormEventAction =
+  | { type: "token"; token: string }
+  | { type: "token-expired" }
+  | { type: "submit-unverified" }
+  | { type: "send" }
+  | { type: "sent" }
+  | { type: "failed"; error: string }
+  | { type: "edit" };
+
+const initialState: FormState = { phase: "idle", token: "", error: "" };
+
+function formReducer(state: FormState, action: FormEventAction): FormState {
+  switch (action.type) {
+    case "token":
+      return {
+        ...state,
+        token: action.token,
+        // A fresh token answers the verification hint; it never hides a
+        // result the visitor has not read yet.
+        phase:
+          state.phase === "idle" || state.phase === "needs-verification"
+            ? "ready"
+            : state.phase,
+      };
+    case "token-expired":
+      return {
+        ...state,
+        token: "",
+        phase: state.phase === "ready" ? "idle" : state.phase,
+      };
+    case "submit-unverified":
+      return { ...state, phase: "needs-verification", error: "" };
+    case "send":
+      return { ...state, phase: "sending", error: "" };
+    case "sent":
+      return { phase: "sent", token: "", error: "" };
+    case "failed":
+      return { phase: "error", token: "", error: action.error };
+    case "edit":
+      // The confirmation belongs to the message just sent; typing a new
+      // one clears it.
+      return state.phase === "sent"
+        ? { ...state, phase: state.token ? "ready" : "idle" }
+        : state;
+  }
+}
+
+function statusFor(state: FormState, copy: FormCopy) {
+  switch (state.phase) {
+    case "needs-verification":
+      return { text: copy.verificationRequired, tone: "neutral" } as const;
+    case "sending":
+      // The button already shows "Sending…"; this is for screen readers.
+      return { text: copy.submitting, tone: "hidden" } as const;
+    case "sent":
+      return { text: copy.success, tone: "success" } as const;
+    case "error":
+      return { text: state.error, tone: "error" } as const;
+    default:
+      return null;
+  }
 }
 
 declare global {
@@ -69,7 +166,61 @@ declare global {
     };
   }
 }
-export function ContactForm({ copy }: { copy: FormCopy }) {
+
+type FieldProps = {
+  name: FieldName;
+  label: string;
+  error?: string;
+  wide?: boolean;
+} & (
+  | ({ multiline?: false } & InputHTMLAttributes<HTMLInputElement>)
+  | ({ multiline: true } & TextareaHTMLAttributes<HTMLTextAreaElement>)
+);
+
+function Field({ name, label, error, wide, multiline, ...props }: FieldProps) {
+  const id = `contact-${name}`;
+  const errorId = `${id}-error`;
+  const shared = {
+    id,
+    name,
+    className: styles.control,
+    "aria-invalid": error ? true : undefined,
+    "aria-describedby": error ? errorId : undefined,
+  } as const;
+  return (
+    <div className={wide ? styles.fieldWide : styles.field}>
+      <label className={styles.label} htmlFor={id}>
+        {label}
+      </label>
+      {multiline ? (
+        <textarea
+          {...(props as TextareaHTMLAttributes<HTMLTextAreaElement>)}
+          {...shared}
+        />
+      ) : (
+        <input
+          {...(props as InputHTMLAttributes<HTMLInputElement>)}
+          {...shared}
+        />
+      )}
+      {error ? (
+        <p className={styles.error} id={errorId}>
+          {error}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+export function ContactForm({
+  copy,
+  locale,
+  className,
+}: {
+  copy: FormCopy;
+  locale: string;
+  className?: string;
+}) {
   const [siteKey, setSiteKey] = useState<string | null>(null);
   useEffect(() => {
     const controller = new AbortController();
@@ -85,47 +236,103 @@ export function ContactForm({ copy }: { copy: FormCopy }) {
       .catch(() => {});
     return () => controller.abort();
   }, []);
-  const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
 
-  const [status, setStatus] = useState<
-    "idle" | "submitting" | "success" | "error"
-  >("idle");
-  const [statusText, setStatusText] = useState("");
-  const [token, setToken] = useState("");
+  const [state, dispatch] = useReducer(formReducer, initialState);
+  const [errors, setErrors] = useState<FieldErrors>({});
   const container = useRef<HTMLDivElement>(null);
   const widget = useRef<string | null>(null);
   const inFlight = useRef(false);
   const [scriptReady, setScriptReady] = useState(false);
+  const sending = state.phase === "sending";
+
+  // Turnstile's flexible size needs at least 300px; narrower columns (a
+  // phone) get the compact widget instead of overflowing the sheet.
+  const [widgetSize, setWidgetSize] = useState<"flexible" | "compact" | null>(
+    null,
+  );
   useEffect(() => {
-    if (!scriptReady || !siteKey || !container.current || !window.turnstile)
+    const element = container.current;
+    if (!element) return;
+    const observer = new ResizeObserver(([entry]) => {
+      if (!entry) return;
+      setWidgetSize(
+        entry.contentRect.width >= TURNSTILE_FLEXIBLE_MIN_WIDTH
+          ? "flexible"
+          : "compact",
+      );
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [siteKey]);
+
+  useEffect(() => {
+    if (
+      !scriptReady ||
+      !siteKey ||
+      !widgetSize ||
+      !container.current ||
+      !window.turnstile
+    )
       return;
     const turnstile = window.turnstile;
     const id = turnstile.render(container.current, {
       sitekey: siteKey,
-      size: "compact",
       action: "contact",
-      callback: (value: string) => setToken(value),
-      "expired-callback": () => setToken(""),
-      "error-callback": () => {
-        setToken("");
-        setStatus("error");
-        setStatusText(copy.verification);
-      },
+      // Fixed, so the widget matches the paper page instead of following
+      // the system's dark mode or the browser's language.
+      theme: "light",
+      language: locale,
+      size: widgetSize,
+      callback: (token: string) => dispatch({ type: "token", token }),
+      "expired-callback": () => dispatch({ type: "token-expired" }),
+      "error-callback": () =>
+        dispatch({ type: "failed", error: copy.verification }),
     });
     widget.current = id;
     return () => {
       turnstile.remove(id);
       widget.current = null;
+      // The removed widget's token cannot be used any more.
+      dispatch({ type: "token-expired" });
     };
-  }, [scriptReady, siteKey, copy.verification]);
+  }, [scriptReady, siteKey, widgetSize, locale, copy.verification]);
+
+  function validateField(field: HTMLInputElement | HTMLTextAreaElement) {
+    const name = field.name as FieldName;
+    const error = getFieldError(field, copy.validation);
+    setErrors((current) => ({ ...current, [name]: error }));
+  }
+
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (inFlight.current || !token) return;
+    if (inFlight.current) return;
     const form = event.currentTarget;
+
+    // Field errors first, each beside its field; focus the first one.
+    const fieldErrors: FieldErrors = {};
+    let firstInvalid: HTMLInputElement | HTMLTextAreaElement | null = null;
+    for (const name of FIELD_NAMES) {
+      const field = form.elements.namedItem(name) as
+        HTMLInputElement | HTMLTextAreaElement;
+      const error = getFieldError(field, copy.validation);
+      if (error) {
+        fieldErrors[name] = error;
+        firstInvalid ??= field;
+      }
+    }
+    setErrors(fieldErrors);
+    if (firstInvalid) {
+      firstInvalid.focus();
+      return;
+    }
+    if (!state.token) {
+      dispatch({ type: "submit-unverified" });
+      return;
+    }
+
     const values = new FormData(form);
     inFlight.current = true;
-    setStatus("submitting");
-    setStatusText(copy.submitting);
+    dispatch({ type: "send" });
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -134,199 +341,152 @@ export function ContactForm({ copy }: { copy: FormCopy }) {
           name: values.get("name"),
           email: values.get("email"),
           message: values.get("message"),
-          token,
+          token: state.token,
         }),
       });
       if (response.ok) {
         form.reset();
         setErrors({});
-        setStatus("success");
-        setStatusText(copy.success);
-      } else {
-        if (response.status === 422) {
-          const result: { fields?: Record<string, unknown> } =
-            await response.json();
-          const fieldErrors: Partial<Record<FieldName, string>> = {};
-          for (const name of ["name", "email", "message"] as const) {
-            const code = result.fields?.[name];
-            if (
-              code === "required" ||
-              code === "email" ||
-              code === "tooShort" ||
-              code === "tooLong"
-            )
-              fieldErrors[name] = copy.validation[code];
-          }
-          setErrors(fieldErrors);
+        dispatch({ type: "sent" });
+        return;
+      }
+      if (response.status === 422) {
+        const result: { fields?: Record<string, unknown> } =
+          await response.json();
+        const serverErrors: FieldErrors = {};
+        for (const name of FIELD_NAMES) {
+          const code = result.fields?.[name];
+          if (
+            code === "required" ||
+            code === "email" ||
+            code === "tooShort" ||
+            code === "tooLong"
+          )
+            serverErrors[name] = copy.validation[code];
         }
-        setStatus("error");
-        setStatusText(
+        setErrors(serverErrors);
+      }
+      dispatch({
+        type: "failed",
+        error:
           response.status === 429
             ? copy.errorRateLimit
             : response.status === 403
               ? copy.verification
               : copy.errorGeneric,
-        );
-      }
+      });
     } catch {
-      setStatus("error");
-      setStatusText(copy.errorGeneric);
+      dispatch({ type: "failed", error: copy.errorGeneric });
     } finally {
       inFlight.current = false;
-      setToken("");
+      // A token is single-use: every attempt asks Turnstile for a new one.
       if (widget.current) window.turnstile?.reset(widget.current);
     }
-  }
-
-  function validateField(field: HTMLInputElement | HTMLTextAreaElement) {
-    const name = field.name as FieldName;
-    const error = getFieldError(field, copy.validation);
-    setErrors((current) => ({ ...current, [name]: error }));
   }
 
   // The form exists only when the server confirms a configured provider.
   // Until then the direct contact routes beside it are the whole section.
   if (!siteKey) return null;
 
+  const status = statusFor(state, copy);
+  const fieldEvents = {
+    disabled: sending,
+    onBlur: (event: {
+      currentTarget: HTMLInputElement | HTMLTextAreaElement;
+    }) => validateField(event.currentTarget),
+    onInput: (event: {
+      currentTarget: HTMLInputElement | HTMLTextAreaElement;
+    }) => {
+      const name = event.currentTarget.name as FieldName;
+      if (errors[name]) validateField(event.currentTarget);
+    },
+  };
+
   return (
     <form
-      className={styles.form}
+      className={cn(styles.form, className)}
+      data-grid-snap
+      lang={locale}
+      noValidate
       aria-labelledby="contact-form-title"
       onSubmit={submit}
+      onInput={() => dispatch({ type: "edit" })}
     >
       <h3 className={styles.title} id="contact-form-title">
         {copy.formTitle}
       </h3>
       <p className={styles.intro}>{copy.formIntro}</p>
-      <div className={styles.fields}>
-        <div className={styles.field}>
-          <label className={styles.label} htmlFor="contact-name">
-            {copy.nameLabel}
-          </label>
-          <input
-            className={styles.input}
-            id="contact-name"
-            name="name"
-            autoComplete="name"
-            disabled={status === "submitting"}
-            required
-            maxLength={100}
-            aria-invalid={errors.name ? true : undefined}
-            aria-describedby={errors.name ? "contact-name-error" : undefined}
-            onBlur={(event) => validateField(event.currentTarget)}
-            onInput={(event) => {
-              if (errors.name) validateField(event.currentTarget);
-            }}
-          />
-          {errors.name ? (
-            <p
-              className={styles.error}
-              id="contact-name-error"
-              aria-live="polite"
-            >
-              {errors.name}
-            </p>
-          ) : null}
-        </div>
-        <div className={styles.field}>
-          <label className={styles.label} htmlFor="contact-email">
-            {copy.emailLabel}
-          </label>
-          <input
-            className={styles.input}
-            id="contact-email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            disabled={status === "submitting"}
-            required
-            maxLength={254}
-            aria-invalid={errors.email ? true : undefined}
-            aria-describedby={errors.email ? "contact-email-error" : undefined}
-            onBlur={(event) => validateField(event.currentTarget)}
-            onInput={(event) => {
-              if (errors.email) validateField(event.currentTarget);
-            }}
-          />
-          {errors.email ? (
-            <p
-              className={styles.error}
-              id="contact-email-error"
-              aria-live="polite"
-            >
-              {errors.email}
-            </p>
-          ) : null}
-        </div>
-        <div className={styles.fieldWide}>
-          <label className={styles.label} htmlFor="contact-message">
-            {copy.messageLabel}
-          </label>
-          <textarea
-            className={styles.textarea}
-            id="contact-message"
-            name="message"
-            disabled={status === "submitting"}
-            required
-            minLength={10}
-            maxLength={5000}
-            rows={6}
-            aria-invalid={errors.message ? true : undefined}
-            aria-describedby={
-              errors.message ? "contact-message-error" : undefined
-            }
-            onBlur={(event) => validateField(event.currentTarget)}
-            onInput={(event) => {
-              if (errors.message) validateField(event.currentTarget);
-            }}
-          />
-          {errors.message ? (
-            <p
-              className={styles.error}
-              id="contact-message-error"
-              aria-live="polite"
-            >
-              {errors.message}
-            </p>
-          ) : null}
-        </div>
+      <div className={styles.fields} data-grid-snap>
+        <Field
+          {...fieldEvents}
+          name="name"
+          label={copy.nameLabel}
+          error={errors.name}
+          autoComplete="name"
+          required
+          maxLength={100}
+        />
+        <Field
+          {...fieldEvents}
+          name="email"
+          label={copy.emailLabel}
+          error={errors.email}
+          type="email"
+          autoComplete="email"
+          required
+          maxLength={254}
+        />
+        <Field
+          {...fieldEvents}
+          multiline
+          wide
+          name="message"
+          label={copy.messageLabel}
+          error={errors.message}
+          required
+          minLength={10}
+          maxLength={5000}
+          rows={6}
+        />
       </div>
       <Script
         src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
         strategy="afterInteractive"
         onReady={() => setScriptReady(true)}
-        onError={() => {
-          setStatus("error");
-          setStatusText(copy.verification);
-        }}
+        onError={() => dispatch({ type: "failed", error: copy.verification })}
       />
-      <div ref={container} />
-      <p
-        className={cn(
-          styles.status,
-          status === "success" && styles.statusSuccess,
-          status === "error" && styles.statusError,
-        )}
-        role="status"
-        aria-live="polite"
-      >
-        {statusText}
+      <div ref={container} className={styles.verification} />
+      <div className={styles.submitRow}>
+        <NotebookButton type="submit" loading={sending}>
+          <SwapLabel
+            active={sending ? "sending" : "idle"}
+            labels={{
+              idle: copy.submit,
+              sending: (
+                <>
+                  <ButtonSpinner />
+                  {copy.submitPending}
+                </>
+              ),
+            }}
+          />
+        </NotebookButton>
+      </div>
+      <p className={styles.status} role="status" aria-live="polite">
+        {status ? (
+          <span
+            // A new key re-runs the entry transition for each new message.
+            key={`${state.phase}:${status.text}`}
+            className={cn(
+              styles.statusMessage,
+              status.tone === "hidden" && "sr-only",
+            )}
+            data-tone={status.tone}
+          >
+            {status.text}
+          </span>
+        ) : null}
       </p>
-      {!token && status !== "submitting" && (
-        <p id="verification-required" className={styles.intro}>
-          {copy.verificationRequired}
-        </p>
-      )}
-      <Button
-        aria-describedby={!token ? "verification-required" : undefined}
-        className={styles.submit}
-        disabled={!token || status === "submitting"}
-        loading={status === "submitting"}
-        type="submit"
-        disableRipple
-      >
-        {copy.submit}
-      </Button>
     </form>
   );
 }

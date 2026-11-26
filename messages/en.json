@@ -87,6 +87,7 @@
     "socialLabel": "Profiles and contact",
     "copyEmail": "Copy email",
     "copyEmailDone": "Email copied",
+    "copyEmailDoneShort": "Copied",
     "copyEmailFailed": "Couldn't copy. My email is {email}.",
     "formTitle": "Send a message",
     "formIntro": "Tell me how I can help.",
@@ -106,6 +107,7 @@
       "en": "English"
     },
     "submitting": "Sending message…",
+    "submitPending": "Sending…",
     "success": "Message accepted for sending. Thanks for reaching out.",
     "errorGeneric": "Could not send message. Please try again.",
     "errorRateLimit": "Too many attempts. Please try again later.",

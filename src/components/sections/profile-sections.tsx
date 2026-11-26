@@ -1,10 +1,12 @@
 import { getTranslations } from "next-intl/server";
 import { ActionArrow } from "@/components/ui/action-arrow";
-import { Button } from "@/components/ui/b-button";
+import { NotebookButton } from "@/components/ui/notebook-button";
 import { Container } from "@/components/layout/container";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { ContactForm } from "@/components/sections/contact-form";
 import { CopyEmailButton } from "@/components/contact/copy-email-button";
+import { GridSnap } from "@/components/contact/grid-snap";
+import { cn } from "@/lib/cn";
 import type { Locale } from "@/i18n/routing";
 import {
   getSkillName,
@@ -13,6 +15,7 @@ import {
   skills,
 } from "@/content/profile";
 import ink from "./profile-sections.module.css";
+import contact from "./contact.module.css";
 
 const styles = {
   section: "py-[40px]",
@@ -34,14 +37,22 @@ const styles = {
   skills: "mt-[20px] grid gap-x-[40px] gap-y-[20px] md:grid-cols-2",
   skill: "min-w-0 border-t border-grid-line pt-[10px]",
   skillName: "text-label text-graphite",
-  contactLayout: "grid gap-[20px] lg:grid-cols-2 lg:gap-[40px]",
-  contact: "space-y-[20px]",
-  actions: "flex flex-wrap items-center gap-[10px]",
   link: "inline-flex min-h-12 items-center text-label text-ink underline decoration-1 underline-offset-4 [@media(hover:hover)_and_(pointer:fine)]:hover:text-ink-deep",
-  email: "max-w-full break-all text-body text-graphite",
   footer: "py-[40px]",
   footerInner: "flex flex-wrap items-center justify-between gap-[20px]",
   footerLinks: "flex flex-wrap gap-[20px]",
+} as const;
+
+// Contact: one 12-column grid. Heading and form share columns 1-7; the
+// contact card sits in 9-12, sticky and level with the heading. Below lg the
+// order is heading, card, form.
+const contactStyles = {
+  grid: "grid lg:grid-cols-12 lg:gap-x-(--c2)",
+  heading: "lg:col-span-7 lg:row-start-1",
+  intro: "mt-[10px] max-w-[60ch] text-body text-graphite",
+  card: "[--snap-base:var(--c2)] lg:sticky lg:top-[calc(var(--nav-height)+var(--c1))] lg:col-span-4 lg:col-start-9 lg:row-span-2 lg:row-start-1 lg:self-start lg:[--snap-base:0px]",
+  email: "text-body text-graphite",
+  form: "[--snap-base:var(--c2)] lg:col-span-7 lg:row-start-2",
 } as const;
 
 type ProfileSectionsProps = { locale: Locale };
@@ -164,88 +175,103 @@ export async function ContactSection({ locale }: ProfileSectionsProps) {
       aria-labelledby="contact-heading"
     >
       <Container>
-        <div className={styles.page}>
-          <div className={styles.contactLayout}>
-            <div className={styles.content}>
+        <div className={cn(styles.page, contact.sheet)} data-grid-sheet>
+          <GridSnap />
+          <div className={contactStyles.grid}>
+            <div className={contactStyles.heading}>
               <SectionHeading id="contact-heading" title={t("heading")} />
-              <p>{t("intro")}</p>
+              <p className={contactStyles.intro}>{t("intro")}</p>
             </div>
-            <div className={styles.contact}>
+            <aside
+              className={cn(contactStyles.card, contact.card, contact.snap)}
+              aria-label={t("socialLabel")}
+              data-grid-snap
+            >
               {profile.email && (
-                <>
-                  <div className={styles.actions}>
-                    <Button
-                      href={`mailto:${profile.email}`}
-                      variant="default"
-                      disableRipple
-                    >
+                <div>
+                  <div className={contact.cardActions}>
+                    <NotebookButton href={`mailto:${profile.email}`}>
                       {t("emailAction")}
-                    </Button>
+                    </NotebookButton>
                     <CopyEmailButton
                       email={profile.email}
                       copy={{
                         idle: t("copyEmail"),
                         done: t("copyEmailDone"),
+                        doneShort: t("copyEmailDoneShort"),
                         failed: t("copyEmailFailed", { email: profile.email }),
                       }}
                     />
                   </div>
-                  <p className={styles.email}>{profile.email}</p>
-                </>
+                  <p className={cn(contactStyles.email, contact.email)}>
+                    {profile.email}
+                  </p>
+                </div>
               )}
-              <div className={styles.actions}>
+              <ul className={contact.links}>
                 {cv && (
-                  <Button href={cv.href} download variant="outline">
-                    {t("cvLink", {
-                      language: t(`cvLanguages.${cv.locale}`),
-                      format: cv.format,
-                    })}
-                    <ActionArrow download />
-                  </Button>
+                  <li>
+                    <a className={contact.link} href={cv.href} download>
+                      <span className={contact.linkText}>
+                        {t("cvLink", {
+                          language: t(`cvLanguages.${cv.locale}`),
+                          format: cv.format,
+                        })}
+                      </span>
+                      <ActionArrow download />
+                    </a>
+                  </li>
                 )}
-                <a
-                  className={styles.link}
-                  href={profile.github}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  GitHub
-                  <ActionArrow />
-                </a>
-                <a
-                  className={styles.link}
-                  href={profile.linkedIn}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  LinkedIn
-                  <ActionArrow />
-                </a>
-              </div>
-            </div>
+                <li>
+                  <a
+                    className={contact.link}
+                    href={profile.github}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <span className={contact.linkText}>GitHub</span>
+                    <ActionArrow />
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className={contact.link}
+                    href={profile.linkedIn}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <span className={contact.linkText}>LinkedIn</span>
+                    <ActionArrow />
+                  </a>
+                </li>
+              </ul>
+            </aside>
+            <ContactForm
+              className={contactStyles.form}
+              locale={locale}
+              copy={{
+                formTitle: t("formTitle"),
+                formIntro: t("formIntro"),
+                nameLabel: t("nameLabel"),
+                emailLabel: t("emailLabel"),
+                messageLabel: t("messageLabel"),
+                submit: t("submit"),
+                submitPending: t("submitPending"),
+                submitting: t("submitting"),
+                success: t("success"),
+                errorGeneric: t("errorGeneric"),
+                errorRateLimit: t("errorRateLimit"),
+                verification: t("verification"),
+                verificationRequired: t("verificationRequired"),
+                validation: {
+                  required: t("validation.required"),
+                  email: t("validation.email"),
+                  tooShort: t("validation.tooShort"),
+                  tooLong: t("validation.tooLong"),
+                },
+              }}
+            />
           </div>
-          <ContactForm
-            copy={{
-              formTitle: t("formTitle"),
-              formIntro: t("formIntro"),
-              nameLabel: t("nameLabel"),
-              emailLabel: t("emailLabel"),
-              messageLabel: t("messageLabel"),
-              submit: t("submit"),
-              submitting: t("submitting"),
-              success: t("success"),
-              errorGeneric: t("errorGeneric"),
-              errorRateLimit: t("errorRateLimit"),
-              verification: t("verification"),
-              verificationRequired: t("verificationRequired"),
-              validation: {
-                required: t("validation.required"),
-                email: t("validation.email"),
-                tooShort: t("validation.tooShort"),
-                tooLong: t("validation.tooLong"),
-              },
-            }}
-          />
         </div>
       </Container>
     </section>
