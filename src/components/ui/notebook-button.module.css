@@ -1,0 +1,192 @@
+/*
+ * Notebook button: one class set that behaves the same on <a> and <button>.
+ * Colour is declared in every state, so nothing depends on inheritance.
+ * Rotation (`rotate`) and press (`scale`) are separate transform properties,
+ * so the sticker tilt and the press compose instead of overriding each other.
+ */
+.root {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-half);
+  min-height: 48px;
+  margin: 0;
+  border: 2px solid transparent;
+  border-radius: 0;
+  font: inherit;
+  font-size: var(--type-label);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
+  letter-spacing: var(--type-label-tracking);
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--motion-state) ease,
+    border-color var(--motion-state) ease,
+    color var(--motion-state) ease,
+    rotate var(--motion-press-out) var(--ease-out-ui),
+    scale var(--motion-press-out) var(--ease-out-ui);
+}
+
+.root:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+
+/* Primary: Bic Ink sticker, tilted −1° (DESIGN.md, Buttons). */
+.primary {
+  padding-inline: var(--space-1);
+  border-color: var(--ink);
+  background-color: var(--ink);
+  color: var(--print);
+  rotate: -1deg;
+}
+
+/* Secondary: pen underline, no fill. */
+.secondary {
+  padding-inline: 0;
+  border-width: 0 0 2px;
+  border-color: var(--ink);
+  background-color: transparent;
+  color: var(--graphite);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .primary:hover {
+    border-color: var(--ink-deep);
+    background-color: var(--ink-deep);
+    color: var(--print);
+  }
+
+  .secondary:hover {
+    color: var(--ink);
+  }
+}
+
+.root:active {
+  scale: 0.97;
+  transition-duration:
+    var(--motion-state), var(--motion-state), var(--motion-state),
+    var(--motion-press-in), var(--motion-press-in);
+}
+
+.primary:active {
+  border-color: var(--ink-deep);
+  background-color: var(--ink-deep);
+  color: var(--print);
+}
+
+/*
+ * Disabled: a sticker not yet stuck down. Flat, dashed, untilted, and still
+ * legible (graphite-soft on paper is about 7:1).
+ */
+.root:disabled,
+.root[aria-disabled="true"] {
+  cursor: not-allowed;
+  scale: 1;
+}
+
+.primary:disabled,
+.primary[aria-disabled="true"] {
+  border-style: dashed;
+  border-color: var(--ruled-line);
+  background-color: var(--paper);
+  color: var(--graphite-soft);
+  rotate: 0deg;
+}
+
+.secondary:disabled,
+.secondary[aria-disabled="true"] {
+  border-bottom-style: dashed;
+  border-color: var(--ruled-line);
+  color: var(--graphite-soft);
+}
+
+/* Loading wins over disabled: the work is in progress, not unavailable. */
+.primary[aria-busy="true"] {
+  border-style: solid;
+  border-color: var(--ink-deep);
+  background-color: var(--ink-deep);
+  color: var(--print);
+  rotate: -1deg;
+  cursor: progress;
+}
+
+/*
+ * Swap: every label occupies the same grid cell, so the button is always as
+ * wide as its widest label and never shifts when the state changes.
+ */
+.swap {
+  display: inline-grid;
+  justify-items: center;
+  align-items: center;
+}
+
+.label {
+  grid-area: 1 / 1;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-half);
+  transition:
+    opacity var(--motion-state) var(--ease-out-ui),
+    translate var(--motion-state) var(--ease-out-ui),
+    visibility 0s;
+}
+
+.label[data-active="false"] {
+  opacity: 0;
+  translate: 0 4px;
+  visibility: hidden;
+  transition:
+    opacity var(--motion-state) var(--ease-out-ui),
+    translate var(--motion-state) var(--ease-out-ui),
+    visibility 0s var(--motion-state);
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 600ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root,
+  .label,
+  .label[data-active="false"] {
+    transition-property: background-color, border-color, color, opacity;
+  }
+
+  .root:active {
+    scale: 1;
+  }
+
+  .label[data-active="false"] {
+    translate: none;
+  }
+
+  /* A still ring reads as "in progress" without spinning. */
+  .spinner {
+    animation: none;
+    border-right-color: currentColor;
+    opacity: 0.6;
+  }
+}
