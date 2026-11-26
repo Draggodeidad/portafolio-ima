@@ -172,7 +172,7 @@ The site is a quad-ruled notebook lying open on a desk. Warm paper carries a 5 m
 
 Density is a working notebook, not a magazine: content sits on the grid, prose keeps a measured line, and every mark carries information. State is written, not lit: ✓ verified, ○ pending, struck through = unavailable. Depth comes only from overlap: tape over a print, a print over the page, a page over the desk. Empty space is never filled with decoration: when a column would be empty, already-published content moves into the margin or the page narrows. The world refuses the dark-neon developer portfolio entirely: no graphite-and-lime HUD, no mono kicker labels, no glass, no glow.
 
-The notebook is professional first. Personality lives in the precision of the marks and the honesty of the annotations (synthetic data labelled as synthetic, pending dates marked pending), not in decoration. Motion is the pen arriving once, at the top of the page, and nowhere else.
+The notebook is professional first. Personality lives in the precision of the marks and the honesty of the annotations (synthetic data labelled as synthetic, pending dates marked pending), not in decoration. Motion is the pen arriving once, at the top of the page, and nowhere else, with one exception the owner asked for: a sent message leaves as a paper plane folded from the form's own sheet (see Contact).
 
 **Key Characteristics:**
 - Warm paper on a slightly darker desk, a 20 px blue quad grid, one red margin rule per page.
@@ -318,6 +318,8 @@ Fixed on the desk above the paper: 80 px tall, the name at 800 on the left. At �
 ### Contact
 Text on the left, the action block on the right: primary "Escríbeme" (mailto), copy-email button with a polite status, the address in body text, then the CV pen-underline button and GitHub/LinkedIn links. The form renders below the contact block only when a provider is configured, and never leaves an empty slot.
 
+**Sending (paper plane).** On submit the form's content fades (200 ms), the block hides with `visibility` so its box keeps the section's height, and a fixed SVG overlay drawn on the same grid takes its place: the visible part of the block shrinks to a 180 × 240 letter sheet with its edge and red margin rule (300 ms), folds four times (corners to the centre, again to the centre, in half, the wing; 160–180 ms each on `cubic-bezier(0.32, 0.72, 0, 1)`, backs a step darker per fold instead of a shadow), waits floating (±4 px, ±2°) until the server answers, and only on success throws itself up and right off the screen (130 ms wind-up, 720 ms throw) leaving a dotted Bic Ink trail. A Print White success card (title, the visitor's address, a pen-underline "Enviar otro mensaje") then enters where the sheet was (opacity and 8 px, 250 ms on `--ease-out-ui`), at most about 2.1 s after the click when the server is quick. On an error the plane unfolds along the same keyframes, the sheet grows back, and the form returns with its values and the error in its status line. Reduced motion: no overlay; the form crossfades to the card. Code: `src/components/contact/paper-plane/`; development mock: `?mockContact=success|error|slow` (`src/lib/contact/mock.ts`).
+
 ### Inputs (when the contact form appears)
 Square Print White field, 1 px Ruled Line border, 48 px minimum height, 10 px padding, persistent label in label type above, focus by the shared ring; errors as Correction Red text tied to the field with aria-describedby and a Correction Red border.
 
@@ -329,7 +331,7 @@ Square Print White field, 1 px Ruled Line border, 48 px minimum height, 10 px pa
 - **Do** draw every mark (circle, tick, ○, arrow, strike, underline, diagram box) as an irregular SVG stroke in Bic Ink (#1f3a93).
 - **Do** let the ink draw (500 ms `--ease-ink`, 80 ms stagger) only in the hero; diagrams and every other mark are static (a server-rendered stroke that re-hides on hydration to animate flashes).
 - **Do** sweep the highlighter with background-size and `box-decoration-break: clone` (400 ms `--ease-highlighter`).
-- **Do** handle reduced motion per component (marks fully drawn, highlighter fully shown, no press scale, menu fade only); there is no global kill.
+- **Do** handle reduced motion per component (marks fully drawn, highlighter fully shown, no press scale, menu fade only, the contact form's crossfade instead of the paper plane); there is no global kill.
 - **Do** gate hover styles to `(hover: hover) and (pointer: fine)`.
 - **Do** mark state with ✓ verified, ○ pending, struck = unavailable, with the words available to assistive tech.
 - **Do** move already-published content into the margin, or narrow the page, when a column would otherwise be empty.
