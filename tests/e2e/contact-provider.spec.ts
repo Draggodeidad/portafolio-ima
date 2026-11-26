@@ -1,4 +1,50 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
+
+// A production build: `next start` in CI or on request, or the Worker.
+const production =
+  Boolean(process.env.CI) ||
+  process.env.PLAYWRIGHT_PRODUCTION === "1" ||
+  process.env.PLAYWRIGHT_RUNTIME === "workers";
+
+async function fillValidMessage(page: Page) {
+  await page.getByLabel("Name", { exact: true }).fill("Visitor");
+  await page
+    .getByLabel("Email address", { exact: true })
+    .fill("visitor@example.org");
+  await page
+    .getByLabel("Message", { exact: true })
+    .fill("A valid message for testing.");
+}
+
+const turnstileResets = (page: Page) =>
+  page.evaluate(
+    () =>
+      (window as unknown as { __turnstile: { resets: number } }).__turnstile
+        .resets,
+  );
+
+/** Holds every POST to the contact API until `release` is called. */
+async function holdContactRequests(page: Page, status = 200) {
+  let posts = 0;
+  let release!: () => void;
+  const pending = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  await page.route("**/api/contact", async (route) => {
+    posts++;
+    await pending;
+    await route.fulfill({
+      status,
+      json: status === 200 ? { ok: true } : { error: "provider" },
+    });
+  });
+  return { release, posts: () => posts };
+}
+
+const plane = (page: Page, phase?: string) =>
+  page.locator(
+    phase ? `[data-paper-plane][data-phase="${phase}"]` : "[data-paper-plane]",
+  );
 
 test.skip(
   process.env.CONTACT_E2E_MOCK !== "1",
@@ -48,23 +94,27 @@ for (const outcome of ["success", "failure", "rate-limit"] as const) {
       }),
     );
     await page.goto("/en#contacto");
-    await page.getByLabel("Name", { exact: true }).fill("Visitor");
-    await page
-      .getByLabel("Email address", { exact: true })
-      .fill("visitor@example.org");
+    await fillValidMessage(page);
     const message = page.getByLabel("Message", { exact: true });
-    await message.fill("A valid message for testing.");
     await page.getByRole("button", { name: "Send message" }).click();
-    await expect(page.locator("#contacto form [role=status]")).toContainText(
-      outcome === "success"
-        ? "Message accepted"
-        : outcome === "rate-limit"
-          ? "Too many attempts"
-          : "Could not send",
-    );
-    await expect(message).toHaveValue(
-      outcome === "success" ? "" : "A valid message for testing.",
-    );
+    if (outcome === "success") {
+      await expect(page.locator("#contacto form [role=status]")).toHaveText(
+        "Message sent",
+      );
+      await expect(
+        page.getByRole("heading", { name: "Message sent" }),
+      ).toBeFocused();
+      await expect(page.locator("#contacto form")).toContainText(
+        "I'll reply to visitor@example.org",
+      );
+    } else {
+      await expect(page.locator("#contacto form [role=status]")).toContainText(
+        outcome === "rate-limit" ? "Too many attempts" : "Could not send",
+      );
+      await expect(message).toHaveValue("A valid message for testing.");
+      await expect(message).toBeVisible();
+    }
+    await expect(page.locator("[data-paper-plane]")).toHaveCount(0);
   });
 }
 
@@ -96,6 +146,8 @@ test("server validation is associated with the field", async ({ page }) => {
 test("pending request disables the form and prevents duplicate submission", async ({
   page,
 }) => {
+  // Without motion the form stays in place while it sends.
+  await page.emulateMedia({ reducedMotion: "reduce" });
   let count = 0;
   let release!: () => void;
   const pending = new Promise<void>((resolve) => {
@@ -131,7 +183,7 @@ test("pending request disables the form and prevents duplicate submission", asyn
   expect(count).toBe(1);
   release();
   await expect(page.locator("#contacto form [role=status]")).toContainText(
-    "Message accepted",
+    "Message sent",
   );
 });
 
@@ -181,40 +233,33 @@ for (const locale of ["es", "en"] as const) {
   });
 }
 
-test("a sent message clears the form and the confirmation stays alone", async ({
+test("a sent message shows the card; sending another starts empty", async ({
   page,
 }) => {
   await page.route("**/api/contact", (route) =>
     route.fulfill({ status: 200, json: { ok: true } }),
   );
   await page.goto("/en#contacto");
-  const name = page.getByLabel("Name", { exact: true });
-  await name.fill("Visitor");
-  await page
-    .getByLabel("Email address", { exact: true })
-    .fill("visitor@example.org");
-  await page
-    .getByLabel("Message", { exact: true })
-    .fill("A valid message for testing.");
+  await fillValidMessage(page);
   await page.getByRole("button", { name: "Send message" }).click();
   const status = page.locator("#contacto form [role=status]");
-  await expect(status).toHaveText(
-    "Message accepted for sending. Thanks for reaching out.",
-  );
-  await expect(name).toHaveValue("");
-  expect(
-    await page.evaluate(
-      () =>
-        (window as unknown as { __turnstile: { resets: number } }).__turnstile
-          .resets,
-    ),
-  ).toBe(1);
-  // The widget's next token must not bring the verification hint back.
-  await page.waitForTimeout(100);
-  await expect(page.getByText("Complete the verification")).toHaveCount(0);
+  await expect(status).toHaveText("Message sent");
+  await expect(
+    page.getByRole("heading", { name: "Message sent" }),
+  ).toBeFocused();
+  // The used token is replaced only when another message is started.
+  expect(await turnstileResets(page)).toBe(0);
   await expect(page.locator("#contacto form [role=status] > *")).toHaveCount(1);
-  // Writing a new message clears the confirmation.
-  await name.pressSequentially("A");
+
+  await page.getByRole("button", { name: "Send another message" }).click();
+  const name = page.getByLabel("Name", { exact: true });
+  await expect(name).toBeFocused();
+  await expect(name).toHaveValue("");
+  await expect(page.getByLabel("Message", { exact: true })).toHaveValue("");
+  await expect(page.getByRole("heading", { name: "Message sent" })).toHaveCount(
+    0,
+  );
+  expect(await turnstileResets(page)).toBe(1);
   await expect(status).toHaveText("");
 });
 
@@ -338,3 +383,176 @@ for (const locale of ["es", "en"] as const) {
     expect(frame?.width).toBe(field?.width);
   });
 }
+
+test.describe("paper plane", () => {
+  test("waits for the server and takes off only once it confirms", async ({
+    page,
+  }) => {
+    const server = await holdContactRequests(page);
+    await page.goto("/en#contacto");
+    await fillValidMessage(page);
+    const form = page.locator("#contacto form");
+    const submit = page.getByRole("button", { name: "Send message" });
+    // Scroll first, so the click does not move the (sticky) card itself.
+    await submit.scrollIntoViewIfNeeded();
+    const boxes = () =>
+      page.evaluate(() => {
+        const box = (selector: string) =>
+          document.querySelector(selector)!.getBoundingClientRect().toJSON();
+        return {
+          scrollY: window.scrollY,
+          form: box("#contacto form"),
+          card: box("#contacto aside"),
+          section: box("#contacto"),
+        };
+      });
+    const before = await boxes();
+    await page.evaluate(() => {
+      const shifts: number[] = [];
+      new PerformanceObserver((list) => {
+        for (const entry of list.getEntries())
+          shifts.push((entry as unknown as { value: number }).value);
+      }).observe({ type: "layout-shift" });
+      (window as unknown as { __shifts: number[] }).__shifts = shifts;
+    });
+    await submit.click();
+
+    await expect(plane(page, "hover")).toBeAttached();
+    await expect(
+      page.getByRole("heading", { name: "Message sent" }),
+    ).toHaveCount(0);
+    // A second submit while the plane waits sends nothing.
+    await form.evaluate((element) =>
+      element.dispatchEvent(
+        new SubmitEvent("submit", { bubbles: true, cancelable: true }),
+      ),
+    );
+    expect(server.posts()).toBe(1);
+    const during = await boxes();
+
+    server.release();
+    await expect(plane(page, "takeoff")).toBeAttached();
+    await expect(
+      page.getByRole("heading", { name: "Message sent" }),
+    ).toBeFocused();
+    await expect(plane(page)).toHaveCount(0);
+    expect(server.posts()).toBe(1);
+
+    // Nothing moved: the form keeps its box while hidden, the card stays.
+    expect(during).toEqual(before);
+    expect(await boxes()).toEqual(before);
+    expect(
+      await page.evaluate(
+        () => (window as unknown as { __shifts: number[] }).__shifts,
+      ),
+    ).toEqual([]);
+  });
+
+  test("unfolds on an error and gives the form back with its values", async ({
+    page,
+  }) => {
+    const server = await holdContactRequests(page, 502);
+    await page.goto("/en#contacto");
+    await fillValidMessage(page);
+    const submit = page.getByRole("button", { name: "Send message" });
+    await submit.click();
+    await expect(plane(page, "hover")).toBeAttached();
+    server.release();
+    await expect(plane(page, "unfold")).toBeAttached();
+    await expect(page.locator("#contacto form [role=status]")).toHaveText(
+      "Could not send message. Please try again.",
+    );
+    await expect(plane(page)).toHaveCount(0);
+    await expect(page.getByLabel("Message", { exact: true })).toHaveValue(
+      "A valid message for testing.",
+    );
+    await expect(submit).toBeFocused();
+    expect(await turnstileResets(page)).toBe(1);
+  });
+
+  test("leaves no overlay behind when the page changes mid-flight", async ({
+    page,
+  }) => {
+    const errors: string[] = [];
+    page.on("pageerror", (error) => errors.push(error.message));
+    const server = await holdContactRequests(page);
+    await page.goto("/en#contacto");
+    await fillValidMessage(page);
+    await page.getByRole("button", { name: "Send message" }).click();
+    await expect(plane(page, "hover")).toBeAttached();
+    await page
+      .locator("a[href*='/projects/'], a[href*='/proyectos/']")
+      .first()
+      .click();
+    await expect(page).toHaveURL(/\/(projects|proyectos)\//);
+    await expect(plane(page)).toHaveCount(0);
+    server.release();
+    await page.waitForTimeout(300);
+    await expect(plane(page)).toHaveCount(0);
+    expect(errors).toEqual([]);
+  });
+
+  test("reduced motion crossfades to the card without a plane", async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.route("**/api/contact", (route) =>
+      route.fulfill({ status: 200, json: { ok: true } }),
+    );
+    await page.goto("/en#contacto");
+    await page.evaluate(() => {
+      const seen = { plane: false };
+      new MutationObserver(() => {
+        if (document.querySelector("[data-paper-plane]")) seen.plane = true;
+      }).observe(document.body, { childList: true, subtree: true });
+      (window as unknown as { __seen: typeof seen }).__seen = seen;
+    });
+    await fillValidMessage(page);
+    await page.getByRole("button", { name: "Send message" }).click();
+    await expect(
+      page.getByRole("heading", { name: "Message sent" }),
+    ).toBeFocused();
+    expect(
+      await page.evaluate(
+        () =>
+          (window as unknown as { __seen: { plane: boolean } }).__seen.plane,
+      ),
+    ).toBe(false);
+  });
+
+  test("is downloaded on the first focus in the form, not before", async ({
+    page,
+  }) => {
+    const scripts: string[] = [];
+    page.on("response", async (response) => {
+      if (response.request().resourceType() !== "script") return;
+      scripts.push(await response.text().catch(() => ""));
+    });
+    await page.goto("/en#contacto");
+    await expect(page.getByLabel("Name", { exact: true })).toBeVisible();
+    await page.waitForLoadState("networkidle");
+    const loaded = () =>
+      scripts.some((source) => source.includes("data-paper-plane"));
+    expect(loaded()).toBe(false);
+    await page.getByLabel("Name", { exact: true }).focus();
+    await expect.poll(loaded).toBe(true);
+  });
+
+  test("the development mock never reaches a production build", async ({
+    page,
+  }) => {
+    const server = await holdContactRequests(page);
+    await page.goto("/en?mockContact=success#contacto");
+    await fillValidMessage(page);
+    await page.getByRole("button", { name: "Send message" }).click();
+    if (production) {
+      // The real request goes out: the query string did nothing.
+      await expect.poll(server.posts).toBe(1);
+      server.release();
+    }
+    await expect(
+      page.getByRole("heading", { name: "Message sent" }),
+    ).toBeFocused();
+    expect(server.posts()).toBe(production ? 1 : 0);
+  });
+});
