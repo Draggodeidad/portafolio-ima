@@ -87,6 +87,7 @@
     "socialLabel": "Perfiles y contacto",
     "copyEmail": "Copiar correo",
     "copyEmailDone": "Correo copiado",
+    "copyEmailDoneShort": "Copiado",
     "copyEmailFailed": "No se pudo copiar. Mi correo es {email}.",
     "formTitle": "Enviar un mensaje",
     "formIntro": "Cuéntame cómo puedo ayudarte.",
@@ -106,6 +107,7 @@
       "en": "inglés"
     },
     "submitting": "Enviando mensaje…",
+    "submitPending": "Enviando…",
     "success": "Mensaje aceptado para envío. Gracias por contactarme.",
     "errorGeneric": "No se pudo enviar el mensaje. Intenta de nuevo.",
     "errorRateLimit": "Demasiados intentos. Intenta de nuevo más tarde.",

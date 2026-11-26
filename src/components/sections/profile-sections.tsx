@@ -186,6 +186,7 @@ export async function ContactSection({ locale }: ProfileSectionsProps) {
                       copy={{
                         idle: t("copyEmail"),
                         done: t("copyEmailDone"),
+                        doneShort: t("copyEmailDoneShort"),
                         failed: t("copyEmailFailed", { email: profile.email }),
                       }}
                     />
