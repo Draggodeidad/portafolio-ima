@@ -1,0 +1,94 @@
+/*
+ * The paper plane overlay: fixed over the viewport, above the navigation bar
+ * (z 50) and below the skip link (z 100). It never takes a pointer and is
+ * hidden from assistive technology; the form's status line speaks for it.
+ */
+.root {
+  /* The back of the paper, a step darker per fold so depth reads without a
+   * shadow (DESIGN.md, The Overlap Rule). */
+  --tone-1: color-mix(in srgb, var(--paper) 86%, var(--page-edge));
+  --tone-2: color-mix(in srgb, var(--paper) 76%, var(--page-edge));
+  --tone-3: color-mix(in srgb, var(--paper) 66%, var(--page-edge));
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+}
+
+.trail {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* A dotted pen line, drawn behind the plane by its mask. */
+.trailPath {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 0 9;
+}
+
+.trailMask {
+  fill: none;
+  stroke: white;
+  stroke-width: 12;
+}
+
+/* Zero-size anchors at the sheet's centre, so transforms turn about it. */
+.flight,
+.float {
+  position: absolute;
+  width: 0;
+  height: 0;
+  will-change: transform;
+}
+
+/*
+ * Centred by translate, not by left/top: when the canvas drops to the plane
+ * box only its size changes, so nothing counts as a layout shift. Its sizes
+ * are even, so the half is a whole pixel and the grid stays crisp.
+ */
+.paper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  overflow: visible;
+  translate: -50% -50%;
+}
+
+.tile {
+  fill: var(--grid-line);
+}
+
+.fill {
+  fill: var(--paper);
+}
+
+.layer[data-face="back"] .fill {
+  fill: var(--back);
+}
+
+.layer[data-face="back"] .grid,
+.layer[data-face="back"] .margin {
+  display: none;
+}
+
+.outline {
+  fill: none;
+  stroke: var(--page-edge);
+  stroke-width: 1;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.margin {
+  stroke: var(--margin-red);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}

@@ -258,7 +258,10 @@ export async function ContactSection({ locale }: ProfileSectionsProps) {
                 submit: t("submit"),
                 submitPending: t("submitPending"),
                 submitting: t("submitting"),
-                success: t("success"),
+                sentTitle: t("sentTitle"),
+                // Raw: the visitor's address is only known in the browser.
+                sentBody: t.raw("sentBody") as string,
+                sendAnother: t("sendAnother"),
                 errorGeneric: t("errorGeneric"),
                 errorRateLimit: t("errorRateLimit"),
                 verification: t("verification"),
