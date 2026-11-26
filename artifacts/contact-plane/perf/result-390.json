@@ -1,0 +1,77 @@
+{
+ "width": "390",
+ "throttle": "4",
+ "total": {
+  "frames": 168,
+  "avgFps": 59.3,
+  "p95ms": 16.8,
+  "maxMs": 50,
+  "over25ms": 1
+ },
+ "phases": {
+  "collect": {
+   "frames": 12,
+   "avgFps": 51.4,
+   "p95ms": 50,
+   "maxMs": 50,
+   "over25ms": 1
+  },
+  "shrink": {
+   "frames": 19,
+   "avgFps": 60,
+   "p95ms": 16.8,
+   "maxMs": 16.8,
+   "over25ms": 0
+  },
+  "fold-1": {
+   "frames": 13,
+   "avgFps": 60,
+   "p95ms": 16.7,
+   "maxMs": 16.7,
+   "over25ms": 0
+  },
+  "fold-2": {
+   "frames": 12,
+   "avgFps": 60,
+   "p95ms": 16.8,
+   "maxMs": 16.8,
+   "over25ms": 0
+  },
+  "fold-3": {
+   "frames": 12,
+   "avgFps": 60,
+   "p95ms": 16.7,
+   "maxMs": 16.7,
+   "over25ms": 0
+  },
+  "fold-4": {
+   "frames": 13,
+   "avgFps": 60,
+   "p95ms": 16.7,
+   "maxMs": 16.7,
+   "over25ms": 0
+  },
+  "hover": {
+   "frames": 29,
+   "avgFps": 60,
+   "p95ms": 16.8,
+   "maxMs": 16.8,
+   "over25ms": 0
+  },
+  "takeoff": {
+   "frames": 57,
+   "avgFps": 60,
+   "p95ms": 16.8,
+   "maxMs": 16.8,
+   "over25ms": 0
+  },
+  "done": {
+   "frames": 1,
+   "avgFps": 59.9,
+   "p95ms": 16.7,
+   "maxMs": 16.7,
+   "over25ms": 0
+  }
+ },
+ "longFrames": []
+}
