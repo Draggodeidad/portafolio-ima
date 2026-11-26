@@ -4,11 +4,7 @@ import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { MouseEvent } from "react";
 import type { Locale } from "@/i18n/routing";
-import {
-  sectionIds,
-  type NavSectionId,
-  type SectionId,
-} from "@/lib/i18n/sections";
+import type { NavSectionId } from "@/lib/i18n/sections";
 import { cn } from "@/lib/cn";
 import { styles } from "./navbar-client.styles";
 
@@ -45,6 +41,42 @@ function getServerHashSnapshot() {
   return null;
 }
 
+// A section becomes active once its top crosses this share of the viewport.
+const ACTIVATION_RATIO = 0.45;
+// Sub-pixel scroll positions and anchor offsets must not flip the result.
+const EDGE_TOLERANCE = 2;
+
+/**
+ * Single rule for every way of reaching a section (wheel, keyboard, touch,
+ * anchors): the active link is the last section whose top has crossed the
+ * activation line below the fixed header. Gaps between sections keep the
+ * previous section. When the page cannot scroll any further, the last section
+ * that is on screen wins, so short final sections such as Contacto still
+ * activate even if they never reach the line.
+ */
+function getActiveSection(
+  sectionIds: readonly NavSectionId[],
+  headerBottom: number,
+): NavSectionId | null {
+  const viewportHeight = window.innerHeight;
+  const root = document.documentElement;
+  const atEnd =
+    window.scrollY + viewportHeight >= root.scrollHeight - EDGE_TOLERANCE;
+  const line = Math.max(
+    headerBottom + EDGE_TOLERANCE,
+    viewportHeight * ACTIVATION_RATIO,
+  );
+  const limit = atEnd ? viewportHeight - EDGE_TOLERANCE : line;
+
+  // Ids follow page order, so the last section past the limit wins.
+  let active: NavSectionId | null = null;
+  for (const id of sectionIds) {
+    const section = document.getElementById(id);
+    if (section && section.getBoundingClientRect().top <= limit) active = id;
+  }
+  return active;
+}
+
 export function NavbarClient({
   locale,
   copy,
@@ -57,71 +89,44 @@ export function NavbarClient({
     getHashSnapshot,
     getServerHashSnapshot,
   );
-  const hashValue = hash?.slice(1);
-  const hashSection = visibleSectionIds.includes(hashValue as NavSectionId)
-    ? (hashValue as SectionId)
-    : null;
-  const [observedSection, setObservedSection] = useState<SectionId | null>(
+  const [visibleSection, setVisibleSection] = useState<NavSectionId | null>(
     null,
   );
-  const manualSectionRef = useRef<SectionId | null>(null);
-  const [hasScrolled, setHasScrolled] = useState(false);
-  const activeSection = isHome
-    ? ((hashSection && !hasScrolled ? hashSection : null) ??
-      observedSection ??
-      hashSection ??
-      "inicio")
-    : null;
+  const activeSection = isHome ? visibleSection : null;
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    manualSectionRef.current = hashSection;
-
     if (!isHome) return;
 
-    const sections = sectionIds
-      .map((id) => document.getElementById(id))
-      .filter((section): section is HTMLElement => section !== null);
+    let frame = 0;
 
-    if (!sections.length) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (manualSectionRef.current) return;
-
-        const visibleSections = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-
-        const visibleId = visibleSections[0]?.target.id;
-        if (visibleId && sectionIds.includes(visibleId as SectionId)) {
-          setObservedSection(visibleId as SectionId);
-        }
-      },
-      { rootMargin: "-80px 0px -55% 0px", threshold: 0 },
-    );
-
-    sections.forEach((section) => observer.observe(section));
-
-    function releaseManualSection() {
-      manualSectionRef.current = null;
-      setHasScrolled(true);
+    function update() {
+      frame = 0;
+      const headerBottom =
+        headerRef.current?.getBoundingClientRect().bottom ?? 0;
+      setVisibleSection(getActiveSection(visibleSectionIds, headerBottom));
     }
 
-    window.addEventListener("wheel", releaseManualSection, { passive: true });
-    window.addEventListener("keydown", releaseManualSection);
-    window.addEventListener("touchstart", releaseManualSection, {
-      passive: true,
-    });
+    function scheduleUpdate() {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    }
+
+    scheduleUpdate();
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    // Late layout changes (fonts, images) move sections without scrolling.
+    const resizeObserver = new ResizeObserver(scheduleUpdate);
+    resizeObserver.observe(document.body);
+
     return () => {
-      observer.disconnect();
-      window.removeEventListener("wheel", releaseManualSection);
-      window.removeEventListener("keydown", releaseManualSection);
-      window.removeEventListener("touchstart", releaseManualSection);
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+      resizeObserver.disconnect();
     };
-  }, [hashSection, isHome, pathname, visibleSectionIds]);
+  }, [isHome, visibleSectionIds]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -193,12 +198,6 @@ export function NavbarClient({
     setMenuOpen(false);
   }
 
-  function selectSection(id: SectionId) {
-    manualSectionRef.current = id;
-    setObservedSection(id);
-    closeMenu();
-  }
-
   return (
     <>
       <a className={styles.skipLink} href="#contenido">
@@ -210,7 +209,7 @@ export function NavbarClient({
             className={styles.brand}
             href={{ pathname: "/", hash: "#inicio" }}
             aria-label={copy.brandLabel}
-            onClick={() => selectSection("inicio")}
+            onClick={closeMenu}
           >
             Imanol De la Cruz
           </Link>
@@ -226,7 +225,7 @@ export function NavbarClient({
                 href={{ pathname: "/", hash: `#${id}` }}
                 aria-current={activeSection === id ? "location" : undefined}
                 key={id}
-                onClick={() => selectSection(id)}
+                onClick={closeMenu}
               >
                 {copy.sections[id]}
                 <InkUnderline />
@@ -317,7 +316,7 @@ export function NavbarClient({
               href={{ pathname: "/", hash: `#${id}` }}
               aria-current={activeSection === id ? "location" : undefined}
               key={id}
-              onClick={() => selectSection(id)}
+              onClick={closeMenu}
               tabIndex={menuOpen ? 0 : -1}
             >
               {copy.sections[id]}
