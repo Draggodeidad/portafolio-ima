@@ -4,24 +4,23 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import Script from "next/script";
 import { Button } from "@/components/ui/b-button";
 import { cn } from "@/lib/cn";
+import sheet from "./contact.module.css";
 
 const styles = {
-  form: "mt-[40px] max-w-[70ch] space-y-[20px] border-t border-ruled-line pt-[40px]",
-  title: "text-h3 text-graphite",
-  intro: "text-body text-graphite-soft",
-  fields: "grid gap-[20px] sm:grid-cols-2",
-  field: "min-w-0 space-y-[10px]",
-  fieldWide: "min-w-0 space-y-[10px] sm:col-span-2",
-  label: "block text-label text-graphite",
-  input:
-    "min-h-12 w-full border border-ruled-line bg-print px-[10px] py-[10px] text-body text-graphite aria-invalid:border-error",
-  textarea:
-    "min-h-40 w-full resize-y border border-ruled-line bg-print px-[10px] py-[10px] text-body text-graphite aria-invalid:border-error",
-  error: "text-small text-error",
-  status: "text-small text-graphite empty:sr-only",
-  statusSuccess: "text-success",
-  statusError: "text-error",
-  submit: "min-h-12 !rounded-none px-[20px] text-label",
+  form: cn(sheet.form, sheet.snap),
+  title: cn("text-h3 text-graphite", sheet.formTitle),
+  intro: cn("text-body text-graphite-soft", sheet.formIntro),
+  fields: cn(sheet.fields, sheet.snap, "[--snap-base:var(--c1)]"),
+  field: "min-w-0",
+  fieldWide: cn("min-w-0", sheet.wide),
+  label: cn("text-label text-graphite", sheet.label),
+  input: sheet.control,
+  textarea: sheet.control,
+  error: sheet.fieldError,
+  verification: sheet.verification,
+  submitRow: sheet.submitRow,
+  status: sheet.status,
+  statusMessage: sheet.statusMessage,
 } as const;
 
 type FieldName = "name" | "email" | "message";
@@ -32,6 +31,7 @@ type FormCopy = {
   emailLabel: string;
   messageLabel: string;
   submit: string;
+  submitPending: string;
   submitting: string;
   success: string;
   errorGeneric: string;
@@ -69,7 +69,15 @@ declare global {
     };
   }
 }
-export function ContactForm({ copy }: { copy: FormCopy }) {
+export function ContactForm({
+  copy,
+  locale,
+  className,
+}: {
+  copy: FormCopy;
+  locale: string;
+  className?: string;
+}) {
   const [siteKey, setSiteKey] = useState<string | null>(null);
   useEffect(() => {
     const controller = new AbortController();
@@ -190,7 +198,9 @@ export function ContactForm({ copy }: { copy: FormCopy }) {
 
   return (
     <form
-      className={styles.form}
+      className={cn(styles.form, className)}
+      data-grid-snap
+      lang={locale}
       aria-labelledby="contact-form-title"
       onSubmit={submit}
     >
@@ -198,7 +208,7 @@ export function ContactForm({ copy }: { copy: FormCopy }) {
         {copy.formTitle}
       </h3>
       <p className={styles.intro}>{copy.formIntro}</p>
-      <div className={styles.fields}>
+      <div className={styles.fields} data-grid-snap>
         <div className={styles.field}>
           <label className={styles.label} htmlFor="contact-name">
             {copy.nameLabel}
@@ -219,11 +229,7 @@ export function ContactForm({ copy }: { copy: FormCopy }) {
             }}
           />
           {errors.name ? (
-            <p
-              className={styles.error}
-              id="contact-name-error"
-              aria-live="polite"
-            >
+            <p className={styles.error} id="contact-name-error">
               {errors.name}
             </p>
           ) : null}
@@ -249,11 +255,7 @@ export function ContactForm({ copy }: { copy: FormCopy }) {
             }}
           />
           {errors.email ? (
-            <p
-              className={styles.error}
-              id="contact-email-error"
-              aria-live="polite"
-            >
+            <p className={styles.error} id="contact-email-error">
               {errors.email}
             </p>
           ) : null}
@@ -281,11 +283,7 @@ export function ContactForm({ copy }: { copy: FormCopy }) {
             }}
           />
           {errors.message ? (
-            <p
-              className={styles.error}
-              id="contact-message-error"
-              aria-live="polite"
-            >
+            <p className={styles.error} id="contact-message-error">
               {errors.message}
             </p>
           ) : null}
@@ -300,33 +298,39 @@ export function ContactForm({ copy }: { copy: FormCopy }) {
           setStatusText(copy.verification);
         }}
       />
-      <div ref={container} />
-      <p
-        className={cn(
-          styles.status,
-          status === "success" && styles.statusSuccess,
-          status === "error" && styles.statusError,
-        )}
-        role="status"
-        aria-live="polite"
-      >
-        {statusText}
-      </p>
+      <div ref={container} className={styles.verification} />
+      <div className={styles.submitRow}>
+        <Button
+          aria-describedby={!token ? "verification-required" : undefined}
+          disabled={!token || status === "submitting"}
+          loading={status === "submitting"}
+          type="submit"
+          disableRipple
+        >
+          {copy.submit}
+        </Button>
+      </div>
       {!token && status !== "submitting" && (
         <p id="verification-required" className={styles.intro}>
           {copy.verificationRequired}
         </p>
       )}
-      <Button
-        aria-describedby={!token ? "verification-required" : undefined}
-        className={styles.submit}
-        disabled={!token || status === "submitting"}
-        loading={status === "submitting"}
-        type="submit"
-        disableRipple
-      >
-        {copy.submit}
-      </Button>
+      <p className={styles.status} role="status" aria-live="polite">
+        {statusText && (
+          <span
+            className={styles.statusMessage}
+            data-tone={
+              status === "success"
+                ? "success"
+                : status === "error"
+                  ? "error"
+                  : undefined
+            }
+          >
+            {statusText}
+          </span>
+        )}
+      </p>
     </form>
   );
 }

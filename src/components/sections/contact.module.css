@@ -1,0 +1,295 @@
+/*
+ * Contact sheet geometry. Every vertical space and every field edge is a
+ * multiple of the grid cell, so borders sit on the paper's grid lines.
+ * Boxes that draw a border on both sides are one pixel longer than their
+ * cells (and pull the next block back by that pixel), because a grid line
+ * is drawn at the start of each cell.
+ */
+.sheet {
+  --c1: var(--grid-cell);
+  --c2: calc(var(--grid-cell) * 2);
+  --c3: calc(var(--grid-cell) * 3);
+  --c4: calc(var(--grid-cell) * 4);
+  --c8: calc(var(--grid-cell) * 8);
+  background-position: var(--grid-x, 0px) 0;
+}
+
+/* Per-block values: a block must not inherit its parent's offset. */
+@property --grid-snap {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --snap-base {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+/* Blocks whose top edge GridSnap moves onto the next grid line. */
+.snap {
+  margin-top: calc(var(--snap-base, 0px) + var(--grid-snap, 0px));
+}
+
+/*
+ * Contact card: a white print on the sheet from 640px up. On a phone it is
+ * written straight on the page, which leaves its actions room for one row.
+ * Between 768px and the desktop grid it splits into two columns so the
+ * link rows do not stretch across the whole sheet.
+ */
+@media (min-width: 40rem) {
+  .card {
+    border: 1px solid var(--page-edge);
+    background: var(--print);
+    padding: calc(var(--c1) - 1px) var(--c1) var(--c1);
+  }
+}
+
+@media (min-width: 48rem) and (max-width: 63.999rem) {
+  .card {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--c2);
+    align-items: start;
+  }
+
+  .card .links {
+    margin-top: 0;
+  }
+}
+
+.cardActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--c1);
+  min-height: var(--c3);
+}
+
+@media (min-width: 40rem) {
+  .cardActions {
+    column-gap: var(--c2);
+  }
+}
+
+.email {
+  display: flex;
+  align-items: center;
+  min-height: var(--c2);
+  overflow-wrap: anywhere;
+}
+
+.links {
+  margin: var(--c1) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.links > li {
+  display: flex;
+  min-height: var(--c3);
+  border-top: 1px solid var(--grid-line);
+}
+
+/* The first rule is the separator between the email and the links. */
+.links > li:first-child {
+  border-top-color: var(--ruled-line);
+}
+
+/* One secondary link look for CV, GitHub and LinkedIn. */
+.link {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--c1);
+  color: var(--ink);
+  font-size: var(--type-label);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
+  letter-spacing: var(--type-label-tracking);
+  transition: color var(--motion-state) ease;
+}
+
+.linkText {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: text-decoration-thickness var(--motion-state) ease;
+}
+
+.link:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link:hover {
+    color: var(--ink-deep);
+  }
+
+  .link:hover .linkText {
+    text-decoration-thickness: 2px;
+  }
+}
+
+/* Form */
+
+/*
+ * The form is as wide as a whole number of cells (two equal columns of whole
+ * cells from 640px), plus the pixel of its right-hand grid line, so the
+ * divider, the fields and Turnstile all end on the same line.
+ */
+.form {
+  width: calc(round(down, 100%, var(--c1)) + 1px);
+  /* The divider is drawn inside the box so it costs no layout height. */
+  box-shadow: inset 0 1px 0 var(--ruled-line);
+  padding-top: var(--c2);
+}
+
+@media (min-width: 40rem) {
+  .form {
+    width: calc(round(down, 100% - var(--c1), var(--c2)) + var(--c1) + 1px);
+  }
+}
+
+.formTitle {
+  line-height: var(--c2);
+}
+
+/* One cell of leading keeps the header a whole number of cells tall. */
+.formIntro {
+  line-height: var(--c1);
+}
+
+.fields {
+  display: grid;
+  gap: var(--c1);
+  /* The extra pixel belongs to the right-hand grid line, not to a column. */
+  width: calc(100% - 1px);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 40rem) {
+  .fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.wide {
+  grid-column: 1 / -1;
+}
+
+.label {
+  display: flex;
+  align-items: flex-end;
+  height: var(--c2);
+  padding-bottom: 6px;
+}
+
+.control {
+  display: block;
+  width: calc(100% + 1px);
+  height: calc(var(--c3) + 1px);
+  margin: 0 0 -1px;
+  border: 1px solid var(--ruled-line);
+  border-radius: 0;
+  background: var(--print);
+  padding: 0 var(--space-half);
+  color: var(--graphite);
+  font: inherit;
+  font-size: var(--type-body);
+  line-height: var(--type-body-leading);
+  transition:
+    border-color var(--motion-state) ease,
+    background-color var(--motion-state) ease;
+}
+
+textarea.control {
+  height: calc(var(--c8) + 1px);
+  min-height: calc(var(--c8) + 1px);
+  padding-block: var(--space-half);
+  resize: vertical;
+}
+
+.control:focus-visible {
+  border-color: var(--focus);
+  outline: 3px solid var(--focus);
+  outline-offset: 0;
+}
+
+.control[aria-invalid="true"] {
+  border-color: var(--error);
+}
+
+.control:disabled {
+  background: var(--paper);
+  color: var(--graphite-soft);
+  cursor: not-allowed;
+}
+
+.fieldError {
+  min-height: var(--c2);
+  padding-top: 4px;
+  color: var(--error);
+  font-size: var(--type-small);
+  line-height: 16px;
+}
+
+/* Turnstile takes the inputs' width and left edge. */
+.verification {
+  width: 100%;
+  min-height: var(--c4);
+  margin-top: var(--c2);
+}
+
+.submitRow {
+  display: flex;
+  align-items: center;
+  min-height: var(--c3);
+  margin-top: var(--c1);
+}
+
+/* One status line, its height reserved so messages never move the form. */
+.status {
+  min-height: var(--c2);
+  font-size: var(--type-small);
+  line-height: var(--type-small-leading);
+  color: var(--graphite);
+}
+
+.statusMessage {
+  display: block;
+  padding-top: 4px;
+  transition:
+    opacity 200ms var(--ease-out-ui),
+    translate 200ms var(--ease-out-ui);
+}
+
+@starting-style {
+  .statusMessage {
+    opacity: 0;
+    translate: 0 6px;
+  }
+}
+
+.statusMessage[data-tone="success"] {
+  color: var(--success);
+}
+
+.statusMessage[data-tone="error"] {
+  color: var(--error);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .statusMessage {
+    transition: opacity 200ms ease;
+  }
+
+  @starting-style {
+    .statusMessage {
+      translate: none;
+    }
+  }
+}
