@@ -279,6 +279,9 @@ Iconiq UI Button adapted to the notebook (`src/components/ui/b-button.tsx`), rip
 - **Hover:** colour only (primary deepens to Pressed Ink, secondary label shifts to Bic Ink), gated to `(hover: hover) and (pointer: fine)`. There is no hover lift.
 - **Press:** scale 0.97, 120 ms in / 160 ms out on `--ease-out-ui` (cubic-bezier(0.23, 1, 0.32, 1)), composed with the primary's −1° rotation. Off under reduced motion.
 - **Focus:** 3 px Pressed Ink outline, 4 px offset (shared ring).
+- **Disabled:** a sticker not yet stuck down: paper fill, 2 px dashed Ruled Line border, Graphite Soft label (7:1), no tilt. Never lowered opacity.
+- **Loading:** keeps the Pressed Ink fill and the tilt, adds a 14 px ring spinner and a shorter label in the same width (`SwapLabel`), `aria-busy` and `aria-disabled` so focus stays on the button.
+- **Implementation:** `NotebookButton` (`src/components/ui/notebook-button.tsx`) renders the same classes on `<a>` and `<button>`; tilt is the `rotate` property and press the `scale` property, so they compose.
 - **Arrows:** directional cues (↗ external, ↓ download, → in the primary) are 16 px drawn SVG strokes, not font glyphs.
 
 ### Links
