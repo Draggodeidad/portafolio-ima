@@ -120,13 +120,13 @@ for (const locale of ["es", "en"] as const) {
       "aria-describedby",
       "contact-name-error",
     );
-    await expect(
-      page.getByText(
-        locale === "es"
-          ? "Completa la verificación para enviar."
-          : "Complete the verification to send.",
-      ),
-    ).toBeVisible();
+    // The verification hint is only for a visitor who tries to send.
+    const hint = page.getByText(
+      locale === "es"
+        ? "Completa la verificación para enviar."
+        : "Complete the verification to send.",
+    );
+    await expect(hint).toHaveCount(0);
     await expect(page.locator("#contact-name-error")).toContainText(
       locale === "es" ? "Completa este campo" : "Complete this field",
     );
@@ -142,6 +142,23 @@ for (const locale of ["es", "en"] as const) {
     await expect(email).toHaveAttribute("aria-invalid", "true");
     await expect(page.locator("#contact-email-error")).toContainText(
       locale === "es" ? "dirección de correo válida" : "valid email address",
+    );
+
+    // Valid fields but no token: the one status line asks for verification.
+    await name.fill("Visitor");
+    await email.fill("visitor@example.org");
+    await page
+      .getByLabel(locale === "es" ? "Mensaje" : "Message", { exact: true })
+      .fill("A valid message for testing.");
+    await page
+      .getByRole("button", {
+        name: locale === "es" ? "Enviar mensaje" : "Send message",
+      })
+      .click();
+    await expect(page.locator("#contacto form [role=status]")).toHaveText(
+      locale === "es"
+        ? "Completa la verificación para enviar."
+        : "Complete the verification to send.",
     );
   });
 }
